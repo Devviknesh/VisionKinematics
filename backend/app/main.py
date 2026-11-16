@@ -38,6 +38,16 @@ app.include_router(videos.router, prefix=settings.API_V1_PREFIX)
 app.include_router(analysis.router, prefix=settings.API_V1_PREFIX)
 app.include_router(reports.router, prefix=settings.API_V1_PREFIX)
 
+@app.get("/")
+def root():
+    return {
+        "status": "healthy",
+        "project": settings.PROJECT_NAME,
+        "version": settings.VERSION,
+        "docs": "/docs",
+        "cv_model_loaded": settings.FACE_MODEL_PATH.exists()
+    }
+
 @app.get("/health")
 def health_check():
     return {
