@@ -131,7 +131,8 @@ export const api = {
 
   // Health
   async getHealth() {
-    const res = await axios.get('/health');
+    const healthUrl = VITE_BACKEND_URL ? `${VITE_BACKEND_URL.replace(/\/+$/, '')}/health` : '/health';
+    const res = await axios.get(healthUrl);
     return res.data;
   }
 };
