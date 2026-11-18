@@ -9,11 +9,13 @@ class ExpressionResult:
     brow_furrow: float # 0.0 to 1.0
     mouth_openness: float # 0.0 to 1.0
     eye_closure: float # 0.0 to 1.0
+    primary_expression_pattern: str # Observable composite pattern
+    kinematic_confidence: float # 0.0 to 1.0
     active_indicators: List[str] = field(default_factory=list)
     raw_blendshapes: Dict[str, float] = field(default_factory=dict)
     disclaimer: str = (
-        "Observable facial kinematics only. Does not infer internal emotions, "
-        "mental state, personality, or psychological characteristics."
+        "Observable facial kinematics only. Measures physical Action Unit contractions. "
+        "Does not infer internal emotions, personality traits, or psychological state."
     )
 
 class ExpressionAnalyzer:
@@ -106,12 +108,34 @@ class ExpressionAnalyzer:
         if eye_closure >= 0.65:
             active_indicators.append("Eyes closed / blink pattern")
 
+        # Determine composite observable expression pattern based strictly on kinematics
+        if smile_intensity >= self.SMILE_THRESH:
+            primary_pattern = "Positive / Smiling Movement"
+            confidence = min(0.98, smile_intensity)
+        elif brow_furrow >= self.BROW_FURROW_THRESH:
+            primary_pattern = "Concentration / Eyebrow Furrow"
+            confidence = min(0.95, brow_furrow)
+        elif brow_elevation >= self.BROW_ELEV_THRESH:
+            primary_pattern = "Inquisitive / Eyebrow Elevation"
+            confidence = min(0.95, brow_elevation)
+        elif mouth_openness >= self.MOUTH_OPEN_THRESH:
+            primary_pattern = "Vocal / Mouth Opening Movement"
+            confidence = min(0.92, mouth_openness)
+        elif eye_closure >= 0.65:
+            primary_pattern = "Eyes Closed / Resting Phase"
+            confidence = min(0.95, eye_closure)
+        else:
+            primary_pattern = "Attentive Neutral Baseline"
+            confidence = 0.88
+
         return ExpressionResult(
             smile_intensity=round(float(smile_intensity), 3),
             brow_elevation=round(float(brow_elevation), 3),
             brow_furrow=round(float(brow_furrow), 3),
             mouth_openness=round(float(mouth_openness), 3),
             eye_closure=round(float(eye_closure), 3),
+            primary_expression_pattern=primary_pattern,
+            kinematic_confidence=round(float(confidence), 2),
             active_indicators=active_indicators,
             raw_blendshapes={k: round(v, 3) for k, v in blendshapes.items() if v > 0.05}
         )

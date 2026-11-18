@@ -50,6 +50,7 @@ Thumbs.db
 *.webm
 
 # Unrelated Session Directories
+Inclusicity/
 Carbon-Equity-Tracker/
 Job Aid Session 1 - Agentic Research/
 Job Aid Session 2 - FastAPI Microservice/

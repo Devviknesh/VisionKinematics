@@ -113,3 +113,84 @@ class AnalysisService:
         session.error_message = "Cancelled by user"
         db.commit()
         return True
+
+    @staticmethod
+    def compare_sessions(db: Session, session_a_id: str, session_b_id: str, user_id: str) -> Dict[str, Any]:
+        """
+        Compares two distinct analysis sessions belonging to the authenticated user.
+        Calculates deltas across head stability, eye aspect ratio, gaze direction,
+        expression kinematics, and event density based strictly on actual detected metrics.
+        """
+        session_a = AnalysisService.get_session(db, session_a_id, user_id)
+        session_b = AnalysisService.get_session(db, session_b_id, user_id)
+        
+        video_a = db.query(Video).filter(Video.id == session_a.video_id).first()
+        video_b = db.query(Video).filter(Video.id == session_b.video_id).first()
+
+        stats_a = session_a.summary_stats or {}
+        stats_b = session_b.summary_stats or {}
+
+        track_a = float(stats_a.get("face_tracking_percentage", 0.0))
+        track_b = float(stats_b.get("face_tracking_percentage", 0.0))
+
+        hp_a = stats_a.get("head_pose_distribution", {})
+        hp_b = stats_b.get("head_pose_distribution", {})
+        fwd_a = float(hp_a.get("Forward-Facing", 0.0))
+        fwd_b = float(hp_b.get("Forward-Facing", 0.0))
+
+        gaze_a = stats_a.get("gaze_distribution", {})
+        gaze_b = stats_b.get("gaze_distribution", {})
+        center_a = float(gaze_a.get("Center", 0.0))
+        center_b = float(gaze_b.get("Center", 0.0))
+
+        ear_a = float(stats_a.get("mean_eye_aspect_ratio", 0.0))
+        ear_b = float(stats_b.get("mean_eye_aspect_ratio", 0.0))
+
+        smile_a = float(stats_a.get("smile_frames_ratio", 0.0))
+        smile_b = float(stats_b.get("smile_frames_ratio", 0.0))
+
+        mouth_a = float(stats_a.get("mouth_open_frames_ratio", 0.0))
+        mouth_b = float(stats_b.get("mouth_open_frames_ratio", 0.0))
+
+        events_a = int(stats_a.get("total_events_detected", 0))
+        events_b = int(stats_b.get("total_events_detected", 0))
+
+        comparison_table = [
+            {"category": "Tracking Quality", "metric": "Face Tracking Coverage", "unit": "%", "session_a": track_a, "session_b": track_b, "diff": round(track_b - track_a, 1)},
+            {"category": "Head Kinematics", "metric": "Forward-Facing Ratio", "unit": "%", "session_a": fwd_a, "session_b": fwd_b, "diff": round(fwd_b - fwd_a, 1)},
+            {"category": "Gaze Direction", "metric": "Direct / Center Gaze", "unit": "%", "session_a": center_a, "session_b": center_b, "diff": round(center_b - center_a, 1)},
+            {"category": "Ocular Dynamics", "metric": "Mean Eye Aspect Ratio (EAR)", "unit": "", "session_a": ear_a, "session_b": ear_b, "diff": round(ear_b - ear_a, 3)},
+            {"category": "Expression Kinematics", "metric": "Smile / Positive Movement", "unit": "%", "session_a": smile_a, "session_b": smile_b, "diff": round(smile_b - smile_a, 1)},
+            {"category": "Expression Kinematics", "metric": "Mouth Opening / Speech Activity", "unit": "%", "session_a": mouth_a, "session_b": mouth_b, "diff": round(mouth_b - mouth_a, 1)},
+            {"category": "Behavioral Events", "metric": "Total Extracted Events", "unit": "events", "session_a": events_a, "session_b": events_b, "diff": events_b - events_a}
+        ]
+
+        radar_data = [
+            {"subject": "Tracking Stability", "A": track_a, "B": track_b, "fullMark": 100},
+            {"subject": "Head Stability", "A": fwd_a, "B": fwd_b, "fullMark": 100},
+            {"subject": "Gaze Focus", "A": center_a, "B": center_b, "fullMark": 100},
+            {"subject": "Expressivity", "A": min(100.0, smile_a * 2.5), "B": min(100.0, smile_b * 2.5), "fullMark": 100},
+            {"subject": "Vocal/Mouth Movement", "A": min(100.0, mouth_a * 2.0), "B": min(100.0, mouth_b * 2.0), "fullMark": 100}
+        ]
+
+        return {
+            "session_a": {
+                "id": session_a.id,
+                "video_id": session_a.video_id,
+                "video_filename": video_a.filename if video_a else "unknown",
+                "duration": video_a.duration if video_a else 0.0,
+                "created_at": session_a.started_at,
+                "processing_status": session_a.processing_status
+            },
+            "session_b": {
+                "id": session_b.id,
+                "video_id": session_b.video_id,
+                "video_filename": video_b.filename if video_b else "unknown",
+                "duration": video_b.duration if video_b else 0.0,
+                "created_at": session_b.started_at,
+                "processing_status": session_b.processing_status
+            },
+            "comparison_metrics": comparison_table,
+            "radar_data": radar_data,
+            "disclaimer": "Comparisons reflect observable geometric computer vision measurements across recorded video sessions. They do not infer psychological disposition, personality traits, or emotional stability."
+        }

@@ -15,6 +15,20 @@ from app.services.analysis_service import AnalysisService
 
 router = APIRouter(prefix="/analysis", tags=["Analysis"])
 
+@router.get("/compare", response_model=Dict[str, Any])
+def compare_sessions(
+    session_a: str,
+    session_b: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Compares two analysis sessions belonging to the authenticated user.
+    Computes real comparative metrics across tracking stability, head pose,
+    gaze focus, and expression kinematics.
+    """
+    return AnalysisService.compare_sessions(db, session_a, session_b, current_user.id)
+
 @router.post("/{video_id}/start", response_model=AnalysisStatusResponse, status_code=status.HTTP_202_ACCEPTED)
 def start_analysis(
     video_id: str,

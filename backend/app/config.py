@@ -6,7 +6,7 @@ from typing import List
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "AI-Powered Video Analysis and Non-Verbal Communication Analyzer"
+    PROJECT_NAME: str = "AI-Powered Video Analysis and Facial Emotion Recognition System"
     VERSION: str = "1.0.0"
     API_V1_PREFIX: str = "/api"
     

@@ -152,6 +152,8 @@ class VideoAnalysisPipeline:
                     "brow_elevation": brow_elevation,
                     "brow_furrow": brow_furrow,
                     "mouth_openness": mouth_openness,
+                    "primary_expression_pattern": expr_res.primary_expression_pattern,
+                    "kinematic_confidence": expr_res.kinematic_confidence,
                     "active_indicators": expr_res.active_indicators
                 }
             else:
