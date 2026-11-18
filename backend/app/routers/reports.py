@@ -14,7 +14,7 @@ from app.utils.security import (
 )
 from app.models.user import User
 from app.models.video import Video
-from app.models.analysis import AnalysisSession, AnalysisEvent
+from app.models.analysis import AnalysisSession, AnalysisEvent, FacialMetric
 from app.services.report_service import ReportService
 from app.services.analysis_service import AnalysisService
 
@@ -58,8 +58,9 @@ def download_pdf_report(
         raise HTTPException(status_code=404, detail="Video not found")
 
     events = db.query(AnalysisEvent).filter(AnalysisEvent.session_id == analysis_id).order_by(AnalysisEvent.timestamp).all()
+    metrics = db.query(FacialMetric).filter(FacialMetric.session_id == analysis_id).order_by(FacialMetric.timestamp).all()
 
-    pdf_path = ReportService.generate_pdf_report(video, session, events)
+    pdf_path = ReportService.generate_pdf_report(video, session, events, metrics)
     if not pdf_path.exists():
         raise HTTPException(status_code=500, detail="Failed to generate PDF report")
 
