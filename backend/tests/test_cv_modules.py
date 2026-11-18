@@ -33,6 +33,11 @@ def test_head_pose_estimation_geometry():
     assert isinstance(res.pitch, float)
     assert isinstance(res.roll, float)
     assert res.confidence > 0.0
+    # Crucial regression test for pitch normalization:
+    # A frontal face must never produce inverted Euler pitch ~ -170 deg
+    assert abs(res.pitch) < 30.0
+    assert abs(res.yaw) < 30.0
+    assert abs(res.roll) < 30.0
 
 def test_gaze_ear_and_direction():
     estimator = GazeEstimator(ear_blink_threshold=0.20)
@@ -81,6 +86,17 @@ def test_expression_analysis_observable_kinematics():
     assert "Smile-related facial movement" in res.active_indicators
     assert "Eyebrow elevation observed" in res.active_indicators
     assert "Does not infer internal emotions" in res.disclaimer
+
+def test_eye_closure_kinematics():
+    analyzer = ExpressionAnalyzer()
+    # Test blendshapes blink
+    res_blink = analyzer.analyze({"eyeBlinkLeft": 0.85, "eyeBlinkRight": 0.85})
+    assert res_blink.eye_closure >= 0.8
+    assert "Eyes closed / blink pattern" in res_blink.active_indicators
+
+    # Test open eyes
+    res_open = analyzer.analyze({"eyeBlinkLeft": 0.05, "eyeBlinkRight": 0.05})
+    assert res_open.eye_closure <= 0.2
 
 def test_event_detector_debounce_and_generation():
     detector = EventDetector(debounce_sec=0.5)

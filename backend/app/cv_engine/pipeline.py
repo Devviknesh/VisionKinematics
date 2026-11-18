@@ -152,6 +152,7 @@ class VideoAnalysisPipeline:
                     "brow_elevation": brow_elevation,
                     "brow_furrow": brow_furrow,
                     "mouth_openness": mouth_openness,
+                    "eye_closure": round(expr_res.eye_closure, 3),
                     "primary_expression_pattern": expr_res.primary_expression_pattern,
                     "kinematic_confidence": expr_res.kinematic_confidence,
                     "active_indicators": expr_res.active_indicators
@@ -186,7 +187,8 @@ class VideoAnalysisPipeline:
                 "gaze_direction": gaze_dir,
                 "eye_aspect_ratio": round(avg_ear, 3),
                 "expression_measurements": expression_dict,
-                "reliability_score": 0.95 if lm_res.face_detected else 0.0
+                "reliability_score": 0.95 if lm_res.face_detected else 0.0,
+                "landmarks": [[round(float(pt[0]), 4), round(float(pt[1]), 4), round(float(pt[2]), 4)] for pt in lm_res.normalized_landmarks] if (lm_res.face_detected and lm_res.normalized_landmarks is not None) else None
             }
             metrics_list.append(metric_record)
 

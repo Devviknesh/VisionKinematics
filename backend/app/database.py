@@ -44,5 +44,9 @@ def init_db():
                         conn.execute(text("ALTER TABLE users ADD COLUMN preferences JSON DEFAULT '{}'::json;"))
                     else:
                         conn.execute(text("ALTER TABLE users ADD COLUMN preferences JSON;"))
+            if "facial_metrics" in inspector.get_table_names():
+                metric_cols = [c["name"] for c in inspector.get_columns("facial_metrics")]
+                if "landmarks" not in metric_cols:
+                    conn.execute(text("ALTER TABLE facial_metrics ADD COLUMN landmarks JSON;"))
     except Exception as e:
         print(f"Schema migration note: {e}")

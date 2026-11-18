@@ -19,14 +19,18 @@ class HeadPoseEstimator:
     Clearly distinguishes physical head orientation from psychological attention or engagement.
     """
     def __init__(self):
-        # 3D Anthropometric Facial Model Points in millimeters
+        # Standard Anthropometric 3D Facial Model Points in millimeters
+        # Coordinate conventions (aligned with camera coordinate system):
+        # +X: points right (subject's left / viewer's right)
+        # +Y: points down (towards chin, matching image plane Y increasing downwards)
+        # +Z: points into the scene (away from camera, into face)
         self.model_points = np.array([
             (0.0, 0.0, 0.0),          # Nose tip (landmark 1)
-            (0.0, -330.0, -65.0),     # Chin (landmark 152)
-            (-225.0, 170.0, -135.0),  # Left eye outer corner (landmark 33)
-            (225.0, 170.0, -135.0),   # Right eye outer corner (landmark 263)
-            (-150.0, -150.0, -125.0), # Left mouth corner (landmark 61)
-            (150.0, -150.0, -125.0)   # Right mouth corner (landmark 291)
+            (0.0, 330.0, 65.0),       # Chin (landmark 152)
+            (-225.0, -170.0, 135.0),  # Right eye outer corner (landmark 33)
+            (225.0, -170.0, 135.0),   # Left eye outer corner (landmark 263)
+            (-150.0, 150.0, 125.0),   # Right mouth corner (landmark 61)
+            (150.0, 150.0, 125.0)     # Left mouth corner (landmark 291)
         ], dtype=np.float64)
 
         # Thresholds in degrees for classification
@@ -82,13 +86,13 @@ class HeadPoseEstimator:
         # Decompose rotation matrix into Euler angles
         # Using cv2.RQDecomp3x3 for robust Euler angle extraction
         angles, _, _, _, _, _ = cv2.RQDecomp3x3(rmat)
-        pitch = float(angles[0]) # x-axis rotation
-        yaw = float(angles[1])   # y-axis rotation
-        roll = float(angles[2])  # z-axis rotation
-
-        # Adjust pitch sign convention (negative down, positive up)
-        # Note: in RQDecomp3x3 pitch can need orientation adjustment
-        pitch = -pitch
+        # In this coordinate frame (+X right, +Y down, +Z forward):
+        # angles[0] is rotation around X (pitch): a positive angle tilts the nose downwards.
+        # Standard aeronautical / computer vision pitch convention:
+        # positive = looking/tilted UP, negative = looking/tilted DOWN.
+        pitch = float(-angles[0])
+        yaw = float(angles[1])   # y-axis: positive = turned right, negative = turned left
+        roll = float(angles[2])  # z-axis: positive = tilted right, negative = tilted left
 
         # Categorize orientation
         label_parts = []

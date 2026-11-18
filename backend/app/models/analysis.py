@@ -38,6 +38,7 @@ class FacialMetric(Base):
     eye_aspect_ratio = Column(Float, default=0.0)
     expression_measurements = Column(JSON, nullable=True)
     reliability_score = Column(Float, default=1.0)
+    landmarks = Column(JSON, nullable=True)
 
     session = relationship("AnalysisSession", back_populates="metrics")
 

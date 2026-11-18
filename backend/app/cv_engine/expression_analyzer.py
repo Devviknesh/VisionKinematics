@@ -100,10 +100,24 @@ class ExpressionAnalyzer:
         if mouth_openness >= self.MOUTH_OPEN_THRESH:
             active_indicators.append("Mouth opening observed")
 
-        # 4. Eye closure / blinking
+        # 4. Eye closure / blinking (AU45 kinematic approximation)
         eye_blink_l = blendshapes.get("eyeBlinkLeft", 0.0)
         eye_blink_r = blendshapes.get("eyeBlinkRight", 0.0)
         eye_closure = (eye_blink_l + eye_blink_r) / 2.0
+
+        if eye_closure == 0.0 and pixel_landmarks is not None and len(pixel_landmarks) >= 386:
+            d_l1 = np.linalg.norm(pixel_landmarks[160][:2] - pixel_landmarks[144][:2])
+            d_l2 = np.linalg.norm(pixel_landmarks[158][:2] - pixel_landmarks[153][:2])
+            d_lh = np.linalg.norm(pixel_landmarks[33][:2] - pixel_landmarks[133][:2])
+            ear_l = (d_l1 + d_l2) / (2.0 * max(1e-4, d_lh))
+
+            d_r1 = np.linalg.norm(pixel_landmarks[385][:2] - pixel_landmarks[380][:2])
+            d_r2 = np.linalg.norm(pixel_landmarks[387][:2] - pixel_landmarks[373][:2])
+            d_rh = np.linalg.norm(pixel_landmarks[362][:2] - pixel_landmarks[263][:2])
+            ear_r = (d_r1 + d_r2) / (2.0 * max(1e-4, d_rh))
+
+            avg_ear = (ear_l + ear_r) / 2.0
+            eye_closure = float(np.clip((0.32 - avg_ear) / 0.16, 0.0, 1.0))
 
         if eye_closure >= 0.65:
             active_indicators.append("Eyes closed / blink pattern")

@@ -978,20 +978,34 @@ export const AnalysisWorkspace: React.FC<Props> = ({
               <div className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-850 space-y-2">
                 <div className="flex justify-between items-center text-[10px] text-neutral-400">
                   <span className="text-rose-400 font-bold">AU45</span>
-                  <span>Orbicularis</span>
+                  <span>Orbicularis Oculi</span>
                 </div>
-                <div className="text-[11px] font-semibold text-neutral-200 truncate">
-                  Blink / Closure
+                <div className="text-[11px] font-semibold text-neutral-200 truncate" title="AU45 Biomechanical Eye Closure / Blink">
+                  Eye Closure / Blink
                 </div>
-                <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
-                  <div 
-                    className="bg-rose-400 h-full rounded-full transition-all"
-                    style={{ width: `${Math.min(100, Math.max(0, (1 - ((currentMetric?.eye_aspect_ratio ?? 0.3) / 0.35))) * 100)}%` }}
-                  />
-                </div>
-                <div className="text-[10px] text-right text-neutral-400">
-                  {(currentMetric?.eye_aspect_ratio ?? 0.3) < 0.20 ? 'Active Blink' : 'Ocular Open'}
-                </div>
+                {(() => {
+                  const closureVal = currentMetric?.expression_measurements?.eye_closure !== undefined
+                    ? currentMetric.expression_measurements.eye_closure
+                    : Math.max(0, Math.min(1, (0.32 - (currentMetric?.eye_aspect_ratio ?? 0.3)) / 0.16));
+                  const closurePct = Math.round(closureVal * 100);
+                  const isBlink = closureVal >= 0.65 || (currentMetric?.eye_aspect_ratio ?? 0.3) < 0.20;
+                  return (
+                    <>
+                      <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
+                        <div 
+                          className="bg-rose-400 h-full rounded-full transition-all"
+                          style={{ width: `${Math.min(100, Math.max(0, closurePct))}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-[10px] text-neutral-400">
+                        <span className={isBlink ? "text-rose-400 font-bold" : "text-neutral-400"}>
+                          {isBlink ? 'Active Blink' : 'Palpebral Open'}
+                        </span>
+                        <span>{closurePct}%</span>
+                      </div>
+                    </>
+                  );
+                })()}
               </div>
             </div>
 
@@ -999,7 +1013,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             <div className="p-3 rounded-xl bg-neutral-950/90 border border-neutral-800 flex items-start gap-2 text-[10px] sm:text-[11px] text-neutral-400 leading-relaxed w-full min-w-0">
               <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
               <span className="break-words">
-                <strong className="text-neutral-200">Scientific Non-Verbal Delimitation:</strong> Action Units quantify physical facial muscular deformations and landmark displacement vectors. In accordance with empirical computer vision standards, these measurements represent observable biomechanical movements and do not infer psychological intent, emotional integrity, or personality traits.
+                <strong className="text-neutral-200">Scientific FACS & Non-Verbal Delimitation:</strong> Action Units quantify physical facial muscular deformations and landmark displacement vectors derived from MediaPipe 478-point blendshapes and geometric eye aspect ratios (EAR). These automated biomechanical measurements provide kinematic indicators and must not be conflated with certified human FACS coder scoring, nor do they claim to detect psychological intent, deception, or emotional state.
               </span>
             </div>
           </div>

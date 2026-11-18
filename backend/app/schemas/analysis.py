@@ -14,6 +14,7 @@ class FacialMetricResponse(BaseModel):
     eye_aspect_ratio: float
     expression_measurements: Optional[Dict[str, Any]] = None
     reliability_score: float
+    landmarks: Optional[List[List[float]]] = None
 
     class Config:
         from_attributes = True

@@ -43,9 +43,13 @@ export interface FacialMetric {
     brow_elevation?: number;
     brow_furrow?: number;
     mouth_openness?: number;
+    eye_closure?: number;
+    primary_expression_pattern?: string;
+    kinematic_confidence?: number;
     active_indicators?: string[];
   } | null;
   reliability_score: number;
+  landmarks?: number[][];
 }
 
 export interface AnalysisEvent {

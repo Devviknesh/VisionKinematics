@@ -86,7 +86,8 @@ class BackgroundTaskManager:
                     gaze_direction=m["gaze_direction"],
                     eye_aspect_ratio=m["eye_aspect_ratio"],
                     expression_measurements=m["expression_measurements"],
-                    reliability_score=m["reliability_score"]
+                    reliability_score=m["reliability_score"],
+                    landmarks=m.get("landmarks")
                 )
                 metrics_to_insert.append(metric_obj)
 
