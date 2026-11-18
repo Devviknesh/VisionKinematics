@@ -421,57 +421,57 @@ export const AnalysisWorkspace: React.FC<Props> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 w-full lg:w-auto">
+        <div className="grid grid-cols-3 sm:flex sm:flex-wrap items-center gap-1.5 sm:gap-2.5 w-full lg:w-auto">
           <button
             onClick={() => navigate(`/compare?session_a=${activeSessionId}`)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-xs font-semibold border border-neutral-700/80 transition"
+            className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-[11px] sm:text-xs font-semibold border border-neutral-700/80 transition"
           >
-            <GitCompare className="w-4 h-4 text-sky-400" />
+            <GitCompare className="w-3.5 h-3.5 text-sky-400 shrink-0" />
             <span>Compare</span>
           </button>
 
           <button
             onClick={() => navigate(`/analytics/${activeSessionId}`)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-xs font-semibold border border-neutral-700/80 transition"
+            className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-[11px] sm:text-xs font-semibold border border-neutral-700/80 transition"
           >
-            <BarChart2 className="w-4 h-4 text-amber-400" />
-            <span>Interactive Analytics</span>
+            <BarChart2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span className="truncate">Analytics</span>
           </button>
 
           <button
             onClick={() => navigate(`/report/${activeSessionId}`)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 text-xs font-bold transition shadow-sm"
+            className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 text-[11px] sm:text-xs font-bold transition shadow-sm"
           >
-            <FileText className="w-4 h-4" />
-            <span>Executive PDF</span>
+            <FileText className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">PDF</span>
           </button>
         </div>
       </div>
 
       {/* Main Workspace Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full min-w-0">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full min-w-0 max-w-full">
         
         {/* Left Column: Video Player & Synchronized Metrics (8 cols) */}
-        <div className="lg:col-span-8 space-y-6 w-full min-w-0 overflow-hidden">
+        <div className="lg:col-span-8 space-y-6 w-full min-w-0 max-w-full overflow-hidden">
           
           {/* Video Player Container */}
-          <div className="rounded-2xl border border-neutral-800 bg-black overflow-hidden shadow-2xl relative group w-full min-w-0">
+          <div className="rounded-2xl border border-neutral-800 bg-black overflow-hidden shadow-2xl relative group w-full min-w-0 max-w-full">
             
             {/* Top Player Toolbar */}
-            <div className="bg-neutral-950/80 backdrop-blur px-3 sm:px-4 py-2 border-b border-neutral-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs w-full min-w-0">
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                <span className="text-neutral-300 font-mono text-[11px]">
-                  {showPreviewOverlay ? 'STREAM: ANNOTATED HUD' : 'STREAM: ORIGINAL VIDEO'}
+            <div className="bg-neutral-950/80 backdrop-blur px-2.5 sm:px-4 py-2 border-b border-neutral-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs w-full min-w-0 max-w-full">
+              <div className="flex items-center gap-1.5 shrink-0">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+                <span className="text-neutral-300 font-mono text-[10px] sm:text-[11px]">
+                  {showPreviewOverlay ? 'ANNOTATED HUD' : 'ORIGINAL STREAM'}
                 </span>
               </div>
 
               {/* Toggle Original vs Annotated HUD vs Wireframe Mesh */}
-              <div className="flex items-center gap-1.5 flex-wrap w-full sm:w-auto justify-end">
+              <div className="flex items-center justify-between sm:justify-end gap-1.5 w-full sm:w-auto">
                 <div className="flex items-center rounded-lg bg-neutral-900 p-0.5 border border-neutral-800">
                   <button
                     onClick={() => setShowPreviewOverlay(false)}
-                    className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[10px] sm:text-[11px] font-semibold transition ${
+                    className={`px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-semibold transition ${
                       !showPreviewOverlay 
                         ? 'bg-neutral-800 text-amber-400 shadow-sm' 
                         : 'text-neutral-400 hover:text-neutral-200'
@@ -481,33 +481,33 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                   </button>
                   <button
                     onClick={() => setShowPreviewOverlay(true)}
-                    className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[10px] sm:text-[11px] font-semibold transition ${
+                    className={`px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-semibold transition ${
                       showPreviewOverlay 
                         ? 'bg-amber-400 text-neutral-950 shadow-sm' 
                         : 'text-neutral-400 hover:text-neutral-200'
                     }`}
                   >
-                    Annotated HUD
+                    HUD
                   </button>
                 </div>
 
                 <button
                   onClick={() => setShowWireframeMesh(!showWireframeMesh)}
-                  className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-[10px] sm:text-[11px] font-semibold transition border flex items-center gap-1.5 ${
+                  className={`px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-semibold transition border flex items-center gap-1 shrink-0 ${
                     showWireframeMesh
                       ? 'bg-amber-400 text-neutral-950 border-amber-400 font-bold shadow-sm'
                       : 'bg-neutral-900 hover:bg-neutral-850 text-neutral-300 border-neutral-800'
                   }`}
                   title="Toggle 2D/3D Facial Landmark Wireframe Mesh Visualizer"
                 >
-                  <Scan className="w-3.5 h-3.5" />
-                  <span>3D Face Mesh</span>
+                  <Scan className="w-3 h-3" />
+                  <span>3D Mesh</span>
                 </button>
               </div>
             </div>
 
             {/* Video Element */}
-            <div className="relative aspect-video bg-neutral-950 flex items-center justify-center w-full min-w-0 overflow-hidden">
+            <div className="relative aspect-video bg-neutral-950 flex items-center justify-center w-full min-w-0 max-w-full overflow-hidden">
               {videoStreamUrl ? (
                 <video
                   ref={videoRef}
@@ -525,7 +525,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             </div>
 
             {/* Custom Video Controls Bar */}
-            <div className="bg-neutral-950/90 backdrop-blur p-2.5 sm:p-4 space-y-3 border-t border-neutral-800 w-full min-w-0">
+            <div className="bg-neutral-950/90 backdrop-blur p-2.5 sm:p-4 space-y-2.5 sm:space-y-3 border-t border-neutral-800 w-full min-w-0 max-w-full">
               
               {/* Timeline Track with Event Markers */}
               <div className="relative group/timeline py-1 w-full min-w-0 max-w-full overflow-hidden">
@@ -556,115 +556,113 @@ export const AnalysisWorkspace: React.FC<Props> = ({
               </div>
 
               {/* Controls Row */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 text-xs text-neutral-300 w-full min-w-0">
-                <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-center sm:justify-start w-full sm:w-auto">
-                  {/* Play / Pause Main Button */}
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3 text-xs text-neutral-300 w-full min-w-0 max-w-full">
+                {/* Stepping controls group */}
+                <div className="flex items-center gap-1 sm:gap-1.5 justify-center sm:justify-start w-full sm:w-auto">
                   <button
                     onClick={togglePlay}
-                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 flex items-center justify-center transition shadow-sm shrink-0"
+                    className="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 flex items-center justify-center transition shadow-sm shrink-0"
                     title={isPlaying ? "Pause" : "Play"}
                   >
                     {isPlaying ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current ml-0.5" />}
                   </button>
 
-                  {/* Precision Stepping: -1.0s */}
                   <button
                     onClick={() => skipSeconds(-1.0)}
-                    className="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition font-mono text-[10px]"
+                    className="px-1.5 py-1 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition font-mono text-[10px]"
                     title="Jump Back 1.0s"
                   >
                     -1.0s
                   </button>
 
-                  {/* Single Frame Step Back: -0.1s */}
                   <button
                     onClick={() => skipSeconds(-0.1)}
-                    className="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
-                    title="Step Backward (0.1s / Frame)"
+                    className="px-1.5 py-1 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
+                    title="Step Backward (0.1s)"
                   >
                     -0.1s
                   </button>
 
-                  {/* Single Frame Step Forward: +0.1s */}
                   <button
                     onClick={() => skipSeconds(0.1)}
-                    className="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
-                    title="Step Forward (0.1s / Frame)"
+                    className="px-1.5 py-1 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
+                    title="Step Forward (0.1s)"
                   >
                     +0.1s
                   </button>
 
-                  {/* Precision Stepping: +1.0s */}
                   <button
                     onClick={() => skipSeconds(1.0)}
-                    className="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition font-mono text-[10px]"
+                    className="px-1.5 py-1 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition font-mono text-[10px]"
                     title="Jump Forward 1.0s"
                   >
                     +1.0s
                   </button>
 
-                  {/* Reset to Start */}
                   <button
                     onClick={() => seekTo(0)}
-                    className="p-1.5 sm:p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition shrink-0"
+                    className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition shrink-0"
                     title="Restart from 0:00"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
                   </button>
+                </div>
 
-                  <div className="font-mono text-[11px] sm:text-xs text-neutral-300 ml-1 whitespace-nowrap">
+                {/* Telemetry time & secondary player actions */}
+                <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto pt-1 sm:pt-0 border-t sm:border-t-0 border-neutral-800/60">
+                  <div className="font-mono text-[11px] sm:text-xs text-neutral-300 whitespace-nowrap">
                     <span className="text-amber-400 font-semibold">{formatTime(currentTime)}</span>
                     <span className="text-neutral-600 mx-1">/</span>
                     <span>{formatTime(duration)}</span>
                   </div>
-                </div>
 
-                <div className="flex items-center justify-center sm:justify-end gap-2 w-full sm:w-auto pt-1 sm:pt-0 border-t sm:border-t-0 border-neutral-800/60">
-                  {/* Playback Speed Selector */}
-                  <div className="flex items-center gap-1 bg-neutral-900 px-2 py-1 rounded-lg border border-neutral-800">
-                    <Sliders className="w-3 h-3 text-neutral-400" />
-                    <select
-                      value={playbackSpeed}
-                      onChange={(e) => handleSpeedChange(parseFloat(e.target.value))}
-                      className="bg-transparent text-[11px] font-mono text-neutral-200 focus:outline-none cursor-pointer"
-                      title="Playback Speed"
-                    >
-                      <option value="0.25" className="bg-neutral-900">0.25x</option>
-                      <option value="0.5" className="bg-neutral-900">0.5x</option>
-                      <option value="0.75" className="bg-neutral-900">0.75x</option>
-                      <option value="1.0" className="bg-neutral-900">1.0x</option>
-                      <option value="1.25" className="bg-neutral-900">1.25x</option>
-                      <option value="1.5" className="bg-neutral-900">1.5x</option>
-                      <option value="2.0" className="bg-neutral-900">2.0x</option>
-                    </select>
-                  </div>
+                  <div className="flex items-center gap-1.5">
+                    {/* Playback Speed Selector */}
+                    <div className="flex items-center gap-1 bg-neutral-900 px-1.5 py-1 rounded-lg border border-neutral-800">
+                      <Sliders className="w-3 h-3 text-neutral-400 shrink-0" />
+                      <select
+                        value={playbackSpeed}
+                        onChange={(e) => handleSpeedChange(parseFloat(e.target.value))}
+                        className="bg-transparent text-[10px] sm:text-[11px] font-mono text-neutral-200 focus:outline-none cursor-pointer"
+                        title="Playback Speed"
+                      >
+                        <option value="0.25" className="bg-neutral-900">0.25x</option>
+                        <option value="0.5" className="bg-neutral-900">0.5x</option>
+                        <option value="0.75" className="bg-neutral-900">0.75x</option>
+                        <option value="1.0" className="bg-neutral-900">1.0x</option>
+                        <option value="1.25" className="bg-neutral-900">1.25x</option>
+                        <option value="1.5" className="bg-neutral-900">1.5x</option>
+                        <option value="2.0" className="bg-neutral-900">2.0x</option>
+                      </select>
+                    </div>
 
-                  <button
-                    onClick={() => {
-                      if (videoRef.current) {
-                        videoRef.current.muted = !isMuted;
-                        setIsMuted(!isMuted);
-                      }
-                    }}
-                    className="p-1.5 sm:p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
-                  >
-                    {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      if (videoRef.current) {
-                        if (document.fullscreenElement) {
-                          document.exitFullscreen();
-                        } else {
-                          videoRef.current.requestFullscreen();
+                    <button
+                      onClick={() => {
+                        if (videoRef.current) {
+                          videoRef.current.muted = !isMuted;
+                          setIsMuted(!isMuted);
                         }
-                      }
-                    }}
-                    className="p-1.5 sm:p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
-                  >
-                    <Maximize className="w-3.5 h-3.5" />
-                  </button>
+                      }}
+                      className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
+                    >
+                      {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        if (videoRef.current) {
+                          if (document.fullscreenElement) {
+                            document.exitFullscreen();
+                          } else {
+                            videoRef.current.requestFullscreen();
+                          }
+                        }
+                      }}
+                      className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
+                    >
+                      <Maximize className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -880,14 +878,14 @@ export const AnalysisWorkspace: React.FC<Props> = ({
 
           {/* Observable Facial Action Coding System (FACS) Kinematic Units Panel */}
           <div className="p-3 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4 w-full min-w-0 overflow-hidden">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-neutral-800/80 w-full min-w-0">
-              <div className="min-w-0">
-                <h3 className="text-xs sm:text-sm font-bold text-neutral-100 flex items-center gap-2 break-words">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-2.5 border-b border-neutral-800/80 w-full min-w-0 max-w-full">
+              <div className="min-w-0 max-w-full">
+                <h3 className="text-xs sm:text-sm font-bold text-neutral-100 flex items-center gap-1.5 min-w-0 max-w-full">
                   <Gauge className="w-4 h-4 text-amber-400 shrink-0" />
-                  <span className="truncate">Observable FACS Kinematic Units</span>
+                  <span className="truncate">Observable FACS Units</span>
                 </h3>
-                <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 break-words">
-                  Frame-by-frame muscular landmark displacements via 478 3D mesh blendshapes.
+                <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 line-clamp-1 sm:line-clamp-none">
+                  Frame-by-frame muscular displacements via 478 3D mesh blendshapes.
                 </p>
               </div>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-800 text-neutral-300 self-start sm:self-auto shrink-0">
