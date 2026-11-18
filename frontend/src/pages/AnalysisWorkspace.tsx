@@ -700,10 +700,10 @@ export const AnalysisWorkspace: React.FC<Props> = ({
           />
 
           {/* Synchronized Live Kinematics Cards (Current Frame Readouts) */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full min-w-0">
             
             {/* Card 1: Head Pose solvePnP */}
-            <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-3">
+            <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-3 w-full min-w-0 overflow-hidden">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-neutral-200 flex items-center gap-1.5">
                   <Compass className="w-4 h-4 text-amber-400" />
@@ -767,7 +767,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             </div>
 
             {/* Card 2: Gaze Estimation */}
-            <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-3">
+            <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-3 w-full min-w-0 overflow-hidden">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-neutral-200 flex items-center gap-1.5">
                   <Eye className="w-4 h-4 text-sky-400" />
@@ -811,7 +811,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             </div>
 
             {/* Card 3: Observable Expression Kinematics */}
-            <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-3">
+            <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-3 w-full min-w-0 overflow-hidden">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-neutral-200 flex items-center gap-1.5">
                   <Smile className="w-4 h-4 text-emerald-400" />

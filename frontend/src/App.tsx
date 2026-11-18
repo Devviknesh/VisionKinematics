@@ -24,14 +24,14 @@ const AppLayout: React.FC = () => {
   const isLanding = location.pathname === '/';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0c0e12] text-neutral-100 font-sans selection:bg-amber-400 selection:text-neutral-950">
+    <div className="min-h-screen flex flex-col bg-[#0c0e12] text-neutral-100 font-sans selection:bg-amber-400 selection:text-neutral-950 w-full max-w-full overflow-x-hidden">
       {/* Top Navbar with Route-Aware Active Links */}
       <Navbar onOpenAuth={() => setIsAuthModalOpen(true)} />
 
       {/* Main Content Area wrapped in ErrorBoundary */}
       <ErrorBoundary>
         {isLanding ? (
-          <main className="flex-1 w-full">
+          <main className="flex-1 w-full overflow-x-hidden">
             <LandingPage
               onStart={() => {
                 if (isAuthenticated) {
@@ -44,7 +44,7 @@ const AppLayout: React.FC = () => {
             />
           </main>
         ) : (
-          <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+          <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 min-w-0 overflow-x-hidden">
             <Routes>
               <Route 
                 path="/dashboard" 

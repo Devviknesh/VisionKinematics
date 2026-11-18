@@ -112,12 +112,13 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
       </div>
 
       {/* Waveform Chart Canvas */}
-      <div className="h-44 w-full min-w-0 overflow-hidden">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-44 w-full min-w-0 max-w-full overflow-hidden" style={{ minWidth: 0, maxWidth: '100%' }}>
+        <ResponsiveContainer width="100%" height="100%" minWidth={0}>
           <LineChart 
             data={chartData} 
             onClick={handleChartClick}
             margin={{ top: 5, right: 10, left: -20, bottom: 0 }}
+            style={{ maxWidth: '100%' }}
           >
             <XAxis 
               dataKey="timestamp" 
