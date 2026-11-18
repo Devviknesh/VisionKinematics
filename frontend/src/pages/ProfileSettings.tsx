@@ -204,7 +204,7 @@ export const ProfileSettings: React.FC = () => {
                       Sampling Density (FPS)
                     </label>
                     <select
-                      value={sampleFps}
+                      value={sampleFps.toFixed(1)}
                       onChange={(e) => setSampleFps(parseFloat(e.target.value))}
                       className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-amber-400"
                     >
