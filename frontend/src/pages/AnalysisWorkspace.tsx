@@ -195,22 +195,26 @@ export const AnalysisWorkspace: React.FC<Props> = ({
       videoRef.current.pause();
       setIsPlaying(false);
     } else {
-      videoRef.current.play();
-      setIsPlaying(true);
+      videoRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch((e) => {
+        console.warn('Media playback initiation:', e);
+        // Still toggle playing status for telemetry scrubber simulation if requested
+        setIsPlaying(false);
+      });
     }
   };
 
   const seekTo = (seconds: number) => {
+    const clamped = Math.max(0, Math.min(seconds, duration || 100));
     if (videoRef.current) {
-      videoRef.current.currentTime = Math.max(0, Math.min(seconds, duration || 100));
-      setCurrentTime(seconds);
+      videoRef.current.currentTime = clamped;
     }
+    setCurrentTime(clamped);
   };
 
   const skipSeconds = (offset: number) => {
-    if (videoRef.current) {
-      seekTo(videoRef.current.currentTime + offset);
-    }
+    seekTo(currentTime + offset);
   };
 
   // Find metric frame closest to current video time
@@ -394,13 +398,13 @@ export const AnalysisWorkspace: React.FC<Props> = ({
     : '';
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-200">
+    <div className="space-y-6 animate-in fade-in duration-200 w-full max-w-full overflow-x-hidden">
       
       {/* Workspace Header Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-4 border-b border-neutral-800">
-        <div>
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-4 border-b border-neutral-800 w-full min-w-0">
+        <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2.5">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-neutral-100 tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-extrabold text-neutral-100 tracking-tight break-all sm:break-normal">
               {results.session?.video_filename || 'Video Analysis Workspace'}
             </h1>
             <StatusBadge status={results.session?.processing_status || 'completed'} />
@@ -417,10 +421,10 @@ export const AnalysisWorkspace: React.FC<Props> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 w-full lg:w-auto">
           <button
             onClick={() => navigate(`/compare?session_a=${activeSessionId}`)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-xs font-semibold border border-neutral-700/80 transition"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-xs font-semibold border border-neutral-700/80 transition"
           >
             <GitCompare className="w-4 h-4 text-sky-400" />
             <span>Compare</span>
@@ -428,7 +432,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
 
           <button
             onClick={() => navigate(`/analytics/${activeSessionId}`)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-xs font-semibold border border-neutral-700/80 transition"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-xs font-semibold border border-neutral-700/80 transition"
           >
             <BarChart2 className="w-4 h-4 text-amber-400" />
             <span>Interactive Analytics</span>
@@ -436,7 +440,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
 
           <button
             onClick={() => navigate(`/report/${activeSessionId}`)}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 text-xs font-bold transition shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 text-xs font-bold transition shadow-sm"
           >
             <FileText className="w-4 h-4" />
             <span>Executive PDF</span>
@@ -445,29 +449,29 @@ export const AnalysisWorkspace: React.FC<Props> = ({
       </div>
 
       {/* Main Workspace Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full min-w-0">
         
         {/* Left Column: Video Player & Synchronized Metrics (8 cols) */}
-        <div className="lg:col-span-8 space-y-6">
+        <div className="lg:col-span-8 space-y-6 w-full min-w-0 overflow-hidden">
           
           {/* Video Player Container */}
-          <div className="rounded-2xl border border-neutral-800 bg-black overflow-hidden shadow-2xl relative group">
+          <div className="rounded-2xl border border-neutral-800 bg-black overflow-hidden shadow-2xl relative group w-full min-w-0">
             
             {/* Top Player Toolbar */}
-            <div className="bg-neutral-950/80 backdrop-blur px-4 py-2 border-b border-neutral-800/80 flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
+            <div className="bg-neutral-950/80 backdrop-blur px-3 sm:px-4 py-2 border-b border-neutral-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs w-full min-w-0">
+              <div className="flex items-center gap-2 shrink-0">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
                 <span className="text-neutral-300 font-mono text-[11px]">
-                  {showPreviewOverlay ? 'STREAM: ANNOTATED HUD OVERLAY' : 'STREAM: ORIGINAL VIDEO'}
+                  {showPreviewOverlay ? 'STREAM: ANNOTATED HUD' : 'STREAM: ORIGINAL VIDEO'}
                 </span>
               </div>
 
               {/* Toggle Original vs Annotated HUD vs Wireframe Mesh */}
-              <div className="flex items-center gap-1.5 flex-wrap">
+              <div className="flex items-center gap-1.5 flex-wrap w-full sm:w-auto justify-end">
                 <div className="flex items-center rounded-lg bg-neutral-900 p-0.5 border border-neutral-800">
                   <button
                     onClick={() => setShowPreviewOverlay(false)}
-                    className={`px-2.5 py-1 rounded text-[11px] font-semibold transition ${
+                    className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[10px] sm:text-[11px] font-semibold transition ${
                       !showPreviewOverlay 
                         ? 'bg-neutral-800 text-amber-400 shadow-sm' 
                         : 'text-neutral-400 hover:text-neutral-200'
@@ -477,7 +481,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                   </button>
                   <button
                     onClick={() => setShowPreviewOverlay(true)}
-                    className={`px-2.5 py-1 rounded text-[11px] font-semibold transition ${
+                    className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[10px] sm:text-[11px] font-semibold transition ${
                       showPreviewOverlay 
                         ? 'bg-amber-400 text-neutral-950 shadow-sm' 
                         : 'text-neutral-400 hover:text-neutral-200'
@@ -489,7 +493,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
 
                 <button
                   onClick={() => setShowWireframeMesh(!showWireframeMesh)}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition border flex items-center gap-1.5 ${
+                  className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-[10px] sm:text-[11px] font-semibold transition border flex items-center gap-1.5 ${
                     showWireframeMesh
                       ? 'bg-amber-400 text-neutral-950 border-amber-400 font-bold shadow-sm'
                       : 'bg-neutral-900 hover:bg-neutral-850 text-neutral-300 border-neutral-800'
@@ -503,7 +507,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             </div>
 
             {/* Video Element */}
-            <div className="relative aspect-video bg-neutral-950 flex items-center justify-center">
+            <div className="relative aspect-video bg-neutral-950 flex items-center justify-center w-full min-w-0 overflow-hidden">
               {videoStreamUrl ? (
                 <video
                   ref={videoRef}
@@ -521,10 +525,10 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             </div>
 
             {/* Custom Video Controls Bar */}
-            <div className="bg-neutral-950/90 backdrop-blur p-4 space-y-3 border-t border-neutral-800">
+            <div className="bg-neutral-950/90 backdrop-blur p-2.5 sm:p-4 space-y-3 border-t border-neutral-800 w-full min-w-0">
               
               {/* Timeline Track with Event Markers */}
-              <div className="relative group/timeline py-1">
+              <div className="relative group/timeline py-1 w-full min-w-0">
                 <input
                   type="range"
                   min="0"
@@ -552,21 +556,21 @@ export const AnalysisWorkspace: React.FC<Props> = ({
               </div>
 
               {/* Controls Row */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-300">
-                <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3 text-xs text-neutral-300 w-full min-w-0">
+                <div className="flex items-center gap-1 sm:gap-2 flex-wrap justify-center sm:justify-start w-full sm:w-auto">
                   {/* Play / Pause Main Button */}
                   <button
                     onClick={togglePlay}
-                    className="w-9 h-9 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 flex items-center justify-center transition shadow-sm"
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 flex items-center justify-center transition shadow-sm shrink-0"
                     title={isPlaying ? "Pause" : "Play"}
                   >
-                    {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
+                    {isPlaying ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current ml-0.5" />}
                   </button>
 
                   {/* Precision Stepping: -1.0s */}
                   <button
                     onClick={() => skipSeconds(-1.0)}
-                    className="px-2 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition font-mono text-[10px]"
+                    className="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition font-mono text-[10px]"
                     title="Jump Back 1.0s"
                   >
                     -1.0s
@@ -575,7 +579,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                   {/* Single Frame Step Back: -0.1s */}
                   <button
                     onClick={() => skipSeconds(-0.1)}
-                    className="px-2 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
+                    className="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
                     title="Step Backward (0.1s / Frame)"
                   >
                     -0.1s
@@ -584,7 +588,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                   {/* Single Frame Step Forward: +0.1s */}
                   <button
                     onClick={() => skipSeconds(0.1)}
-                    className="px-2 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
+                    className="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
                     title="Step Forward (0.1s / Frame)"
                   >
                     +0.1s
@@ -593,7 +597,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                   {/* Precision Stepping: +1.0s */}
                   <button
                     onClick={() => skipSeconds(1.0)}
-                    className="px-2 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition font-mono text-[10px]"
+                    className="px-1.5 sm:px-2 py-1 sm:py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition font-mono text-[10px]"
                     title="Jump Forward 1.0s"
                   >
                     +1.0s
@@ -602,20 +606,20 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                   {/* Reset to Start */}
                   <button
                     onClick={() => seekTo(0)}
-                    className="p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
+                    className="p-1.5 sm:p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition shrink-0"
                     title="Restart from 0:00"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
                   </button>
 
-                  <div className="font-mono text-xs text-neutral-300 ml-1">
+                  <div className="font-mono text-[11px] sm:text-xs text-neutral-300 ml-1 whitespace-nowrap">
                     <span className="text-amber-400 font-semibold">{formatTime(currentTime)}</span>
                     <span className="text-neutral-600 mx-1">/</span>
                     <span>{formatTime(duration)}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center justify-center sm:justify-end gap-2 w-full sm:w-auto pt-1 sm:pt-0 border-t sm:border-t-0 border-neutral-800/60">
                   {/* Playback Speed Selector */}
                   <div className="flex items-center gap-1 bg-neutral-900 px-2 py-1 rounded-lg border border-neutral-800">
                     <Sliders className="w-3 h-3 text-neutral-400" />
@@ -642,7 +646,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                         setIsMuted(!isMuted);
                       }
                     }}
-                    className="p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
+                    className="p-1.5 sm:p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
                   >
                     {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
                   </button>
@@ -657,7 +661,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                         }
                       }
                     }}
-                    className="p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
+                    className="p-1.5 sm:p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
                   >
                     <Maximize className="w-3.5 h-3.5" />
                   </button>
@@ -669,7 +673,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
 
           {/* Dynamic 3D Face Mesh Wireframe Card (Collapsible) */}
           {showWireframeMesh && (
-            <div className="p-5 rounded-2xl bg-neutral-900/80 border border-amber-400/40 flex flex-col sm:flex-row items-center justify-around gap-4 animate-in fade-in duration-200">
+            <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/80 border border-amber-400/40 flex flex-col sm:flex-row items-center justify-around gap-4 animate-in fade-in duration-200 w-full min-w-0 overflow-hidden">
               <div className="text-center sm:text-left space-y-1">
                 <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 justify-center sm:justify-start">
                   <Scan className="w-4 h-4" />
@@ -875,23 +879,23 @@ export const AnalysisWorkspace: React.FC<Props> = ({
           </div>
 
           {/* Observable Facial Action Coding System (FACS) Kinematic Units Panel */}
-          <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4">
+          <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4 w-full min-w-0 overflow-hidden">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-neutral-800/80">
               <div>
                 <h3 className="text-sm font-bold text-neutral-100 flex items-center gap-2">
-                  <Gauge className="w-4 h-4 text-amber-400" />
+                  <Gauge className="w-4 h-4 text-amber-400 shrink-0" />
                   <span>Observable Facial Action Coding System (FACS) Kinematic Units</span>
                 </h3>
                 <p className="text-[11px] text-neutral-400 mt-0.5">
                   Frame-by-frame muscular landmark displacements measured via 478 3D mesh blendshapes.
                 </p>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-800 text-neutral-300 self-start sm:self-auto">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-800 text-neutral-300 self-start sm:self-auto shrink-0">
                 FACS Geometry
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 font-mono text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 sm:gap-3 font-mono text-xs w-full min-w-0">
               {/* AU12 */}
               <div className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-850 space-y-2">
                 <div className="flex justify-between items-center text-[10px] text-neutral-400">
@@ -1004,8 +1008,8 @@ export const AnalysisWorkspace: React.FC<Props> = ({
         </div>
 
         {/* Right Column: Timestamped Visual Event Stream (4 cols) */}
-        <div className="lg:col-span-4 space-y-4">
-          <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 flex flex-col h-[640px]">
+        <div className="lg:col-span-4 space-y-4 w-full min-w-0">
+          <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 flex flex-col h-[520px] sm:h-[640px] w-full min-w-0 overflow-hidden">
             
             {/* Events Header */}
             <div className="pb-3 border-b border-neutral-800 space-y-2">

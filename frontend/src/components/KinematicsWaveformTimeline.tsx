@@ -58,12 +58,12 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
   };
 
   return (
-    <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4">
+    <div className="p-3.5 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4 w-full min-w-0 overflow-hidden">
       {/* Header with Title and Stream Toggles */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-800/80">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-800/80 w-full min-w-0">
         <div>
           <h3 className="text-sm font-bold text-neutral-100 flex items-center gap-2">
-            <Activity className="w-4 h-4 text-amber-400" />
+            <Activity className="w-4 h-4 text-amber-400 shrink-0" />
             <span>Multi-Stream Kinematic Waveforms</span>
           </h3>
           <p className="text-[11px] text-neutral-400 mt-0.5">
@@ -72,7 +72,7 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
         </div>
 
         {/* Stream Toggle Filter Pills */}
-        <div className="flex items-center gap-1.5 flex-wrap">
+        <div className="flex items-center gap-1.5 flex-wrap w-full sm:w-auto">
           <button
             onClick={() => setShowHeadPose(!showHeadPose)}
             className={`px-2 py-1 rounded-lg text-[10px] font-mono font-semibold transition border flex items-center gap-1.5 ${
@@ -82,7 +82,7 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
             }`}
           >
             <Compass className="w-3 h-3" />
-            <span>Head Pose (Yaw/Pitch)</span>
+            <span>Head Pose</span>
           </button>
 
           <button
@@ -106,13 +106,13 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
             }`}
           >
             <Smile className="w-3 h-3" />
-            <span>Smile Kinematics (%)</span>
+            <span>Smile Kinematics</span>
           </button>
         </div>
       </div>
 
       {/* Waveform Chart Canvas */}
-      <div className="h-44 w-full">
+      <div className="h-44 w-full min-w-0 overflow-hidden">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart 
             data={chartData} 
