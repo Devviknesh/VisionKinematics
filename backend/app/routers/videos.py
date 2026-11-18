@@ -1,11 +1,17 @@
 from pathlib import Path
-from typing import List
-from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, status
+from typing import List, Optional
+from fastapi import APIRouter, Depends, UploadFile, File, HTTPException, status, Query
 from fastapi.responses import FileResponse
+from fastapi.security import HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.utils.security import get_current_user
+from app.utils.security import (
+    get_current_user,
+    security_bearer,
+    create_streaming_ticket,
+    authenticate_media_request
+)
 from app.models.user import User
 from app.models.video import Video
 from app.schemas.video import VideoResponse, VideoUploadResponse
@@ -40,16 +46,47 @@ def get_video(
 ):
     return VideoService.get_video(db, video_id, current_user.id)
 
+@router.get("/{video_id}/stream-token")
+def get_video_stream_token(
+    video_id: str,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Issues a short-lived (15-minute), cryptographically signed streaming ticket
+    specifically for this video after verifying ownership.
+    """
+    video = db.query(Video).filter(Video.id == video_id, Video.user_id == current_user.id).first()
+    if not video:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Video not found or access denied")
+    
+    ticket = create_streaming_ticket(user_id=current_user.id, resource_id=video_id, expires_minutes=15)
+    return {
+        "video_id": video_id,
+        "ticket": ticket,
+        "expires_in_seconds": 900
+    }
+
 @router.get("/{video_id}/stream")
 def stream_video(
     video_id: str,
+    ticket: Optional[str] = Query(None),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security_bearer),
     db: Session = Depends(get_db)
 ):
-    # Allow HTML5 video tag to stream without mandatory bearer header for convenience,
-    # or validated by session cookie if present
-    video = db.query(Video).filter(Video.id == video_id).first()
-    if not video or not Path(video.storage_path).exists():
-        raise HTTPException(status_code=404, detail="Video file not found")
+    """
+    Streams the original video file.
+    Requires either a valid Bearer token or a short-lived, resource-scoped streaming ticket.
+    Strictly verifies ownership to prevent cross-user video leaks.
+    """
+    user = authenticate_media_request(resource_id=video_id, credentials=credentials, ticket=ticket, db=db)
+    
+    video = db.query(Video).filter(Video.id == video_id, Video.user_id == user.id).first()
+    if not video:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Video not found or access denied")
+    
+    if not Path(video.storage_path).exists():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Video file not found on disk")
     
     return FileResponse(
         path=video.storage_path,
@@ -60,11 +97,23 @@ def stream_video(
 @router.get("/{video_id}/preview")
 def stream_preview_video(
     video_id: str,
+    ticket: Optional[str] = Query(None),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security_bearer),
     db: Session = Depends(get_db)
 ):
-    video = db.query(Video).filter(Video.id == video_id).first()
-    if not video or not video.preview_path or not Path(video.preview_path).exists():
-        raise HTTPException(status_code=404, detail="Preview video not available")
+    """
+    Streams the computer vision annotated HUD overlay video file.
+    Requires either a valid Bearer token or a short-lived, resource-scoped streaming ticket.
+    Strictly verifies ownership to prevent cross-user video leaks.
+    """
+    user = authenticate_media_request(resource_id=video_id, credentials=credentials, ticket=ticket, db=db)
+    
+    video = db.query(Video).filter(Video.id == video_id, Video.user_id == user.id).first()
+    if not video:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Video not found or access denied")
+    
+    if not video.preview_path or not Path(video.preview_path).exists():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Preview video not available")
     
     return FileResponse(
         path=video.preview_path,

@@ -1,10 +1,17 @@
 from pathlib import Path
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Optional
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.responses import FileResponse
+from fastapi.security import HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.utils.security import get_current_user
+from app.utils.security import (
+    get_current_user,
+    security_bearer,
+    create_streaming_ticket,
+    authenticate_media_request
+)
 from app.models.user import User
 from app.models.video import Video
 from app.models.analysis import AnalysisSession, AnalysisEvent
@@ -13,13 +20,39 @@ from app.services.analysis_service import AnalysisService
 
 router = APIRouter(prefix="/reports", tags=["Reports"])
 
-@router.get("/{analysis_id}/download")
-def download_pdf_report(
+@router.get("/{analysis_id}/download-token")
+def get_report_download_token(
     analysis_id: str,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
-    session = AnalysisService.get_session(db, analysis_id, current_user.id)
+    """
+    Generates a short-lived (15-minute) signed ticket strictly scoped to downloading
+    this specific report after verifying session ownership.
+    """
+    AnalysisService.get_session(db, analysis_id, current_user.id)
+    ticket = create_streaming_ticket(user_id=current_user.id, resource_id=analysis_id, expires_minutes=15)
+    return {
+        "analysis_id": analysis_id,
+        "ticket": ticket,
+        "expires_in_seconds": 900
+    }
+
+@router.get("/{analysis_id}/download")
+def download_pdf_report(
+    analysis_id: str,
+    ticket: Optional[str] = Query(None),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security_bearer),
+    db: Session = Depends(get_db)
+):
+    """
+    Downloads the executive PDF report.
+    Accepts either an Authorization Bearer header or a short-lived report download ticket.
+    Strictly verifies ownership to prevent unauthorized report downloads.
+    """
+    user = authenticate_media_request(resource_id=analysis_id, credentials=credentials, ticket=ticket, db=db)
+    
+    session = AnalysisService.get_session(db, analysis_id, user.id)
     video = db.query(Video).filter(Video.id == session.video_id).first()
     if not video:
         raise HTTPException(status_code=404, detail="Video not found")
