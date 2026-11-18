@@ -26,11 +26,18 @@ import {
   RefreshCw,
   UploadCloud,
   GitCompare,
-  Video as VideoIcon
+  Video as VideoIcon,
+  FastForward,
+  Rewind,
+  Gauge,
+  Activity,
+  Sliders
 } from 'lucide-react';
 import { api } from '../api';
 import { AnalysisResults, FacialMetric, AnalysisEvent, AnalysisSession, VideoItem } from '../types';
 import { StatusBadge } from '../components/StatusBadge';
+import { FacialKinematicsOverlay } from '../components/FacialKinematicsOverlay';
+import { KinematicsWaveformTimeline } from '../components/KinematicsWaveformTimeline';
 
 interface Props {
   videoId?: string;
@@ -60,10 +67,19 @@ export const AnalysisWorkspace: React.FC<Props> = ({
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [showPreviewOverlay, setShowPreviewOverlay] = useState(false);
+  const [showWireframeMesh, setShowWireframeMesh] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState<number>(1.0);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [streamTicket, setStreamTicket] = useState<string>('');
   
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleSpeedChange = (speed: number) => {
+    setPlaybackSpeed(speed);
+    if (videoRef.current) {
+      videoRef.current.playbackRate = speed;
+    }
+  };
 
   // Fetch short-lived signed streaming ticket for authenticated media playback
   useEffect(() => {
@@ -446,27 +462,42 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                 </span>
               </div>
 
-              {/* Toggle Original vs Annotated HUD */}
-              <div className="flex items-center rounded-lg bg-neutral-900 p-0.5 border border-neutral-800">
+              {/* Toggle Original vs Annotated HUD vs Wireframe Mesh */}
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <div className="flex items-center rounded-lg bg-neutral-900 p-0.5 border border-neutral-800">
+                  <button
+                    onClick={() => setShowPreviewOverlay(false)}
+                    className={`px-2.5 py-1 rounded text-[11px] font-semibold transition ${
+                      !showPreviewOverlay 
+                        ? 'bg-neutral-800 text-amber-400 shadow-sm' 
+                        : 'text-neutral-400 hover:text-neutral-200'
+                    }`}
+                  >
+                    Original
+                  </button>
+                  <button
+                    onClick={() => setShowPreviewOverlay(true)}
+                    className={`px-2.5 py-1 rounded text-[11px] font-semibold transition ${
+                      showPreviewOverlay 
+                        ? 'bg-amber-400 text-neutral-950 shadow-sm' 
+                        : 'text-neutral-400 hover:text-neutral-200'
+                    }`}
+                  >
+                    Annotated HUD
+                  </button>
+                </div>
+
                 <button
-                  onClick={() => setShowPreviewOverlay(false)}
-                  className={`px-2.5 py-1 rounded text-[11px] font-semibold transition ${
-                    !showPreviewOverlay 
-                      ? 'bg-neutral-800 text-amber-400 shadow-sm' 
-                      : 'text-neutral-400 hover:text-neutral-200'
+                  onClick={() => setShowWireframeMesh(!showWireframeMesh)}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition border flex items-center gap-1.5 ${
+                    showWireframeMesh
+                      ? 'bg-amber-400 text-neutral-950 border-amber-400 font-bold shadow-sm'
+                      : 'bg-neutral-900 hover:bg-neutral-850 text-neutral-300 border-neutral-800'
                   }`}
+                  title="Toggle 2D/3D Facial Landmark Wireframe Mesh Visualizer"
                 >
-                  Original
-                </button>
-                <button
-                  onClick={() => setShowPreviewOverlay(true)}
-                  className={`px-2.5 py-1 rounded text-[11px] font-semibold transition ${
-                    showPreviewOverlay 
-                      ? 'bg-amber-400 text-neutral-950 shadow-sm' 
-                      : 'text-neutral-400 hover:text-neutral-200'
-                  }`}
-                >
-                  Annotated HUD
+                  <Scan className="w-3.5 h-3.5" />
+                  <span>3D Face Mesh</span>
                 </button>
               </div>
             </div>
@@ -521,31 +552,89 @@ export const AnalysisWorkspace: React.FC<Props> = ({
               </div>
 
               {/* Controls Row */}
-              <div className="flex items-center justify-between text-xs text-neutral-300">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-neutral-300">
+                <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                  {/* Play / Pause Main Button */}
                   <button
                     onClick={togglePlay}
                     className="w-9 h-9 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 flex items-center justify-center transition shadow-sm"
+                    title={isPlaying ? "Pause" : "Play"}
                   >
                     {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
                   </button>
 
+                  {/* Precision Stepping: -1.0s */}
                   <button
-                    onClick={() => skipSeconds(-2)}
+                    onClick={() => skipSeconds(-1.0)}
+                    className="px-2 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition font-mono text-[10px]"
+                    title="Jump Back 1.0s"
+                  >
+                    -1.0s
+                  </button>
+
+                  {/* Single Frame Step Back: -0.1s */}
+                  <button
+                    onClick={() => skipSeconds(-0.1)}
+                    className="px-2 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
+                    title="Step Backward (0.1s / Frame)"
+                  >
+                    -0.1s
+                  </button>
+
+                  {/* Single Frame Step Forward: +0.1s */}
+                  <button
+                    onClick={() => skipSeconds(0.1)}
+                    className="px-2 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
+                    title="Step Forward (0.1s / Frame)"
+                  >
+                    +0.1s
+                  </button>
+
+                  {/* Precision Stepping: +1.0s */}
+                  <button
+                    onClick={() => skipSeconds(1.0)}
+                    className="px-2 py-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition font-mono text-[10px]"
+                    title="Jump Forward 1.0s"
+                  >
+                    +1.0s
+                  </button>
+
+                  {/* Reset to Start */}
+                  <button
+                    onClick={() => seekTo(0)}
                     className="p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
-                    title="Rewind 2 seconds"
+                    title="Restart from 0:00"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
                   </button>
 
-                  <div className="font-mono text-xs text-neutral-300">
+                  <div className="font-mono text-xs text-neutral-300 ml-1">
                     <span className="text-amber-400 font-semibold">{formatTime(currentTime)}</span>
                     <span className="text-neutral-600 mx-1">/</span>
                     <span>{formatTime(duration)}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2.5">
+                  {/* Playback Speed Selector */}
+                  <div className="flex items-center gap-1 bg-neutral-900 px-2 py-1 rounded-lg border border-neutral-800">
+                    <Sliders className="w-3 h-3 text-neutral-400" />
+                    <select
+                      value={playbackSpeed}
+                      onChange={(e) => handleSpeedChange(parseFloat(e.target.value))}
+                      className="bg-transparent text-[11px] font-mono text-neutral-200 focus:outline-none cursor-pointer"
+                      title="Playback Speed"
+                    >
+                      <option value="0.25" className="bg-neutral-900">0.25x</option>
+                      <option value="0.5" className="bg-neutral-900">0.5x</option>
+                      <option value="0.75" className="bg-neutral-900">0.75x</option>
+                      <option value="1.0" className="bg-neutral-900">1.0x</option>
+                      <option value="1.25" className="bg-neutral-900">1.25x</option>
+                      <option value="1.5" className="bg-neutral-900">1.5x</option>
+                      <option value="2.0" className="bg-neutral-900">2.0x</option>
+                    </select>
+                  </div>
+
                   <button
                     onClick={() => {
                       if (videoRef.current) {
@@ -577,6 +666,34 @@ export const AnalysisWorkspace: React.FC<Props> = ({
 
             </div>
           </div>
+
+          {/* Dynamic 3D Face Mesh Wireframe Card (Collapsible) */}
+          {showWireframeMesh && (
+            <div className="p-5 rounded-2xl bg-neutral-900/80 border border-amber-400/40 flex flex-col sm:flex-row items-center justify-around gap-4 animate-in fade-in duration-200">
+              <div className="text-center sm:text-left space-y-1">
+                <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 justify-center sm:justify-start">
+                  <Scan className="w-4 h-4" />
+                  <span>MediaPipe 478 3D Landmark Wireframe</span>
+                </span>
+                <p className="text-xs text-neutral-400 max-w-sm">
+                  Synchronized reconstruction of 3D facial topology, ocular gaze vectors, and solvePnP head attitude.
+                </p>
+                <div className="pt-2 text-[11px] font-mono text-neutral-500">
+                  <span>Frame Time: </span>
+                  <span className="text-amber-400 font-bold">{formatTime(currentTime)}</span>
+                </div>
+              </div>
+              <FacialKinematicsOverlay metric={currentMetric} />
+            </div>
+          )}
+
+          {/* Multi-Stream Kinematic Waveforms (Interactive Seek Scrubbing) */}
+          <KinematicsWaveformTimeline 
+            metrics={results.timeline_metrics || []} 
+            currentTime={currentTime} 
+            duration={duration} 
+            onSeek={seekTo} 
+          />
 
           {/* Synchronized Live Kinematics Cards (Current Frame Readouts) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -755,6 +872,134 @@ export const AnalysisWorkspace: React.FC<Props> = ({
               )}
             </div>
 
+          </div>
+
+          {/* Observable Facial Action Coding System (FACS) Kinematic Units Panel */}
+          <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-neutral-800/80">
+              <div>
+                <h3 className="text-sm font-bold text-neutral-100 flex items-center gap-2">
+                  <Gauge className="w-4 h-4 text-amber-400" />
+                  <span>Observable Facial Action Coding System (FACS) Kinematic Units</span>
+                </h3>
+                <p className="text-[11px] text-neutral-400 mt-0.5">
+                  Frame-by-frame muscular landmark displacements measured via 478 3D mesh blendshapes.
+                </p>
+              </div>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-800 text-neutral-300 self-start sm:self-auto">
+                FACS Geometry
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 font-mono text-xs">
+              {/* AU12 */}
+              <div className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-850 space-y-2">
+                <div className="flex justify-between items-center text-[10px] text-neutral-400">
+                  <span className="text-amber-400 font-bold">AU12</span>
+                  <span>Zygomatic</span>
+                </div>
+                <div className="text-[11px] font-semibold text-neutral-200 truncate">
+                  Lip Corner Puller
+                </div>
+                <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
+                  <div 
+                    className="bg-emerald-400 h-full rounded-full transition-all"
+                    style={{ width: `${Math.min(100, (currentMetric?.expression_measurements?.smile_intensity ?? 0) * 100)}%` }}
+                  />
+                </div>
+                <div className="text-[10px] text-right text-neutral-400">
+                  {((currentMetric?.expression_measurements?.smile_intensity ?? 0) * 100).toFixed(0)}%
+                </div>
+              </div>
+
+              {/* AU1+2 */}
+              <div className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-850 space-y-2">
+                <div className="flex justify-between items-center text-[10px] text-neutral-400">
+                  <span className="text-sky-400 font-bold">AU1+2</span>
+                  <span>Frontalis</span>
+                </div>
+                <div className="text-[11px] font-semibold text-neutral-200 truncate">
+                  Brow Elevation
+                </div>
+                <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
+                  <div 
+                    className="bg-sky-400 h-full rounded-full transition-all"
+                    style={{ width: `${Math.min(100, (currentMetric?.expression_measurements?.brow_elevation ?? 0) * 100)}%` }}
+                  />
+                </div>
+                <div className="text-[10px] text-right text-neutral-400">
+                  {((currentMetric?.expression_measurements?.brow_elevation ?? 0) * 100).toFixed(0)}%
+                </div>
+              </div>
+
+              {/* AU4 */}
+              <div className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-850 space-y-2">
+                <div className="flex justify-between items-center text-[10px] text-neutral-400">
+                  <span className="text-amber-400 font-bold">AU4</span>
+                  <span>Corrugator</span>
+                </div>
+                <div className="text-[11px] font-semibold text-neutral-200 truncate">
+                  Brow Furrow
+                </div>
+                <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
+                  <div 
+                    className="bg-amber-400 h-full rounded-full transition-all"
+                    style={{ width: `${Math.min(100, Math.max(0, 1 - (currentMetric?.expression_measurements?.brow_elevation ?? 0.5)) * 100)}%` }}
+                  />
+                </div>
+                <div className="text-[10px] text-right text-neutral-400">
+                  {(Math.max(0, 1 - (currentMetric?.expression_measurements?.brow_elevation ?? 0.5)) * 100).toFixed(0)}%
+                </div>
+              </div>
+
+              {/* AU25+26 */}
+              <div className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-850 space-y-2">
+                <div className="flex justify-between items-center text-[10px] text-neutral-400">
+                  <span className="text-purple-400 font-bold">AU25+26</span>
+                  <span>Pterygoid</span>
+                </div>
+                <div className="text-[11px] font-semibold text-neutral-200 truncate">
+                  Jaw Separation
+                </div>
+                <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
+                  <div 
+                    className="bg-purple-400 h-full rounded-full transition-all"
+                    style={{ width: `${Math.min(100, (currentMetric?.expression_measurements?.mouth_openness ?? 0) * 100)}%` }}
+                  />
+                </div>
+                <div className="text-[10px] text-right text-neutral-400">
+                  {((currentMetric?.expression_measurements?.mouth_openness ?? 0) * 100).toFixed(0)}%
+                </div>
+              </div>
+
+              {/* AU45 */}
+              <div className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-850 space-y-2">
+                <div className="flex justify-between items-center text-[10px] text-neutral-400">
+                  <span className="text-rose-400 font-bold">AU45</span>
+                  <span>Orbicularis</span>
+                </div>
+                <div className="text-[11px] font-semibold text-neutral-200 truncate">
+                  Blink / Closure
+                </div>
+                <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
+                  <div 
+                    className="bg-rose-400 h-full rounded-full transition-all"
+                    style={{ width: `${Math.min(100, Math.max(0, (1 - ((currentMetric?.eye_aspect_ratio ?? 0.3) / 0.35))) * 100)}%` }}
+                  />
+                </div>
+                <div className="text-[10px] text-right text-neutral-400">
+                  {(currentMetric?.eye_aspect_ratio ?? 0.3) < 0.20 ? 'Active Blink' : 'Ocular Open'}
+                </div>
+              </div>
+            </div>
+
+            {/* Scientific Non-Verbal Framing Callout */}
+            <div className="p-3 rounded-xl bg-neutral-950/90 border border-neutral-800 flex items-start gap-2.5 text-[11px] text-neutral-400 leading-relaxed">
+              <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              <span>
+                <strong className="text-neutral-200">Scientific Non-Verbal Delimitation:</strong> Action Units quantify physical facial muscular deformations and landmark displacement vectors. In accordance with empirical computer vision standards, these measurements represent observable biomechanical movements and do not infer psychological intent, emotional integrity, or personality traits.
+              </span>
+            </div>
           </div>
         </div>
 
