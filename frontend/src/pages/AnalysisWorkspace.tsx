@@ -528,7 +528,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             <div className="bg-neutral-950/90 backdrop-blur p-2.5 sm:p-4 space-y-3 border-t border-neutral-800 w-full min-w-0">
               
               {/* Timeline Track with Event Markers */}
-              <div className="relative group/timeline py-1 w-full min-w-0">
+              <div className="relative group/timeline py-1 w-full min-w-0 max-w-full overflow-hidden">
                 <input
                   type="range"
                   min="0"
@@ -536,7 +536,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                   step="0.05"
                   value={currentTime}
                   onChange={(e) => seekTo(parseFloat(e.target.value))}
-                  className="w-full h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-amber-400 relative z-10"
+                  className="w-full max-w-full min-w-0 h-2 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-amber-400 relative z-10"
                 />
 
                 {/* Event Marker Ticks on Timeline */}
@@ -879,19 +879,19 @@ export const AnalysisWorkspace: React.FC<Props> = ({
           </div>
 
           {/* Observable Facial Action Coding System (FACS) Kinematic Units Panel */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4 w-full min-w-0 overflow-hidden">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-neutral-800/80">
-              <div>
-                <h3 className="text-sm font-bold text-neutral-100 flex items-center gap-2">
+          <div className="p-3 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4 w-full min-w-0 overflow-hidden">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-neutral-800/80 w-full min-w-0">
+              <div className="min-w-0">
+                <h3 className="text-xs sm:text-sm font-bold text-neutral-100 flex items-center gap-2 break-words">
                   <Gauge className="w-4 h-4 text-amber-400 shrink-0" />
-                  <span>Observable Facial Action Coding System (FACS) Kinematic Units</span>
+                  <span className="truncate">Observable FACS Kinematic Units</span>
                 </h3>
-                <p className="text-[11px] text-neutral-400 mt-0.5">
-                  Frame-by-frame muscular landmark displacements measured via 478 3D mesh blendshapes.
+                <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 break-words">
+                  Frame-by-frame muscular landmark displacements via 478 3D mesh blendshapes.
                 </p>
               </div>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-800 text-neutral-300 self-start sm:self-auto shrink-0">
-                FACS Geometry
+                FACS
               </span>
             </div>
 
@@ -998,9 +998,9 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             </div>
 
             {/* Scientific Non-Verbal Framing Callout */}
-            <div className="p-3 rounded-xl bg-neutral-950/90 border border-neutral-800 flex items-start gap-2.5 text-[11px] text-neutral-400 leading-relaxed">
+            <div className="p-3 rounded-xl bg-neutral-950/90 border border-neutral-800 flex items-start gap-2 text-[10px] sm:text-[11px] text-neutral-400 leading-relaxed w-full min-w-0">
               <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-              <span>
+              <span className="break-words">
                 <strong className="text-neutral-200">Scientific Non-Verbal Delimitation:</strong> Action Units quantify physical facial muscular deformations and landmark displacement vectors. In accordance with empirical computer vision standards, these measurements represent observable biomechanical movements and do not infer psychological intent, emotional integrity, or personality traits.
               </span>
             </div>

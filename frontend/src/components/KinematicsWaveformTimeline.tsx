@@ -60,14 +60,14 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
   return (
     <div className="p-3.5 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4 w-full min-w-0 overflow-hidden">
       {/* Header with Title and Stream Toggles */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-800/80 w-full min-w-0">
-        <div>
-          <h3 className="text-sm font-bold text-neutral-100 flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-neutral-800/80 w-full min-w-0">
+        <div className="min-w-0">
+          <h3 className="text-xs sm:text-sm font-bold text-neutral-100 flex items-center gap-1.5 break-words">
             <Activity className="w-4 h-4 text-amber-400 shrink-0" />
-            <span>Multi-Stream Kinematic Waveforms</span>
+            <span className="truncate">Kinematic Waveforms</span>
           </h3>
-          <p className="text-[11px] text-neutral-400 mt-0.5">
-            Synchronized frame-level time series. Click anywhere on the timeline to jump to that timestamp.
+          <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 break-words">
+            Synchronized frame-level time series. Click timeline to seek.
           </p>
         </div>
 
