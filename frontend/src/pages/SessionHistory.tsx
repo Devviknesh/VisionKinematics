@@ -6,6 +6,7 @@ import {
   Play, 
   BarChart2, 
   FileText, 
+  GitCompare,
   Trash2, 
   Search, 
   UploadCloud,
@@ -220,6 +221,14 @@ export const SessionHistory: React.FC<Props> = ({ onOpenAuth }) => {
                               className="p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-800 transition"
                             >
                               <BarChart2 className="w-4 h-4 text-sky-400" />
+                            </button>
+
+                            <button
+                              onClick={() => navigate(`/compare?session_a=${v.active_session_id!}`)}
+                              title="Compare with another session"
+                              className="p-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-800 transition"
+                            >
+                              <GitCompare className="w-4 h-4 text-purple-400" />
                             </button>
 
                             <button

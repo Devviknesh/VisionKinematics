@@ -9,6 +9,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
+  refreshUser: () => Promise<void>;
   logout: () => void;
 }
 
@@ -50,6 +51,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await login(email, password);
   };
 
+  const refreshUser = async () => {
+    try {
+      const userData = await api.getMe();
+      setUser(userData);
+    } catch (err) {
+      // ignore
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem('vision_auth_token');
     setToken(null);
@@ -65,6 +75,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isLoading,
         login,
         register,
+        refreshUser,
         logout,
       }}
     >

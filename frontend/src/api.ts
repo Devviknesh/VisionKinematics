@@ -1,5 +1,13 @@
 import axios from 'axios';
-import { User, VideoItem, AnalysisSession, AnalysisResults, AnalysisEvent, SummaryStatistics } from './types';
+import { 
+  User, 
+  VideoItem, 
+  AnalysisSession, 
+  AnalysisResults, 
+  AnalysisEvent, 
+  SummaryStatistics,
+  SessionComparisonResponse 
+} from './types';
 
 const VITE_BACKEND_URL = import.meta.env.VITE_API_URL || '';
 const API_BASE = VITE_BACKEND_URL ? `${VITE_BACKEND_URL.replace(/\/+$/, '')}/api` : '/api';
@@ -21,7 +29,7 @@ client.interceptors.request.use((config) => {
 });
 
 export const api = {
-  // Auth
+  // Auth & Profile
   async register(data: { name: string; email: string; password: string }) {
     const res = await client.post<User>('/auth/register', data);
     return res.data;
@@ -37,10 +45,21 @@ export const api = {
     return res.data;
   },
 
+  async updateProfile(data: { name?: string; preferences?: Record<string, any> }) {
+    const res = await client.put<User>('/auth/profile', data);
+    return res.data;
+  },
+
+  async changePassword(data: { current_password: string; new_password: string }) {
+    const res = await client.put<{ message: string }>('/auth/password', data);
+    return res.data;
+  },
+
   // Videos
   async uploadVideo(file: File, onProgress?: (percent: number) => void) {
     const formData = new FormData();
     formData.append('file', file);
+
     const res = await client.post<{ message: string; video: VideoItem }>('/videos/upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -70,12 +89,18 @@ export const api = {
     return res.data;
   },
 
-  getVideoStreamUrl(videoId: string) {
-    return `${API_BASE}/videos/${videoId}/stream`;
+  // Security: Short-lived Streaming Tickets
+  async getVideoStreamToken(videoId: string) {
+    const res = await client.get<{ video_id: string; ticket: string; expires_in_seconds: number }>(`/videos/${videoId}/stream-token`);
+    return res.data;
   },
 
-  getPreviewStreamUrl(videoId: string) {
-    return `${API_BASE}/videos/${videoId}/preview`;
+  getVideoStreamUrl(videoId: string, ticket?: string) {
+    return `${API_BASE}/videos/${videoId}/stream${ticket ? `?ticket=${encodeURIComponent(ticket)}` : ''}`;
+  },
+
+  getPreviewStreamUrl(videoId: string, ticket?: string) {
+    return `${API_BASE}/videos/${videoId}/preview${ticket ? `?ticket=${encodeURIComponent(ticket)}` : ''}`;
   },
 
   // Analysis
@@ -109,10 +134,19 @@ export const api = {
     return res.data;
   },
 
+  async compareSessions(sessionA: string, sessionB: string) {
+    const res = await client.get<SessionComparisonResponse>(`/analysis/compare?session_a=${encodeURIComponent(sessionA)}&session_b=${encodeURIComponent(sessionB)}`);
+    return res.data;
+  },
+
   // Reports
-  getReportDownloadUrl(analysisId: string) {
-    const token = localStorage.getItem('vision_auth_token') || '';
-    return `${API_BASE}/reports/${analysisId}/download?token=${encodeURIComponent(token)}`;
+  async getReportDownloadToken(analysisId: string) {
+    const res = await client.get<{ analysis_id: string; ticket: string; expires_in_seconds: number }>(`/reports/${analysisId}/download-token`);
+    return res.data;
+  },
+
+  getReportDownloadUrl(analysisId: string, ticket?: string) {
+    return `${API_BASE}/reports/${analysisId}/download${ticket ? `?ticket=${encodeURIComponent(ticket)}` : ''}`;
   },
 
   async downloadReportPdf(analysisId: string, filename: string) {

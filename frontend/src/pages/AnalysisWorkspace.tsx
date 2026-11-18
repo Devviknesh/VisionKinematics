@@ -25,6 +25,7 @@ import {
   ShieldCheck,
   RefreshCw,
   UploadCloud,
+  GitCompare,
   Video as VideoIcon
 } from 'lucide-react';
 import { api } from '../api';
@@ -60,8 +61,23 @@ export const AnalysisWorkspace: React.FC<Props> = ({
   const [isMuted, setIsMuted] = useState(true);
   const [showPreviewOverlay, setShowPreviewOverlay] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [streamTicket, setStreamTicket] = useState<string>('');
   
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Fetch short-lived signed streaming ticket for authenticated media playback
+  useEffect(() => {
+    if (!activeVideoId) return;
+    const fetchStreamToken = async () => {
+      try {
+        const res = await api.getVideoStreamToken(activeVideoId);
+        setStreamTicket(res.ticket);
+      } catch (err) {
+        // Fallback gracefully
+      }
+    };
+    fetchStreamToken();
+  }, [activeVideoId]);
 
   // If no sessionId passed, check recent videos
   useEffect(() => {
@@ -358,7 +374,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
   }
 
   const videoStreamUrl = activeVideoId 
-    ? (showPreviewOverlay ? api.getPreviewStreamUrl(activeVideoId) : api.getVideoStreamUrl(activeVideoId))
+    ? (showPreviewOverlay ? api.getPreviewStreamUrl(activeVideoId, streamTicket) : api.getVideoStreamUrl(activeVideoId, streamTicket))
     : '';
 
   return (
@@ -385,7 +401,15 @@ export const AnalysisWorkspace: React.FC<Props> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <button
+            onClick={() => navigate(`/compare?session_a=${activeSessionId}`)}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-xs font-semibold border border-neutral-700/80 transition"
+          >
+            <GitCompare className="w-4 h-4 text-sky-400" />
+            <span>Compare</span>
+          </button>
+
           <button
             onClick={() => navigate(`/analytics/${activeSessionId}`)}
             className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-xs font-semibold border border-neutral-700/80 transition"

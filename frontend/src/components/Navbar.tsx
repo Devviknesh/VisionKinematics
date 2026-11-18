@@ -7,6 +7,8 @@ import {
   Video, 
   BarChart3, 
   History, 
+  GitCompare,
+  Settings,
   LogOut, 
   User as UserIcon,
   Menu,
@@ -33,6 +35,7 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
     { path: '/upload', label: 'Upload Video', icon: UploadCloud },
     { path: '/workspace', label: 'Workspace', icon: Video },
     { path: '/analytics', label: 'Analytics', icon: BarChart3 },
+    { path: '/compare', label: 'Compare', icon: GitCompare },
     { path: '/history', label: 'Sessions', icon: History },
   ];
 
@@ -87,7 +90,7 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
                   CV 3D
                 </span>
               </div>
-              <p className="text-[11px] text-neutral-400 hidden sm:block">AI-Powered Non-Verbal Communication Analyzer</p>
+              <p className="text-[11px] text-neutral-400 hidden sm:block">AI Video &amp; Facial Emotion Recognition</p>
             </div>
           </div>
 
@@ -138,16 +141,24 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
             {isAuthenticated ? (
               <div className="flex items-center gap-2 pl-2 border-l border-neutral-800">
                 <button
-                  onClick={() => handleNavClick('/dashboard')}
+                  onClick={() => handleNavClick('/settings')}
+                  title="Profile &amp; Settings"
                   className="flex items-center gap-2 text-xs text-neutral-200 bg-neutral-850 hover:bg-neutral-800 px-3 py-1.5 rounded-lg border border-neutral-700/70 transition-colors"
                 >
                   <UserIcon className="w-3.5 h-3.5 text-amber-400" />
                   <span className="font-medium max-w-[110px] truncate">{user?.name}</span>
                 </button>
                 <button
+                  onClick={() => handleNavClick('/settings')}
+                  title="Account Settings"
+                  className="p-1.5 text-neutral-400 hover:text-amber-400 hover:bg-neutral-800 rounded-lg transition-colors border border-transparent hover:border-neutral-700"
+                >
+                  <Settings className="w-4 h-4" />
+                </button>
+                <button
                   onClick={logout}
                   title="Sign Out"
-                  className="p-2 text-neutral-400 hover:text-rose-400 hover:bg-neutral-800 rounded-lg transition-colors border border-transparent hover:border-neutral-700"
+                  className="p-1.5 text-neutral-400 hover:text-rose-400 hover:bg-neutral-800 rounded-lg transition-colors border border-transparent hover:border-neutral-700"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -229,16 +240,28 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
           <div className="pt-3 border-t border-neutral-800 flex flex-col gap-2">
             {isAuthenticated ? (
               <div className="flex items-center justify-between p-2 rounded-lg bg-neutral-900 border border-neutral-800">
-                <div className="flex items-center gap-2 text-sm text-neutral-200">
+                <button
+                  onClick={() => handleNavClick('/settings')}
+                  className="flex items-center gap-2 text-sm text-neutral-200 text-left hover:text-amber-400 transition"
+                >
                   <UserIcon className="w-4 h-4 text-amber-400" />
                   <span className="font-medium truncate">{user?.name}</span>
-                </div>
-                <button
-                  onClick={logout}
-                  className="px-3 py-1 text-xs text-rose-400 hover:bg-rose-500/10 rounded transition"
-                >
-                  Sign Out
                 </button>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => handleNavClick('/settings')}
+                    className="p-1.5 text-neutral-400 hover:text-amber-400 rounded transition"
+                    title="Settings"
+                  >
+                    <Settings className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={logout}
+                    className="px-2.5 py-1 text-xs text-rose-400 hover:bg-rose-500/10 rounded transition"
+                  >
+                    Sign Out
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-2">

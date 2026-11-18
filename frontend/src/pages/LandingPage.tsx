@@ -169,7 +169,7 @@ export const LandingPage: React.FC<Props> = ({ onStart }) => {
         {/* Pill Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-neutral-900 border border-neutral-700/80 text-neutral-300 mb-8 shadow-sm">
           <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-          <span>Local Computer Vision & Facial Kinematics Platform</span>
+          <span>AI-Powered Video Analysis &amp; Facial Emotion Recognition System</span>
         </div>
 
         {/* Main Headline */}

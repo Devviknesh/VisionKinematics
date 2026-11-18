@@ -11,6 +11,8 @@ import { AnalysisWorkspace } from './pages/AnalysisWorkspace';
 import { AnalyticsDashboard } from './pages/AnalyticsDashboard';
 import { SessionHistory } from './pages/SessionHistory';
 import { ReportView } from './pages/ReportView';
+import { SessionComparison } from './pages/SessionComparison';
+import { ProfileSettings } from './pages/ProfileSettings';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 const AppLayout: React.FC = () => {
@@ -75,6 +77,14 @@ const AppLayout: React.FC = () => {
               <Route 
                 path="/history" 
                 element={<SessionHistory onOpenAuth={() => setIsAuthModalOpen(true)} />} 
+              />
+              <Route 
+                path="/compare" 
+                element={<SessionComparison />} 
+              />
+              <Route 
+                path="/settings" 
+                element={<ProfileSettings />} 
               />
               <Route 
                 path="/report" 

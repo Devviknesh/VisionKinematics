@@ -2,6 +2,13 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  preferences?: {
+    default_sample_fps?: number;
+    head_pose_sensitivity?: 'low' | 'normal' | 'high';
+    auto_hud_overlay?: boolean;
+    gaze_calibration_mode?: 'standard' | 'relaxed';
+    [key: string]: any;
+  };
   created_at: string;
 }
 
@@ -109,4 +116,42 @@ export interface AnalysisResults {
   summary_statistics: SummaryStatistics;
   timeline_metrics: FacialMetric[];
   events: AnalysisEvent[];
+}
+
+export interface ComparisonMetric {
+  category: string;
+  metric: string;
+  unit: string;
+  session_a: number;
+  session_b: number;
+  diff: number;
+}
+
+export interface ComparisonRadarItem {
+  subject: string;
+  A: number;
+  B: number;
+  fullMark: number;
+}
+
+export interface SessionComparisonResponse {
+  session_a: {
+    id: string;
+    video_id: string;
+    video_filename: string;
+    duration: number;
+    created_at?: string;
+    processing_status: string;
+  };
+  session_b: {
+    id: string;
+    video_id: string;
+    video_filename: string;
+    duration: number;
+    created_at?: string;
+    processing_status: string;
+  };
+  comparison_metrics: ComparisonMetric[];
+  radar_data: ComparisonRadarItem[];
+  disclaimer: string;
 }
