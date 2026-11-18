@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text, inspect
 from sqlalchemy.orm import declarative_base, sessionmaker
 from app.config import settings
 
@@ -32,3 +32,17 @@ def get_db():
 def init_db():
     from app.models import user, video, analysis
     Base.metadata.create_all(bind=engine)
+    
+    # Ensure newly added columns exist in existing deployments
+    try:
+        with engine.begin() as conn:
+            inspector = inspect(conn)
+            if "users" in inspector.get_table_names():
+                user_cols = [c["name"] for c in inspector.get_columns("users")]
+                if "preferences" not in user_cols:
+                    if engine.dialect.name == "postgresql":
+                        conn.execute(text("ALTER TABLE users ADD COLUMN preferences JSON DEFAULT '{}'::json;"))
+                    else:
+                        conn.execute(text("ALTER TABLE users ADD COLUMN preferences JSON;"))
+    except Exception as e:
+        print(f"Schema migration note: {e}")
