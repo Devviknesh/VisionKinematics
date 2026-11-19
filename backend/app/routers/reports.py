@@ -38,6 +38,40 @@ def get_report_download_token(
         "expires_in_seconds": 900
     }
 
+@router.get("/demo/download")
+def download_demo_pdf_report(db: Session = Depends(get_db)):
+    """
+    Downloads the research-grade PDF dossier for the demo session.
+    Publicly accessible with zero authentication required.
+    """
+    session = (
+        db.query(AnalysisSession)
+        .filter(AnalysisSession.processing_status == "completed")
+        .order_by(AnalysisSession.completed_at.desc())
+        .first()
+    )
+    if not session:
+        session = db.query(AnalysisSession).first()
+    if not session:
+        raise HTTPException(status_code=404, detail="No completed demo session found")
+
+    video = db.query(Video).filter(Video.id == session.video_id).first()
+    events = db.query(AnalysisEvent).filter(AnalysisEvent.session_id == session.id).order_by(AnalysisEvent.timestamp).all()
+    metrics = db.query(FacialMetric).filter(FacialMetric.session_id == session.id).order_by(FacialMetric.timestamp).all()
+
+    report_path = ReportService.generate_pdf_report(
+        video=video,
+        session=session,
+        events=events,
+        metrics=metrics
+    )
+
+    return FileResponse(
+        path=report_path,
+        media_type="application/pdf",
+        filename=f"VisionKinematics_Research_Report_{session.id[:8]}.pdf"
+    )
+
 @router.get("/{analysis_id}/download")
 def download_pdf_report(
     analysis_id: str,

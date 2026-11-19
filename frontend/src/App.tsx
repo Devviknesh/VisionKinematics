@@ -13,6 +13,8 @@ import { SessionHistory } from './pages/SessionHistory';
 import { ReportView } from './pages/ReportView';
 import { SessionComparison } from './pages/SessionComparison';
 import { ProfileSettings } from './pages/ProfileSettings';
+import { DemoPage } from './pages/DemoPage';
+import { TechnicalOverviewPage } from './pages/TechnicalOverviewPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 
 const AppLayout: React.FC = () => {
@@ -81,6 +83,14 @@ const AppLayout: React.FC = () => {
               <Route 
                 path="/compare" 
                 element={<SessionComparison />} 
+              />
+              <Route 
+                path="/demo" 
+                element={<DemoPage />} 
+              />
+              <Route 
+                path="/technical-overview" 
+                element={<TechnicalOverviewPage />} 
               />
               <Route 
                 path="/settings" 

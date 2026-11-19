@@ -139,6 +139,11 @@ export const api = {
     return res.data;
   },
 
+  async getDemoAnalysis() {
+    const res = await client.get<AnalysisResults & { demo_stream_ticket?: string; is_demo?: boolean }>('/analysis/demo');
+    return res.data;
+  },
+
   // Reports
   async getReportDownloadToken(analysisId: string) {
     const res = await client.get<{ analysis_id: string; ticket: string; expires_in_seconds: number }>(`/reports/${analysisId}/download-token`);
@@ -147,6 +152,24 @@ export const api = {
 
   getReportDownloadUrl(analysisId: string, ticket?: string) {
     return `${API_BASE}/reports/${analysisId}/download${ticket ? `?ticket=${encodeURIComponent(ticket)}` : ''}`;
+  },
+
+  getDemoReportDownloadUrl() {
+    return `${API_BASE}/reports/demo/download`;
+  },
+
+  async downloadDemoReportPdf() {
+    const res = await client.get('/reports/demo/download', {
+      responseType: 'blob',
+    });
+    const url = window.URL.createObjectURL(new Blob([res.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'VisionKinematics_Research_Report_Demo.pdf');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
   },
 
   async downloadReportPdf(analysisId: string, filename: string) {

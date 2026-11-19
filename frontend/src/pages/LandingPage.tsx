@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   ScanFace, 
   Compass, 
@@ -31,6 +32,7 @@ interface Props {
 }
 
 export const LandingPage: React.FC<Props> = ({ onStart }) => {
+  const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const toggleFaq = (index: number) => {
@@ -196,6 +198,22 @@ export const LandingPage: React.FC<Props> = ({ onStart }) => {
             <ArrowRight className="w-4 h-4" />
           </button>
 
+          <button
+            onClick={() => navigate('/demo')}
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 border border-amber-400/30 font-semibold text-xs sm:text-sm transition-all"
+          >
+            <Sparkles className="w-4 h-4 text-amber-400" />
+            <span>Interactive Demo</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/technical-overview')}
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700/80 font-medium text-xs sm:text-sm transition-all"
+          >
+            <Cpu className="w-4 h-4 text-sky-400" />
+            <span>Technical Overview</span>
+          </button>
+
           <a
             href="https://github.com/Devviknesh/VisionKinematics"
             target="_blank"
@@ -203,7 +221,7 @@ export const LandingPage: React.FC<Props> = ({ onStart }) => {
             className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700/80 font-medium text-xs sm:text-sm transition-all"
           >
             <Terminal className="w-4 h-4 text-amber-400" />
-            <span>GitHub Repository</span>
+            <span>GitHub</span>
           </a>
 
           <a
@@ -213,16 +231,8 @@ export const LandingPage: React.FC<Props> = ({ onStart }) => {
             className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700/80 font-medium text-xs sm:text-sm transition-all"
           >
             <Activity className="w-4 h-4 text-sky-400" />
-            <span>Swagger API Docs</span>
+            <span>Swagger API</span>
           </a>
-
-          <button
-            onClick={() => scrollToSection('architecture')}
-            className="inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl text-neutral-400 hover:text-neutral-200 text-xs sm:text-sm transition-all"
-          >
-            <span>Architecture</span>
-            <ChevronDown className="w-3.5 h-3.5" />
-          </button>
         </div>
 
         {/* Metric Badges Strip */}
@@ -740,6 +750,8 @@ export const LandingPage: React.FC<Props> = ({ onStart }) => {
           <div className="space-y-2.5">
             <p className="text-xs font-bold text-neutral-200 uppercase tracking-wider">Platform &amp; Code</p>
             <ul className="space-y-1.5 text-xs text-neutral-400">
+              <li><button onClick={() => navigate('/demo')} className="text-amber-400 font-semibold hover:text-amber-300 transition">Interactive Demo</button></li>
+              <li><button onClick={() => navigate('/technical-overview')} className="text-sky-400 font-semibold hover:text-sky-300 transition">Technical Overview</button></li>
               <li><a href="https://github.com/Devviknesh/VisionKinematics" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition">GitHub Repository</a></li>
               <li><a href="https://backend-production-3edefbc4.up.railway.app/docs" target="_blank" rel="noopener noreferrer" className="hover:text-sky-400 transition">Swagger API Documentation</a></li>
               <li><button onClick={() => scrollToSection('architecture')} className="hover:text-amber-400 transition">System Architecture</button></li>

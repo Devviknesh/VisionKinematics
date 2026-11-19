@@ -14,7 +14,9 @@ import {
   Menu,
   X,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Cpu,
+  Layers
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -32,20 +34,22 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
 
   const mainNavItems = [
     { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { path: '/demo', label: 'Demo', icon: Sparkles },
+    { path: '/technical-overview', label: 'Engineering', icon: Cpu },
     { path: '/upload', label: 'Upload Video', icon: UploadCloud },
     { path: '/workspace', label: 'Workspace', icon: Video },
-    { path: '/analytics', label: 'Analytics', icon: BarChart3 },
     { path: '/compare', label: 'Compare', icon: GitCompare },
     { path: '/history', label: 'Sessions', icon: History },
   ];
 
   const landingNavLinks = [
-    { label: 'Product', id: 'product' },
-    { label: 'Features', id: 'features' },
-    { label: 'How It Works', id: 'how-it-works' },
-    { label: 'Technology', id: 'technology' },
-    { label: 'Ethics & Privacy', id: 'privacy' },
-    { label: 'FAQ', id: 'faq' },
+    { label: 'Live Demo', path: '/demo', isRoute: true },
+    { label: 'Engineering', path: '/technical-overview', isRoute: true },
+    { label: 'Architecture', id: 'architecture', isRoute: false },
+    { label: 'Features', id: 'features', isRoute: false },
+    { label: 'Technology', id: 'technology', isRoute: false },
+    { label: 'Ethics & Privacy', id: 'privacy', isRoute: false },
+    { label: 'FAQ', id: 'faq', isRoute: false },
   ];
 
   const handleNavClick = (path: string) => {
@@ -99,9 +103,19 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
             <nav className="hidden lg:flex items-center gap-6">
               {landingNavLinks.map((link) => (
                 <button
-                  key={link.id}
-                  onClick={() => handleSectionScroll(link.id)}
-                  className="text-sm font-medium text-neutral-400 hover:text-amber-400 transition-colors"
+                  key={link.label}
+                  onClick={() => {
+                    if (link.isRoute && link.path) {
+                      handleNavClick(link.path);
+                    } else if (link.id) {
+                      handleSectionScroll(link.id);
+                    }
+                  }}
+                  className={`text-sm font-medium transition-colors ${
+                    link.isRoute
+                      ? 'text-amber-400 font-bold hover:text-amber-300'
+                      : 'text-neutral-400 hover:text-amber-400'
+                  }`}
                 >
                   {link.label}
                 </button>

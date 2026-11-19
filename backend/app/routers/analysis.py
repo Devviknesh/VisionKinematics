@@ -29,6 +29,14 @@ def compare_sessions(
     """
     return AnalysisService.compare_sessions(db, session_a, session_b, current_user.id)
 
+@router.get("/demo", response_model=Dict[str, Any])
+def get_demo_analysis(db: Session = Depends(get_db)):
+    """
+    Publicly accessible endpoint returning a genuine completed session with full telemetry,
+    landmarks, pose, and action units for interactive product demonstration.
+    """
+    return AnalysisService.get_demo_session(db)
+
 @router.post("/{video_id}/start", response_model=AnalysisStatusResponse, status_code=status.HTTP_202_ACCEPTED)
 def start_analysis(
     video_id: str,

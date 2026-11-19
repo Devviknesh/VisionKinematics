@@ -101,3 +101,47 @@ def test_pdf_report_generation(tmp_path):
     pdf_path = ReportService.generate_pdf_report(video, session, events)
     assert pdf_path.exists()
     assert pdf_path.stat().st_size > 1000 # Valid non-empty PDF file
+
+def test_public_demo_endpoints(client, db_session, test_user, sample_video_path):
+    # 1. Test unauthenticated /api/analysis/demo
+    demo_res = client.get("/api/analysis/demo")
+    assert demo_res.status_code == 200
+    data = demo_res.json()
+    assert "session" in data
+    assert data.get("is_demo") is True
+
+    # 2. Add completed session & video into db to verify demo PDF download
+    vid = Video(
+        id="demo-test-vid",
+        user_id=test_user.id,
+        filename="demo_sample.mp4",
+        storage_path=str(sample_video_path),
+        duration=2.0,
+        fps=30.0
+    )
+    db_session.add(vid)
+    db_session.commit()
+
+    sess = AnalysisSession(
+        id="demo-test-session",
+        video_id=vid.id,
+        processing_status="completed",
+        progress=100.0,
+        summary_stats={
+            "total_frames_analyzed": 60,
+            "face_tracking_percentage": 95.0,
+            "mean_eye_aspect_ratio": 0.28,
+            "head_pose_distribution": {"Forward-Facing": 100.0},
+            "gaze_distribution": {"Center": 100.0},
+            "smile_frames_ratio": 10.0,
+            "mouth_open_frames_ratio": 5.0,
+            "total_events_detected": 0
+        }
+    )
+    db_session.add(sess)
+    db_session.commit()
+
+    # Verify demo PDF download returns 200
+    pdf_res = client.get("/api/reports/demo/download")
+    assert pdf_res.status_code == 200
+    assert pdf_res.headers["content-type"] == "application/pdf"

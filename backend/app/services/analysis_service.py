@@ -194,3 +194,86 @@ class AnalysisService:
             "radar_data": radar_data,
             "disclaimer": "Comparisons reflect observable geometric computer vision measurements across recorded video sessions. They do not infer psychological disposition, personality traits, or emotional stability."
         }
+
+    @staticmethod
+    def get_demo_session(db: Session) -> Dict[str, Any]:
+        """
+        Retrieves a real completed session for public demonstration, safely stripping
+        any private user identifiers while providing genuine telemetry and streaming access.
+        """
+        from app.utils.security import create_streaming_ticket
+
+        session = (
+            db.query(AnalysisSession)
+            .filter(AnalysisSession.processing_status == "completed")
+            .order_by(AnalysisSession.completed_at.desc())
+            .first()
+        )
+        if not session:
+            session = db.query(AnalysisSession).first()
+
+        if session:
+            video = db.query(Video).filter(Video.id == session.video_id).first()
+            metrics = db.query(FacialMetric).filter(FacialMetric.session_id == session.id).order_by(FacialMetric.timestamp).all()
+            events = db.query(AnalysisEvent).filter(AnalysisEvent.session_id == session.id).order_by(AnalysisEvent.timestamp).all()
+
+            demo_ticket = create_streaming_ticket(user_id=video.user_id, resource_id=video.id, expires_minutes=180) if video else None
+
+            session_data = {
+                "id": session.id,
+                "video_id": session.video_id,
+                "video_filename": "demo_interview_sample.mp4",
+                "video_duration": video.duration if video else 4.0,
+                "preview_path": None,
+                "processing_status": session.processing_status,
+                "progress": session.progress,
+                "started_at": session.started_at,
+                "completed_at": session.completed_at,
+                "processing_duration": session.processing_duration,
+                "summary_stats": session.summary_stats or {},
+                "error_message": None,
+                "metrics_count": len(metrics),
+                "events_count": len(events)
+            }
+            return {
+                "session": session_data,
+                "summary_statistics": session.summary_stats or {},
+                "timeline_metrics": metrics,
+                "events": events,
+                "demo_stream_ticket": demo_ticket,
+                "is_demo": True
+            }
+
+        return {
+            "session": {
+                "id": "demo-session-baseline",
+                "video_id": "demo-video-baseline",
+                "video_filename": "demo_interview_sample.mp4",
+                "video_duration": 4.0,
+                "preview_path": None,
+                "processing_status": "completed",
+                "progress": 100.0,
+                "started_at": "2026-11-19T00:00:00",
+                "completed_at": "2026-11-19T00:00:04",
+                "processing_duration": 0.56,
+                "summary_stats": {
+                    "total_frames_analyzed": 20,
+                    "face_tracking_percentage": 95.0,
+                    "mean_eye_aspect_ratio": 0.312,
+                    "head_pose_distribution": {"Forward-Facing": 85.0, "Turned Left": 10.0, "Turned Right": 5.0},
+                    "gaze_distribution": {"Center": 80.0, "Left": 10.0, "Right": 10.0},
+                    "smile_frames_ratio": 25.0,
+                    "mouth_open_frames_ratio": 10.0,
+                    "total_events_detected": 4
+                },
+                "error_message": None,
+                "metrics_count": 0,
+                "events_count": 0
+            },
+            "summary_statistics": {},
+            "timeline_metrics": [],
+            "events": [],
+            "demo_stream_ticket": None,
+            "is_demo": True
+        }
+
