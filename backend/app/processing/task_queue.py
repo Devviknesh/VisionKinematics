@@ -27,6 +27,31 @@ class BackgroundTaskManager:
     def is_cancelled(self, session_id: str) -> bool:
         return session_id in self._cancelled_jobs
 
+    def recover_orphaned_sessions(self):
+        """
+        Reconciles orphaned analysis jobs upon server startup.
+        Any job remaining in 'pending' or 'processing' status from a previous process
+        instance is transitioned to 'failed' with a descriptive error message.
+        """
+        db: Session = SessionLocal()
+        try:
+            orphans = (
+                db.query(AnalysisSession)
+                .filter(AnalysisSession.processing_status.in_(["pending", "processing"]))
+                .all()
+            )
+            for session in orphans:
+                if session.id not in self._active_threads:
+                    session.processing_status = "failed"
+                    session.error_message = "Analysis interrupted by server restart or process termination. Please restart analysis."
+                    session.completed_at = datetime.utcnow()
+            db.commit()
+        except Exception as e:
+            db.rollback()
+            print(f"Error during orphaned session reconciliation: {e}")
+        finally:
+            db.close()
+
     def submit_analysis(self, session_id: str, video_path: Path, preview_path: Optional[Path] = None):
         thread = threading.Thread(
             target=self._run_analysis_worker,

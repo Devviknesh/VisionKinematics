@@ -13,8 +13,14 @@ from app.config import settings
 class VideoService:
     @staticmethod
     async def save_and_create_video(db: Session, file: UploadFile, user_id: str) -> Video:
-        # Validate extension
-        filename = file.filename or "video.mp4"
+        # Sanitize and validate filename
+        raw_filename = file.filename or "video.mp4"
+        clean_name = Path(raw_filename).name
+        clean_name = "".join(c for c in clean_name if c.isalnum() or c in "._- ")
+        if not clean_name or "." not in clean_name:
+            clean_name = f"uploaded_video_{uuid.uuid4().hex[:6]}.mp4"
+        filename = clean_name
+
         ext = filename.split(".")[-1].lower() if "." in filename else ""
         if ext not in settings.ALLOWED_EXTENSIONS:
             raise HTTPException(

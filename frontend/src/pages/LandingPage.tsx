@@ -183,24 +183,45 @@ export const LandingPage: React.FC<Props> = ({ onStart }) => {
         {/* Subtitle */}
         <p className="mt-6 text-base sm:text-xl text-neutral-400 max-w-3xl mx-auto leading-relaxed">
           Transform recorded videos into structured visual insights using computer vision, 
-          facial landmark detection, head pose estimation, and gaze analysis—completely locally with zero cloud exposure.
+          478-point facial landmark geometry, OpenCV solvePnP head pose estimation, and observable Action Units—with research-grade accuracy and strict tenant security.
         </p>
 
-        {/* Dual CTA Buttons */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        {/* Action Buttons */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <button
             onClick={onStart}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-sm sm:text-base transition-all duration-150 shadow-lg shadow-amber-400/20 transform hover:-translate-y-0.5"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-sm sm:text-base transition-all duration-150 shadow-lg shadow-amber-400/20 transform hover:-translate-y-0.5"
           >
-            <span>Get Started</span>
+            <span>Launch Analysis</span>
             <ArrowRight className="w-4 h-4" />
           </button>
-          <button
-            onClick={() => scrollToSection('features')}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700/80 font-medium text-sm sm:text-base transition-all"
+
+          <a
+            href="https://github.com/Devviknesh/VisionKinematics"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700/80 font-medium text-xs sm:text-sm transition-all"
           >
-            <span>Explore Features</span>
-            <ChevronDown className="w-4 h-4 text-neutral-400" />
+            <Terminal className="w-4 h-4 text-amber-400" />
+            <span>GitHub Repository</span>
+          </a>
+
+          <a
+            href="https://backend-production-3edefbc4.up.railway.app/docs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700/80 font-medium text-xs sm:text-sm transition-all"
+          >
+            <Activity className="w-4 h-4 text-sky-400" />
+            <span>Swagger API Docs</span>
+          </a>
+
+          <button
+            onClick={() => scrollToSection('architecture')}
+            className="inline-flex items-center justify-center gap-1.5 px-4 py-3 rounded-xl text-neutral-400 hover:text-neutral-200 text-xs sm:text-sm transition-all"
+          >
+            <span>Architecture</span>
+            <ChevronDown className="w-3.5 h-3.5" />
           </button>
         </div>
 
@@ -214,17 +235,17 @@ export const LandingPage: React.FC<Props> = ({ onStart }) => {
           <div className="p-4 rounded-xl bg-neutral-900/90 border border-neutral-800">
             <p className="text-xs text-neutral-400 font-medium uppercase tracking-wider">Head Pose</p>
             <p className="text-xl sm:text-2xl font-bold text-amber-400 mt-1">solvePnP 3D</p>
-            <p className="text-[11px] text-neutral-500 mt-0.5">Yaw, Pitch & Roll (deg)</p>
+            <p className="text-[11px] text-neutral-500 mt-0.5">Yaw, Pitch &amp; Roll (deg)</p>
           </div>
           <div className="p-4 rounded-xl bg-neutral-900/90 border border-neutral-800">
             <p className="text-xs text-neutral-400 font-medium uppercase tracking-wider">Gaze Tracking</p>
-            <p className="text-xl sm:text-2xl font-bold text-neutral-100 mt-1">EAR & Iris</p>
-            <p className="text-[11px] text-neutral-500 mt-0.5">Horizontal/Vertical vectors</p>
+            <p className="text-xl sm:text-2xl font-bold text-neutral-100 mt-1">EAR &amp; Iris</p>
+            <p className="text-[11px] text-neutral-500 mt-0.5">Palpebral aperture vectors</p>
           </div>
           <div className="p-4 rounded-xl bg-neutral-900/90 border border-neutral-800">
-            <p className="text-xs text-neutral-400 font-medium uppercase tracking-wider">Privacy Model</p>
-            <p className="text-xl sm:text-2xl font-bold text-emerald-400 mt-1">100% Local</p>
-            <p className="text-[11px] text-neutral-500 mt-0.5">Zero cloud transmission</p>
+            <p className="text-xs text-neutral-400 font-medium uppercase tracking-wider">Cloud Hosting</p>
+            <p className="text-xl sm:text-2xl font-bold text-emerald-400 mt-1">Railway &amp; Vercel</p>
+            <p className="text-[11px] text-neutral-500 mt-0.5">FastAPI &amp; PostgreSQL DB</p>
           </div>
         </div>
 
@@ -332,6 +353,120 @@ export const LandingPage: React.FC<Props> = ({ onStart }) => {
                     <span className="font-mono text-sky-400 text-[10px]">03.40s</span>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. REAL SYSTEM ARCHITECTURE & PRODUCTION EVIDENCE SHOWCASE */}
+      <section id="architecture" className="max-w-6xl mx-auto px-4">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-sky-950/70 border border-sky-800/80 text-sky-300 mb-3">
+            <Activity className="w-3.5 h-3.5 text-sky-400" />
+            <span>End-to-End System Design</span>
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-extrabold text-neutral-100">
+            System Architecture &amp; Production Evidence
+          </h2>
+          <p className="mt-3 text-sm sm:text-base text-neutral-400 max-w-3xl mx-auto leading-relaxed">
+            Engineered as a modular, high-throughput computer vision pipeline. Validated on genuine multi-scenario video recordings and deployed on managed cloud infrastructure.
+          </p>
+        </div>
+
+        {/* Pipeline Architecture Flow */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mb-12 text-left">
+          <div className="p-4 rounded-xl bg-neutral-900/80 border border-neutral-800 space-y-2">
+            <span className="text-[10px] font-mono text-amber-400 font-bold uppercase tracking-wider">Step 01</span>
+            <h3 className="text-xs font-bold text-neutral-100">Chunked Ingestion</h3>
+            <p className="text-[11px] text-neutral-400 leading-relaxed">1MB chunk streaming, extension verification, OpenCV codec &amp; duration validation.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-neutral-900/80 border border-neutral-800 space-y-2">
+            <span className="text-[10px] font-mono text-sky-400 font-bold uppercase tracking-wider">Step 02</span>
+            <h3 className="text-xs font-bold text-neutral-100">MediaPipe 478 Mesh</h3>
+            <p className="text-[11px] text-neutral-400 leading-relaxed">Dense 3D sub-pixel coordinates and 52 facial blendshapes extracted per sampled frame.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-neutral-900/80 border border-neutral-800 space-y-2">
+            <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-wider">Step 03</span>
+            <h3 className="text-xs font-bold text-neutral-100">solvePnP Cranial Pose</h3>
+            <p className="text-[11px] text-neutral-400 leading-relaxed">Anthropometric 3D cranial model minimization decomposing true Euler Pitch, Yaw, and Roll.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-neutral-900/80 border border-neutral-800 space-y-2">
+            <span className="text-[10px] font-mono text-purple-400 font-bold uppercase tracking-wider">Step 04</span>
+            <h3 className="text-xs font-bold text-neutral-100">FACS Action Units</h3>
+            <p className="text-[11px] text-neutral-400 leading-relaxed">Quantifiable AU12, AU1+2, AU4, AU25+26, and AU45 blink timing via geometric EAR.</p>
+          </div>
+          <div className="p-4 rounded-xl bg-neutral-900/80 border border-neutral-800 space-y-2">
+            <span className="text-[10px] font-mono text-rose-400 font-bold uppercase tracking-wider">Step 05</span>
+            <h3 className="text-xs font-bold text-neutral-100">Research PDF Dossier</h3>
+            <p className="text-[11px] text-neutral-400 leading-relaxed">ReportLab &amp; Matplotlib dynamic 4-page academic reports with real frame landmark overlays.</p>
+          </div>
+        </div>
+
+        {/* Genuine Production Screenshots Showcase */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+          {/* Card 1 */}
+          <div className="rounded-2xl bg-neutral-900/60 border border-neutral-800 overflow-hidden flex flex-col group hover:border-neutral-700 transition">
+            <div className="aspect-[16/10] overflow-hidden bg-neutral-950 relative border-b border-neutral-800">
+              <img 
+                src="/evidence/workspace_preview.png" 
+                alt="Interactive Analysis Workspace" 
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-neutral-900/90 border border-neutral-800 text-[10px] font-mono text-amber-400">
+                LIVE WORKSPACE
+              </div>
+            </div>
+            <div className="p-4 space-y-1.5 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="text-sm font-bold text-neutral-100">Real-Time Analysis Workspace</h3>
+                <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
+                  Interactive frame-accurate video player synchronized with continuous 3D Euler angle waveforms, live 478 MediaPipe landmark vector canvas, and FACS action units.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className="rounded-2xl bg-neutral-900/60 border border-neutral-800 overflow-hidden flex flex-col group hover:border-neutral-700 transition">
+            <div className="aspect-[16/10] overflow-hidden bg-neutral-950 relative border-b border-neutral-800">
+              <img 
+                src="/evidence/compare_preview.png" 
+                alt="Session Comparison" 
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-neutral-900/90 border border-neutral-800 text-[10px] font-mono text-sky-400">
+                COMPARATIVE QA
+              </div>
+            </div>
+            <div className="p-4 space-y-1.5 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="text-sm font-bold text-neutral-100">Dual-Session Comparative Radar</h3>
+                <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
+                  Quantifies longitudinal behavioral shifts across head stability, eye contact percentage, and expressive dynamics with automated delta analysis.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="rounded-2xl bg-neutral-900/60 border border-neutral-800 overflow-hidden flex flex-col group hover:border-neutral-700 transition">
+            <div className="aspect-[16/10] overflow-hidden bg-neutral-950 relative border-b border-neutral-800">
+              <img 
+                src="/evidence/report_preview.png" 
+                alt="Research-Grade PDF Report" 
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-neutral-900/90 border border-neutral-800 text-[10px] font-mono text-emerald-400">
+                PDF DOSSIER
+              </div>
+            </div>
+            <div className="p-4 space-y-1.5 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="text-sm font-bold text-neutral-100">Research-Grade PDF Dossier</h3>
+                <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
+                  Generates publication-ready academic reports incorporating Matplotlib time series plots, actual source video frame landmark wireframes, and chronological events.
+                </p>
               </div>
             </div>
           </div>
@@ -603,12 +738,13 @@ export const LandingPage: React.FC<Props> = ({ onStart }) => {
 
           {/* Product Links */}
           <div className="space-y-2.5">
-            <p className="text-xs font-bold text-neutral-200 uppercase tracking-wider">Platform</p>
+            <p className="text-xs font-bold text-neutral-200 uppercase tracking-wider">Platform &amp; Code</p>
             <ul className="space-y-1.5 text-xs text-neutral-400">
+              <li><a href="https://github.com/Devviknesh/VisionKinematics" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition">GitHub Repository</a></li>
+              <li><a href="https://backend-production-3edefbc4.up.railway.app/docs" target="_blank" rel="noopener noreferrer" className="hover:text-sky-400 transition">Swagger API Documentation</a></li>
+              <li><button onClick={() => scrollToSection('architecture')} className="hover:text-amber-400 transition">System Architecture</button></li>
               <li><button onClick={() => scrollToSection('features')} className="hover:text-amber-400 transition">Facial Mesh 478</button></li>
               <li><button onClick={() => scrollToSection('features')} className="hover:text-amber-400 transition">Head Pose solvePnP</button></li>
-              <li><button onClick={() => scrollToSection('features')} className="hover:text-amber-400 transition">Gaze Direction (EAR)</button></li>
-              <li><button onClick={() => scrollToSection('features')} className="hover:text-amber-400 transition">Event Stream</button></li>
               <li><button onClick={() => scrollToSection('features')} className="hover:text-amber-400 transition">Executive Reports</button></li>
             </ul>
           </div>

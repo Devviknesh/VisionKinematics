@@ -169,10 +169,10 @@ class VideoProcessor:
                 
                 axis_length = 80.0 # mm
                 axis_points = np.array([
-                    (0.0, 0.0, 0.0),          # Nose tip origin
-                    (axis_length, 0.0, 0.0),  # X-axis (Pitch/Roll)
-                    (0.0, axis_length, 0.0),  # Y-axis
-                    (0.0, 0.0, axis_length)   # Z-axis (pointing outward from face)
+                    (0.0, 0.0, 0.0),           # Nose tip origin
+                    (axis_length, 0.0, 0.0),   # X-axis (Pitch/Roll)
+                    (0.0, axis_length, 0.0),   # Y-axis (Yaw)
+                    (0.0, 0.0, -axis_length)   # Z-axis (pointing outward from face towards camera)
                 ], dtype=np.float64)
 
                 proj_pts, _ = cv2.projectPoints(axis_points, rvec, tvec, cam_mat, dist_coeffs)

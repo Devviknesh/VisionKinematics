@@ -11,6 +11,9 @@ from app.routers import auth, videos, analysis, reports
 async def lifespan(app: FastAPI):
     # Initialize database tables
     init_db()
+    # Reconcile any interrupted jobs from previous server runs
+    from app.processing.task_queue import task_manager
+    task_manager.recover_orphaned_sessions()
     yield
 
 app = FastAPI(
