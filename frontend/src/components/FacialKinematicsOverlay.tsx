@@ -1,6 +1,6 @@
 import React from 'react';
 import { FacialMetric } from '../types';
-import { Activity, ShieldCheck } from 'lucide-react';
+import { Activity } from 'lucide-react';
 
 interface Props {
   metric: FacialMetric | null;
@@ -10,8 +10,8 @@ interface Props {
 export const FacialKinematicsOverlay: React.FC<Props> = ({ metric, className = '' }) => {
   if (!metric || !metric.face_detected) {
     return (
-      <div className={`flex flex-col items-center justify-center p-6 text-neutral-500 font-mono text-xs ${className}`}>
-        <Activity className="w-8 h-8 text-neutral-700 animate-pulse mb-2" />
+      <div className={`flex flex-col items-center justify-center p-6 text-[#A1A1AA] font-mono text-xs ${className}`}>
+        <Activity className="w-8 h-8 text-[#A1A1AA]/40 animate-pulse mb-2" />
         <span>No Face Tracking in Current Frame</span>
       </div>
     );
@@ -99,10 +99,10 @@ export const FacialKinematicsOverlay: React.FC<Props> = ({ metric, className = '
   return (
     <div className={`relative flex flex-col items-center justify-center select-none ${className}`}>
       {/* 2D Mesh Canvas / SVG */}
-      <div className="relative w-48 h-48 bg-neutral-950/80 rounded-2xl border border-neutral-800 p-2 flex items-center justify-center shadow-inner overflow-hidden">
+      <div className="relative w-48 h-48 bg-[#08090C] rounded-2xl border border-[#1E1E2A] p-2 flex items-center justify-center shadow-inner overflow-hidden">
         
         {/* Background Grid */}
-        <svg className="absolute inset-0 w-full h-full stroke-neutral-900/60 pointer-events-none" width="100%" height="100%">
+        <svg className="absolute inset-0 w-full h-full stroke-[#1E1E2A]/50 pointer-events-none" width="100%" height="100%">
           <defs>
             <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
               <path d="M 20 0 L 0 0 0 20" fill="none" strokeWidth="0.5" />
@@ -118,16 +118,16 @@ export const FacialKinematicsOverlay: React.FC<Props> = ({ metric, className = '
             className="w-full h-full transition-all duration-75"
           >
             {/* Real Canonical FaceMesh Contours */}
-            <path d={realMeshGeometry.faceOval} fill="none" stroke="#f59e0b" strokeWidth="1.2" opacity="0.8" />
-            <path d={realMeshGeometry.leftEyebrow} fill="none" stroke="#38bdf8" strokeWidth="1.6" strokeLinecap="round" />
-            <path d={realMeshGeometry.rightEyebrow} fill="none" stroke="#38bdf8" strokeWidth="1.6" strokeLinecap="round" />
-            <path d={realMeshGeometry.leftEye} fill="rgba(56, 189, 248, 0.15)" stroke="#38bdf8" strokeWidth="1.2" />
-            <path d={realMeshGeometry.rightEye} fill="rgba(56, 189, 248, 0.15)" stroke="#38bdf8" strokeWidth="1.2" />
+            <path d={realMeshGeometry.faceOval} fill="none" stroke="#8B5CF6" strokeWidth="1.2" opacity="0.8" />
+            <path d={realMeshGeometry.leftEyebrow} fill="none" stroke="#a78bfa" strokeWidth="1.6" strokeLinecap="round" />
+            <path d={realMeshGeometry.rightEyebrow} fill="none" stroke="#a78bfa" strokeWidth="1.6" strokeLinecap="round" />
+            <path d={realMeshGeometry.leftEye} fill="rgba(167, 139, 250, 0.15)" stroke="#a78bfa" strokeWidth="1.2" />
+            <path d={realMeshGeometry.rightEye} fill="rgba(167, 139, 250, 0.15)" stroke="#a78bfa" strokeWidth="1.2" />
             {realMeshGeometry.leftIris && <path d={realMeshGeometry.leftIris} fill="#38bdf8" stroke="#0284c7" strokeWidth="1" />}
             {realMeshGeometry.rightIris && <path d={realMeshGeometry.rightIris} fill="#38bdf8" stroke="#0284c7" strokeWidth="1" />}
-            <path d={realMeshGeometry.noseBridge} fill="none" stroke="#a3a3a3" strokeWidth="1.2" strokeLinejoin="round" />
-            <path d={realMeshGeometry.lipsOuter} fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" strokeWidth="1.4" strokeLinejoin="round" />
-            <path d={realMeshGeometry.lipsInner} fill="none" stroke="#10b981" strokeWidth="0.8" />
+            <path d={realMeshGeometry.noseBridge} fill="none" stroke="#A1A1AA" strokeWidth="1.2" strokeLinejoin="round" />
+            <path d={realMeshGeometry.lipsOuter} fill="rgba(139, 92, 246, 0.1)" stroke="#8B5CF6" strokeWidth="1.4" strokeLinejoin="round" />
+            <path d={realMeshGeometry.lipsInner} fill="none" stroke="#8B5CF6" strokeWidth="0.8" />
 
             {/* Real MediaPipe 478 Landmark Dots */}
             {realMeshGeometry.points.map(([px, py], i) => (
@@ -136,13 +136,13 @@ export const FacialKinematicsOverlay: React.FC<Props> = ({ metric, className = '
                 cx={px} 
                 cy={py} 
                 r={i % 5 === 0 ? 1.0 : 0.6} 
-                fill={i >= 468 ? "#38bdf8" : (i === 1 || i === 152 ? "#f59e0b" : "#60a5fa")} 
+                fill={i >= 468 ? "#38bdf8" : (i === 1 || i === 152 ? "#8B5CF6" : "#a78bfa")} 
                 opacity={i % 5 === 0 ? 0.8 : 0.45} 
               />
             ))}
 
             {/* Pose Vector projecting from Real Nose Tip */}
-            <circle cx={realMeshGeometry.noseTip[0]} cy={realMeshGeometry.noseTip[1]} r={2.5} fill="#f59e0b" />
+            <circle cx={realMeshGeometry.noseTip[0]} cy={realMeshGeometry.noseTip[1]} r={2.5} fill="#8B5CF6" />
             <line 
               x1={realMeshGeometry.noseTip[0]} 
               y1={realMeshGeometry.noseTip[1]} 
@@ -160,39 +160,39 @@ export const FacialKinematicsOverlay: React.FC<Props> = ({ metric, className = '
             className="w-full h-full transition-transform duration-75"
             style={{ transform: `rotate(${roll.toFixed(1)}deg)` }}
           >
-            <ellipse cx={cx} cy={cy} rx={52} ry={68} fill="none" stroke="#f59e0b" strokeWidth="1.5" strokeDasharray="3 3" className="opacity-70" />
-            <line x1={cx} y1={cy - 68} x2={cx} y2={cy + 68} stroke="#f59e0b" strokeWidth="0.75" strokeOpacity="0.4" />
-            <line x1={cx - 52} y1={cy} x2={cx + 52} y2={cy} stroke="#f59e0b" strokeWidth="0.75" strokeOpacity="0.4" />
-            <path d={`M ${cx - 36} ${browY + 2} Q ${cx - 22} ${browY - 4} ${cx - 8} ${browY}`} fill="none" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" />
-            <path d={`M ${cx + 8} ${browY} Q ${cx + 22} ${browY - 4} ${cx + 36} ${browY + 2}`} fill="none" stroke="#38bdf8" strokeWidth="2.5" strokeLinecap="round" />
-            <ellipse cx={cx - 22} cy={cy - 12} rx={eyeW} ry={eyeH} fill="#0369a1" fillOpacity="0.25" stroke="#38bdf8" strokeWidth="1.5" />
+            <ellipse cx={cx} cy={cy} rx={52} ry={68} fill="none" stroke="#8B5CF6" strokeWidth="1.5" strokeDasharray="3 3" className="opacity-70" />
+            <line x1={cx} y1={cy - 68} x2={cx} y2={cy + 68} stroke="#8B5CF6" strokeWidth="0.75" strokeOpacity="0.4" />
+            <line x1={cx - 52} y1={cy} x2={cx + 52} y2={cy} stroke="#8B5CF6" strokeWidth="0.75" strokeOpacity="0.4" />
+            <path d={`M ${cx - 36} ${browY + 2} Q ${cx - 22} ${browY - 4} ${cx - 8} ${browY}`} fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" />
+            <path d={`M ${cx + 8} ${browY} Q ${cx + 22} ${browY - 4} ${cx + 36} ${browY + 2}`} fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" />
+            <ellipse cx={cx - 22} cy={cy - 12} rx={eyeW} ry={eyeH} fill="#7c3aed" fillOpacity="0.25" stroke="#a78bfa" strokeWidth="1.5" />
             {ear > 0.18 && <circle cx={cx - 22 + gazeShiftX} cy={cy - 12 + gazeShiftY} r={3.5} fill="#38bdf8" />}
-            <ellipse cx={cx + 22} cy={cy - 12} rx={eyeW} ry={eyeH} fill="#0369a1" fillOpacity="0.25" stroke="#38bdf8" strokeWidth="1.5" />
+            <ellipse cx={cx + 22} cy={cy - 12} rx={eyeW} ry={eyeH} fill="#7c3aed" fillOpacity="0.25" stroke="#a78bfa" strokeWidth="1.5" />
             {ear > 0.18 && <circle cx={cx + 22 + gazeShiftX} cy={cy - 12 + gazeShiftY} r={3.5} fill="#38bdf8" />}
-            <path d={`M ${cx} ${cy - 10} L ${cx - 4} ${cy + 12} L ${cx + 4} ${cy + 12} Z`} fill="none" stroke="#a3a3a3" strokeWidth="1.5" strokeLinejoin="round" />
-            <path d={`M ${cx - 26} ${cy + 34 - smileOffset * 0.4} Q ${cx} ${cy + 34 + smileOffset} ${cx + 26} ${cy + 34 - smileOffset * 0.4}`} fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" />
-            {mouthOpen > 0.15 && <path d={`M ${cx - 20} ${cy + 34} Q ${cx} ${cy + 34 + mouthH} ${cx + 20} ${cy + 34}`} fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" strokeWidth="1.5" />}
-            <circle cx={cx} cy={cy} r={2} fill="#f59e0b" />
+            <path d={`M ${cx} ${cy - 10} L ${cx - 4} ${cy + 12} L ${cx + 4} ${cy + 12} Z`} fill="none" stroke="#A1A1AA" strokeWidth="1.5" strokeLinejoin="round" />
+            <path d={`M ${cx - 26} ${cy + 34 - smileOffset * 0.4} Q ${cx} ${cy + 34 + smileOffset} ${cx + 26} ${cy + 34 - smileOffset * 0.4}`} fill="none" stroke="#8B5CF6" strokeWidth="2.5" strokeLinecap="round" />
+            {mouthOpen > 0.15 && <path d={`M ${cx - 20} ${cy + 34} Q ${cx} ${cy + 34 + mouthH} ${cx + 20} ${cy + 34}`} fill="rgba(139, 92, 246, 0.2)" stroke="#8B5CF6" strokeWidth="1.5" />}
+            <circle cx={cx} cy={cy} r={2} fill="#8B5CF6" />
             <line x1={cx} y1={cy} x2={cx + yaw * 1.2} y2={cy + pitch * 1.2} stroke="#f43f5e" strokeWidth="2" strokeLinecap="round" />
           </svg>
         )}
 
         {/* Live Tracking HUD Badge */}
-        <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-neutral-900/90 border border-neutral-800 text-[10px] font-mono text-amber-400">
+        <div className="absolute top-2 left-2 flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#101116]/90 border border-[#1E1E2A] text-[10px] font-mono text-violet-400">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
           <span>{hasRealLandmarks ? "REAL MESH 478" : "KINEMATICS"}</span>
         </div>
 
         {/* Roll Angle Badge */}
-        <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-neutral-900/90 border border-neutral-800 text-[10px] font-mono text-neutral-400">
+        <div className="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-[#101116]/90 border border-[#1E1E2A] text-[10px] font-mono text-[#A1A1AA]">
           Roll: {roll > 0 ? `+${roll.toFixed(1)}°` : `${roll.toFixed(1)}°`}
         </div>
       </div>
 
       {/* Orientation Angles Row */}
-      <div className="flex items-center justify-between w-full max-w-[200px] mt-2 text-[11px] font-mono text-neutral-400 px-1">
+      <div className="flex items-center justify-between w-full max-w-[200px] mt-2 text-[11px] font-mono text-[#A1A1AA] px-1">
         <span title="Yaw (Horizontal Turn)">
-          Y: <strong className="text-amber-400">{yaw > 0 ? `+${yaw.toFixed(1)}°` : `${yaw.toFixed(1)}°`}</strong>
+          Y: <strong className="text-violet-400">{yaw > 0 ? `+${yaw.toFixed(1)}°` : `${yaw.toFixed(1)}°`}</strong>
         </span>
         <span title="Pitch (Vertical Tilt)">
           P: <strong className="text-sky-400">{pitch > 0 ? `+${pitch.toFixed(1)}°` : `${pitch.toFixed(1)}°`}</strong>
@@ -203,7 +203,7 @@ export const FacialKinematicsOverlay: React.FC<Props> = ({ metric, className = '
       </div>
 
       {/* Real Landmark Coordinate Attribution */}
-      <div className="mt-1 text-[9px] font-mono text-neutral-400 text-center max-w-[200px] leading-tight">
+      <div className="mt-1 text-[9px] font-mono text-[#A1A1AA] text-center max-w-[200px] leading-tight">
         {hasRealLandmarks 
           ? "Live MediaPipe 478 Normalized Points" 
           : "Real-time Orientation & Blendshapes"}

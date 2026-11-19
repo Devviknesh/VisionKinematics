@@ -22,14 +22,14 @@ export const StatusBadge: React.FC<Props> = ({ status, size = 'sm' }) => {
       );
     case 'processing':
       return (
-        <span className={`inline-flex items-center gap-1.5 ${px} ${py} rounded-full ${textSize} font-medium bg-amber-500/10 text-amber-400 border border-amber-500/30 shadow-sm animate-pulse`}>
+        <span className={`inline-flex items-center gap-1.5 ${px} ${py} rounded-full ${textSize} font-medium bg-violet-500/10 text-violet-400 border border-violet-500/30 shadow-sm animate-pulse`}>
           <Loader2 className={`${iconSize} animate-spin`} />
           Processing
         </span>
       );
     case 'pending':
       return (
-        <span className={`inline-flex items-center gap-1.5 ${px} ${py} rounded-full ${textSize} font-medium bg-neutral-800 text-neutral-300 border border-neutral-700 shadow-sm`}>
+        <span className={`inline-flex items-center gap-1.5 ${px} ${py} rounded-full ${textSize} font-medium bg-[#14151B] text-[#A1A1AA] border border-[#1E1E2A] shadow-sm`}>
           <Clock className={iconSize} />
           Queued
         </span>
@@ -43,14 +43,14 @@ export const StatusBadge: React.FC<Props> = ({ status, size = 'sm' }) => {
       );
     case 'cancelled':
       return (
-        <span className={`inline-flex items-center gap-1.5 ${px} ${py} rounded-full ${textSize} font-medium bg-neutral-800 text-neutral-400 border border-neutral-700 shadow-sm`}>
+        <span className={`inline-flex items-center gap-1.5 ${px} ${py} rounded-full ${textSize} font-medium bg-[#14151B] text-[#A1A1AA] border border-[#1E1E2A] shadow-sm`}>
           <XCircle className={iconSize} />
           Cancelled
         </span>
       );
     default:
       return (
-        <span className={`inline-flex items-center gap-1.5 ${px} ${py} rounded-full ${textSize} font-medium bg-neutral-800/80 text-neutral-400 border border-neutral-700/60`}>
+        <span className={`inline-flex items-center gap-1.5 ${px} ${py} rounded-full ${textSize} font-medium bg-[#14151B] text-[#A1A1AA] border border-[#1E1E2A]`}>
           <MinusCircle className={iconSize} />
           Not Analyzed
         </span>

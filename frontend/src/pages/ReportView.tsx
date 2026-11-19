@@ -4,20 +4,14 @@ import {
   FileText, 
   Download, 
   ArrowLeft, 
-  Calendar, 
-  CheckCircle2, 
   ShieldCheck, 
   AlertCircle,
   Loader2,
-  Clock,
-  Compass,
-  Eye,
-  Smile,
   Activity,
   UploadCloud
 } from 'lucide-react';
 import { api } from '../api';
-import { AnalysisResults, VideoItem } from '../types';
+import { AnalysisResults } from '../types';
 
 interface Props {
   sessionId?: string;
@@ -87,7 +81,7 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
     if (!data) return;
     setDownloading(true);
     try {
-      const filename = `Report_${data.session?.id?.slice(0, 8) || 'session'}_${data.session?.video_filename || 'video'}.pdf`;
+      const filename = `Framewise_Report_${data.session?.id?.slice(0, 8) || 'session'}_${data.session?.video_filename || 'video'}.pdf`;
       await api.downloadReportPdf(activeSessionId, filename);
     } catch (err) {
       alert('Failed to download PDF report');
@@ -100,22 +94,22 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
   if (!activeSessionId && !loading) {
     return (
       <div className="max-w-2xl mx-auto py-16 text-center space-y-6 animate-in fade-in duration-200">
-        <div className="w-16 h-16 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-amber-400 mx-auto shadow-lg">
+        <div className="w-16 h-16 rounded-2xl bg-[#101116] border border-[#1E1E2A] flex items-center justify-center text-violet-400 mx-auto shadow-lg">
           <FileText className="w-8 h-8" />
         </div>
 
         <div className="space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-100 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#F5F5F7] tracking-tight">
             No Executive Report Available
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-400 max-w-md mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#A1A1AA] max-w-md mx-auto leading-relaxed">
             Upload and analyze a recorded video to compile a publication-grade PDF report with chronological visual events.
           </p>
         </div>
 
         <button
           onClick={() => navigate('/upload')}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs transition shadow-sm"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition shadow-sm shadow-violet-500/20"
         >
           <UploadCloud className="w-4 h-4" />
           <span>Upload Video to Analyze</span>
@@ -127,8 +121,8 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
   if (loading) {
     return (
       <div className="py-24 text-center space-y-3">
-        <Activity className="w-8 h-8 text-amber-400 animate-spin mx-auto" />
-        <p className="text-xs text-neutral-400 font-mono">Compiling executive analysis dossier...</p>
+        <Activity className="w-8 h-8 text-violet-400 animate-spin mx-auto" />
+        <p className="text-xs text-[#A1A1AA] font-mono">Compiling executive analysis dossier...</p>
       </div>
     );
   }
@@ -143,7 +137,7 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
         <div>
           <button
             onClick={() => navigate('/dashboard')}
-            className="px-4 py-2 rounded-xl bg-neutral-800 text-neutral-200 text-xs font-semibold"
+            className="px-4 py-2 rounded-xl bg-[#14151B] text-[#F5F5F7] text-xs font-semibold hover:bg-[#1E1E2A] transition"
           >
             Return to Dashboard
           </button>
@@ -160,24 +154,24 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-200">
       
       {/* Top Action Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-neutral-800">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#1E1E2A]">
         <div>
           <button
             onClick={handleBack}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-400 hover:text-amber-400 mb-2 transition"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#A1A1AA] hover:text-violet-400 mb-2 transition"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Workspace</span>
           </button>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-100 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#F5F5F7] tracking-tight">
               Executive Analysis Report
             </h1>
-            <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-neutral-800 text-amber-400 border border-neutral-700">
+            <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#101116] text-violet-400 border border-violet-500/25">
               PDF Ready
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-neutral-400 mt-1">
+          <p className="text-xs sm:text-sm text-[#A1A1AA] mt-1">
             Official computer vision documentation and observable kinematics audit.
           </p>
         </div>
@@ -185,7 +179,7 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
         <button
           onClick={handleDownload}
           disabled={downloading}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs sm:text-sm transition shadow-sm shadow-amber-400/20 disabled:opacity-50 self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs sm:text-sm transition shadow-sm shadow-violet-500/20 disabled:opacity-50 self-start sm:self-auto"
         >
           {downloading ? (
             <>
@@ -202,77 +196,77 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
       </div>
 
       {/* Printable Report Paper / Dossier View */}
-      <div className="rounded-2xl bg-neutral-900 border border-neutral-700 p-8 sm:p-12 shadow-2xl space-y-8 text-neutral-200 text-xs sm:text-sm">
+      <div className="rounded-2xl bg-[#101116] border border-[#1E1E2A] p-8 sm:p-12 shadow-2xl space-y-8 text-[#F5F5F7] text-xs sm:text-sm">
         
         {/* Document Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-neutral-800 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#1E1E2A] gap-4">
           <div>
-            <div className="flex items-center gap-2 text-amber-400 font-bold text-lg">
+            <div className="flex items-center gap-2 text-violet-400 font-bold text-lg">
               <FileText className="w-5 h-5" />
-              <span>VisionKinematics Research Dossier</span>
+              <span>Framewise Research Dossier</span>
             </div>
-            <p className="text-xs text-neutral-400 mt-0.5">Automated Non-Verbal Communication Analysis</p>
+            <p className="text-xs text-[#A1A1AA] mt-0.5">Visual Intelligence, Made Measurable</p>
           </div>
 
-          <div className="text-left sm:text-right font-mono text-xs text-neutral-400 space-y-0.5">
-            <p><span className="text-neutral-500">SESSION ID:</span> {session?.id || activeSessionId}</p>
-            <p><span className="text-neutral-500">DATE:</span> {new Date().toLocaleDateString()}</p>
-            <p><span className="text-neutral-500">EXECUTION:</span> 100% Local (OpenCV 5 / MediaPipe)</p>
+          <div className="text-left sm:text-right font-mono text-xs text-[#A1A1AA] space-y-0.5">
+            <p><span className="text-[#A1A1AA]/60">SESSION ID:</span> {session?.id || activeSessionId}</p>
+            <p><span className="text-[#A1A1AA]/60">DATE:</span> {new Date().toLocaleDateString()}</p>
+            <p><span className="text-[#A1A1AA]/60">EXECUTION:</span> Production CV (OpenCV / MediaPipe)</p>
           </div>
         </div>
 
         {/* Video Metadata Table */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-violet-400">
             1. Video Metadata &amp; Processing Parameters
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="p-3 rounded-xl bg-neutral-950 border border-neutral-800">
-              <span className="text-[10px] text-neutral-500 uppercase block">Target File</span>
-              <span className="text-xs font-semibold text-neutral-200 truncate block mt-0.5">{session?.video_filename || 'Unknown'}</span>
+            <div className="p-3 rounded-xl bg-[#08090C] border border-[#1E1E2A]">
+              <span className="text-[10px] text-[#A1A1AA] uppercase block">Target File</span>
+              <span className="text-xs font-semibold text-[#F5F5F7] truncate block mt-0.5">{session?.video_filename || 'Unknown'}</span>
             </div>
-            <div className="p-3 rounded-xl bg-neutral-950 border border-neutral-800">
-              <span className="text-[10px] text-neutral-500 uppercase block">Footage Duration</span>
-              <span className="text-xs font-semibold text-neutral-200 block mt-0.5">{(session?.video_duration ?? 0).toFixed(1)} seconds</span>
+            <div className="p-3 rounded-xl bg-[#08090C] border border-[#1E1E2A]">
+              <span className="text-[10px] text-[#A1A1AA] uppercase block">Footage Duration</span>
+              <span className="text-xs font-semibold text-[#F5F5F7] block mt-0.5">{(session?.video_duration ?? 0).toFixed(1)} seconds</span>
             </div>
-            <div className="p-3 rounded-xl bg-neutral-950 border border-neutral-800">
-              <span className="text-[10px] text-neutral-500 uppercase block">Processing Duration</span>
-              <span className="text-xs font-semibold text-amber-400 block mt-0.5">{(session?.processing_duration ?? 0.52).toFixed(2)} seconds</span>
+            <div className="p-3 rounded-xl bg-[#08090C] border border-[#1E1E2A]">
+              <span className="text-[10px] text-[#A1A1AA] uppercase block">Processing Duration</span>
+              <span className="text-xs font-semibold text-violet-400 block mt-0.5">{(session?.processing_duration ?? 0.52).toFixed(2)} seconds</span>
             </div>
-            <div className="p-3 rounded-xl bg-neutral-950 border border-neutral-800">
-              <span className="text-[10px] text-neutral-500 uppercase block">Sampling Density</span>
-              <span className="text-xs font-semibold text-neutral-200 block mt-0.5">5.0 Sample FPS</span>
+            <div className="p-3 rounded-xl bg-[#08090C] border border-[#1E1E2A]">
+              <span className="text-[10px] text-[#A1A1AA] uppercase block">Sampling Density</span>
+              <span className="text-xs font-semibold text-[#F5F5F7] block mt-0.5">5.0 Sample FPS</span>
             </div>
           </div>
         </div>
 
         {/* Session Summary Statistics */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-violet-400">
             2. Quantitative Kinematic Summary
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
-            <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 text-center">
-              <span className="text-[10px] text-neutral-500 uppercase tracking-wider block">Face Tracking</span>
+            <div className="p-4 rounded-xl bg-[#08090C] border border-[#1E1E2A] text-center">
+              <span className="text-[10px] text-[#A1A1AA] uppercase tracking-wider block">Face Tracking</span>
               <span className="text-2xl font-bold text-emerald-400 mt-1 block">
                 {summary_statistics?.face_tracking_percentage ?? 100}%
               </span>
             </div>
-            <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 text-center">
-              <span className="text-[10px] text-neutral-500 uppercase tracking-wider block">Mean EAR Index</span>
+            <div className="p-4 rounded-xl bg-[#08090C] border border-[#1E1E2A] text-center">
+              <span className="text-[10px] text-[#A1A1AA] uppercase tracking-wider block">Mean EAR Index</span>
               <span className="text-2xl font-bold text-sky-400 mt-1 block">
                 {summary_statistics?.mean_eye_aspect_ratio?.toFixed(3) ?? '0.000'}
               </span>
             </div>
-            <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 text-center">
-              <span className="text-[10px] text-neutral-500 uppercase tracking-wider block">Smile Ratio</span>
-              <span className="text-2xl font-bold text-amber-400 mt-1 block">
+            <div className="p-4 rounded-xl bg-[#08090C] border border-[#1E1E2A] text-center">
+              <span className="text-[10px] text-[#A1A1AA] uppercase tracking-wider block">Smile Ratio</span>
+              <span className="text-2xl font-bold text-violet-400 mt-1 block">
                 {summary_statistics?.smile_frames_ratio ?? 0}%
               </span>
             </div>
-            <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 text-center">
-              <span className="text-[10px] text-neutral-500 uppercase tracking-wider block">Total Events</span>
-              <span className="text-2xl font-bold text-neutral-100 mt-1 block">
+            <div className="p-4 rounded-xl bg-[#08090C] border border-[#1E1E2A] text-center">
+              <span className="text-[10px] text-[#A1A1AA] uppercase tracking-wider block">Total Events</span>
+              <span className="text-2xl font-bold text-[#F5F5F7] mt-1 block">
                 {events?.length ?? 0}
               </span>
             </div>
@@ -282,37 +276,37 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
         {/* Head Pose & Gaze Distributions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-violet-400">
               3. Head Pose Orientation Breakdown
             </h3>
-            <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 space-y-2 font-mono text-xs">
+            <div className="p-4 rounded-xl bg-[#08090C] border border-[#1E1E2A] space-y-2 font-mono text-xs">
               {Object.keys(poseDist).length > 0 ? (
                 Object.keys(poseDist).map((key) => (
-                  <div key={key} className="flex justify-between items-center text-neutral-300">
-                    <span className="text-neutral-400">{key}</span>
-                    <span className="font-bold text-amber-400">{poseDist[key]}%</span>
+                  <div key={key} className="flex justify-between items-center text-[#F5F5F7]">
+                    <span className="text-[#A1A1AA]">{key}</span>
+                    <span className="font-bold text-violet-400">{poseDist[key]}%</span>
                   </div>
                 ))
               ) : (
-                <p className="text-neutral-500 text-xs">No pose distributions recorded.</p>
+                <p className="text-[#A1A1AA] text-xs">No pose distributions recorded.</p>
               )}
             </div>
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-violet-400">
               4. Approximate Gaze Breakdown
             </h3>
-            <div className="p-4 rounded-xl bg-neutral-950 border border-neutral-800 space-y-2 font-mono text-xs">
+            <div className="p-4 rounded-xl bg-[#08090C] border border-[#1E1E2A] space-y-2 font-mono text-xs">
               {Object.keys(gazeDist).length > 0 ? (
                 Object.keys(gazeDist).map((key) => (
-                  <div key={key} className="flex justify-between items-center text-neutral-300">
-                    <span className="text-neutral-400">{key}</span>
+                  <div key={key} className="flex justify-between items-center text-[#F5F5F7]">
+                    <span className="text-[#A1A1AA]">{key}</span>
                     <span className="font-bold text-sky-400">{gazeDist[key]}%</span>
                   </div>
                 ))
               ) : (
-                <p className="text-neutral-500 text-xs">No gaze distributions recorded.</p>
+                <p className="text-[#A1A1AA] text-xs">No gaze distributions recorded.</p>
               )}
             </div>
           </div>
@@ -321,15 +315,15 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
         {/* Chronological Event Log Table */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-amber-400">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-violet-400">
               5. Chronological Visual Event Log (Sample)
             </h3>
-            <span className="text-[11px] text-neutral-500 font-mono">Showing {Math.min(10, events?.length || 0)} of {events?.length || 0}</span>
+            <span className="text-[11px] text-[#A1A1AA] font-mono">Showing {Math.min(10, events?.length || 0)} of {events?.length || 0}</span>
           </div>
 
-          <div className="rounded-xl border border-neutral-800 overflow-hidden">
+          <div className="rounded-xl border border-[#1E1E2A] overflow-hidden">
             <table className="w-full text-left text-xs">
-              <thead className="bg-neutral-950 text-neutral-400 uppercase text-[10px] tracking-wider font-mono">
+              <thead className="bg-[#08090C] text-[#A1A1AA] uppercase text-[10px] tracking-wider font-mono">
                 <tr>
                   <th className="p-3">Time</th>
                   <th className="p-3">Category</th>
@@ -337,13 +331,13 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
                   <th className="p-3">Description</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-800/80 bg-neutral-900/60 font-mono">
+              <tbody className="divide-y divide-[#1E1E2A] bg-[#101116] font-mono">
                 {(events || []).slice(0, 10).map((ev) => (
-                  <tr key={ev.id} className="hover:bg-neutral-850/50">
-                    <td className="p-3 text-amber-400 font-bold">{(ev.timestamp ?? 0).toFixed(2)}s</td>
-                    <td className="p-3 uppercase text-[10px] text-neutral-400">{ev.event_category}</td>
-                    <td className="p-3 font-semibold text-neutral-200">{ev.event_type}</td>
-                    <td className="p-3 text-neutral-400 font-sans">{ev.event_description}</td>
+                  <tr key={ev.id} className="hover:bg-[#14151B]">
+                    <td className="p-3 text-violet-400 font-bold">{(ev.timestamp ?? 0).toFixed(2)}s</td>
+                    <td className="p-3 uppercase text-[10px] text-[#A1A1AA]">{ev.event_category}</td>
+                    <td className="p-3 font-semibold text-[#F5F5F7]">{ev.event_type}</td>
+                    <td className="p-3 text-[#A1A1AA] font-sans">{ev.event_description}</td>
                   </tr>
                 ))}
               </tbody>
@@ -352,10 +346,10 @@ export const ReportView: React.FC<Props> = ({ sessionId: propSessionId, onBack }
         </div>
 
         {/* Legal & Ethical Boundaries */}
-        <div className="p-5 rounded-xl bg-neutral-950 border border-neutral-800 flex items-start gap-3.5 text-neutral-400 text-xs leading-relaxed">
-          <ShieldCheck className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+        <div className="p-5 rounded-xl bg-[#08090C] border border-[#1E1E2A] flex items-start gap-3.5 text-[#A1A1AA] text-xs leading-relaxed">
+          <ShieldCheck className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
           <div>
-            <span className="font-bold text-neutral-200">Ethical &amp; Scientific Disclaimer:</span>{' '}
+            <span className="font-bold text-[#F5F5F7]">Ethical &amp; Scientific Disclaimer:</span>{' '}
             Measurements in this document represent <b>physical surface geometric kinematics</b> (Euler rotational degrees, 
             eyelid distances, and facial muscle displacements). The software strictly does not infer mental health, personality, 
             honesty, intelligence, deception, or definitive emotional states.

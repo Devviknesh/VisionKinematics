@@ -82,13 +82,13 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
             onClick={() => handleNavClick('/')}
             className="flex items-center gap-3 cursor-pointer group"
           >
-            <div className="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400 group-hover:bg-amber-400 group-hover:text-neutral-950 transition-all duration-200 shadow-sm shadow-amber-400/10">
+            <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/30 flex items-center justify-center text-violet-400 group-hover:bg-violet-500 group-hover:text-neutral-950 transition-all duration-200 shadow-sm shadow-violet-500/10">
               <ScanFace className="w-5 h-5 transition-transform group-hover:scale-110" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-lg sm:text-xl tracking-tight text-neutral-100 group-hover:text-amber-400 transition-colors">
-                  VisionKinematics
+                <span className="font-bold text-lg sm:text-xl tracking-tight text-neutral-100 group-hover:text-violet-400 transition-colors">
+                  Framewise
                 </span>
                 <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-neutral-800 text-neutral-300 border border-neutral-700">
                   CV 3D
@@ -113,8 +113,8 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
                   }}
                   className={`text-sm font-medium transition-colors ${
                     link.isRoute
-                      ? 'text-amber-400 font-bold hover:text-amber-300'
-                      : 'text-neutral-400 hover:text-amber-400'
+                      ? 'text-violet-400 font-bold hover:text-violet-300'
+                      : 'text-neutral-400 hover:text-violet-400'
                   }`}
                 >
                   {link.label}
@@ -132,11 +132,11 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
                     onClick={() => handleNavClick(item.path)}
                     className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all ${
                       isActive
-                        ? 'bg-neutral-800 text-amber-400 border border-neutral-700/80 shadow-sm'
+                        ? 'bg-neutral-800 text-violet-400 border border-neutral-700/80 shadow-sm'
                         : 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800/50'
                     }`}
                   >
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-amber-400' : 'text-neutral-400'}`} />
+                    <Icon className={`w-4 h-4 ${isActive ? 'text-violet-400' : 'text-neutral-400'}`} />
                     <span>{item.label}</span>
                   </button>
                 );
@@ -159,13 +159,13 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
                   title="Profile &amp; Settings"
                   className="flex items-center gap-2 text-xs text-neutral-200 bg-neutral-850 hover:bg-neutral-800 px-3 py-1.5 rounded-lg border border-neutral-700/70 transition-colors"
                 >
-                  <UserIcon className="w-3.5 h-3.5 text-amber-400" />
+                  <UserIcon className="w-3.5 h-3.5 text-violet-400" />
                   <span className="font-medium max-w-[110px] truncate">{user?.name}</span>
                 </button>
                 <button
                   onClick={() => handleNavClick('/settings')}
                   title="Account Settings"
-                  className="p-1.5 text-neutral-400 hover:text-amber-400 hover:bg-neutral-800 rounded-lg transition-colors border border-transparent hover:border-neutral-700"
+                  className="p-1.5 text-neutral-400 hover:text-violet-400 hover:bg-neutral-800 rounded-lg transition-colors border border-transparent hover:border-neutral-700"
                 >
                   <Settings className="w-4 h-4" />
                 </button>
@@ -193,7 +193,7 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
                       onOpenAuth();
                     }
                   }}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-amber-400 hover:bg-amber-300 text-neutral-950 transition-all shadow-sm shadow-amber-400/20"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-violet-600 hover:bg-violet-500 text-white transition-all shadow-sm shadow-violet-500/20"
                 >
                   <span>Get Started</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -226,10 +226,10 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
             <button
               onClick={() => handleNavClick('/')}
               className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-left ${
-                isLanding ? 'bg-neutral-800 text-amber-400 font-semibold' : 'text-neutral-300 hover:bg-neutral-850'
+                isLanding ? 'bg-neutral-800 text-violet-400 font-semibold' : 'text-neutral-300 hover:bg-neutral-850'
               }`}
             >
-              <Sparkles className="w-4 h-4 text-amber-400" />
+              <Sparkles className="w-4 h-4 text-violet-400" />
               <span>Landing Overview</span>
             </button>
 
@@ -241,7 +241,7 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
                   key={item.path}
                   onClick={() => handleNavClick(item.path)}
                   className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-left ${
-                    isActive ? 'bg-neutral-800 text-amber-400 font-semibold' : 'text-neutral-300 hover:bg-neutral-850'
+                    isActive ? 'bg-neutral-800 text-violet-400 font-semibold' : 'text-neutral-300 hover:bg-neutral-850'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -256,15 +256,15 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
               <div className="flex items-center justify-between p-2 rounded-lg bg-neutral-900 border border-neutral-800">
                 <button
                   onClick={() => handleNavClick('/settings')}
-                  className="flex items-center gap-2 text-sm text-neutral-200 text-left hover:text-amber-400 transition"
+                  className="flex items-center gap-2 text-sm text-neutral-200 text-left hover:text-violet-400 transition"
                 >
-                  <UserIcon className="w-4 h-4 text-amber-400" />
+                  <UserIcon className="w-4 h-4 text-violet-400" />
                   <span className="font-medium truncate">{user?.name}</span>
                 </button>
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => handleNavClick('/settings')}
-                    className="p-1.5 text-neutral-400 hover:text-amber-400 rounded transition"
+                    className="p-1.5 text-neutral-400 hover:text-violet-400 rounded transition"
                     title="Settings"
                   >
                     <Settings className="w-4 h-4" />
@@ -293,7 +293,7 @@ export const Navbar: React.FC<Props> = ({ onOpenAuth }) => {
                     setMobileMenuOpen(false);
                     handleNavClick('/upload');
                   }}
-                  className="w-full py-2.5 text-center text-xs font-semibold text-neutral-950 bg-amber-400 rounded-lg shadow-sm"
+                  className="w-full py-2.5 text-center text-xs font-semibold text-neutral-950 bg-violet-500 rounded-lg shadow-sm"
                 >
                   Get Started
                 </button>

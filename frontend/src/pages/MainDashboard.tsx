@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  UploadCloud, 
-  Video as VideoIcon, 
-  BarChart3, 
-  CheckCircle2, 
-  Clock, 
-  ArrowRight, 
-  Play, 
+import {
+  UploadCloud,
+  Video as VideoIcon,
+  BarChart3,
+  CheckCircle2,
+  Clock,
+  ArrowRight,
   FileText,
-  Trash2,
   AlertCircle,
   Activity,
-  Layers,
-  Sparkles,
   RefreshCw,
-  Eye,
-  Compass,
   Lock,
-  User as UserIcon
+  User as UserIcon,
 } from 'lucide-react';
 import { VideoItem } from '../types';
 import { api } from '../api';
@@ -59,9 +53,7 @@ export const MainDashboard: React.FC<Props> = ({ onOpenAuth }) => {
     }
   };
 
-  useEffect(() => {
-    fetchVideos();
-  }, [isAuthenticated]);
+  useEffect(() => { fetchVideos(); }, [isAuthenticated]);
 
   const totalVideos = videos.length;
   const completedSessions = videos.filter(v => v.session_status === 'completed').length;
@@ -70,219 +62,194 @@ export const MainDashboard: React.FC<Props> = ({ onOpenAuth }) => {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-200">
-      
-      {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-neutral-800">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-100 tracking-tight">
-              Overview Dashboard
-            </h1>
-            <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-neutral-800 text-neutral-300 border border-neutral-700">
-              SaaS Console
-            </span>
-          </div>
-          <p className="text-xs sm:text-sm text-neutral-400 mt-1">
-            Monitor real-time video processing pipelines, facial landmark events, and session analytics.
-          </p>
-        </div>
 
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-[#1E1E2A]">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#F5F5F7] tracking-tight">Dashboard</h1>
+            <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#101116] text-[#A1A1AA] border border-[#1E1E2A]">Overview</span>
+          </div>
+          <p className="text-xs text-[#A1A1AA]">Monitor video analysis sessions, facial landmark events and pipeline metrics.</p>
+        </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => fetchVideos(true)}
-            title="Refresh Data"
             disabled={refreshing}
-            className="p-2.5 rounded-xl bg-neutral-900 border border-neutral-700/80 text-neutral-300 hover:text-neutral-100 hover:bg-neutral-800 transition disabled:opacity-50"
+            className="p-2.5 rounded-xl bg-[#101116] border border-[#1E1E2A] text-[#A1A1AA] hover:text-[#F5F5F7] hover:border-[#2A2A3A] transition disabled:opacity-50"
+            title="Refresh"
           >
-            <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin text-amber-400' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin text-violet-400' : ''}`} />
           </button>
-
           <button
             onClick={() => navigate('/upload')}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs sm:text-sm transition-all shadow-sm shadow-amber-400/20"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs sm:text-sm transition shadow-sm"
           >
             <UploadCloud className="w-4 h-4" />
-            <span>Upload Recorded Video</span>
+            Upload Video
           </button>
         </div>
       </div>
 
-      {/* Unauthenticated Alert Prompt */}
+      {/* Auth Required Banner */}
       {authRequired && (
-        <div className="p-6 rounded-2xl bg-neutral-900 border border-neutral-700 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400 shrink-0">
-              <Lock className="w-6 h-6" />
+        <div className="p-5 rounded-xl bg-[#101116] border border-[#1E1E2A] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center shrink-0">
+              <Lock className="w-5 h-5 text-violet-400" />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-neutral-100">Sign In to View Your Video History</h3>
-              <p className="text-xs text-neutral-400 mt-0.5">Your video recordings and analysis sessions are securely stored with user encryption.</p>
+              <h3 className="text-sm font-bold text-[#F5F5F7]">Sign In to View Your Sessions</h3>
+              <p className="text-xs text-[#A1A1AA] mt-0.5">Your analysis sessions are stored securely per account.</p>
             </div>
           </div>
           <button
             onClick={onOpenAuth}
-            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs transition shrink-0"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition shrink-0"
           >
-            Sign In to Account
+            Sign In
           </button>
         </div>
       )}
 
+      {/* Error */}
       {error && !authRequired && (
         <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-300 text-xs flex items-center justify-between">
           <div className="flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
             <span>{error}</span>
           </div>
-          <button 
-            onClick={() => fetchVideos()} 
-            className="text-xs font-semibold text-rose-400 underline hover:text-rose-300"
-          >
-            Retry
-          </button>
+          <button onClick={() => fetchVideos()} className="text-xs font-semibold text-rose-400 underline hover:text-rose-300">Retry</button>
         </div>
       )}
 
-      {/* Metric Cards Grid */}
+      {/* Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        {/* Card 1: Total Videos */}
-        <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 hover:border-neutral-700/80 transition-colors flex items-center justify-between group">
-          <div>
-            <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Total Videos</p>
-            <p className="text-3xl font-extrabold text-neutral-100 mt-1">{totalVideos}</p>
-            <p className="text-[11px] text-neutral-500 mt-1">Uploaded &amp; validated</p>
+        {[
+          {
+            label: 'Total Videos',
+            value: totalVideos,
+            sub: 'Uploaded & validated',
+            icon: VideoIcon,
+            color: 'text-violet-400',
+            bg: 'bg-violet-500/10 border-violet-500/20',
+          },
+          {
+            label: 'Completed Analyses',
+            value: completedSessions,
+            sub: 'Ready for inspection',
+            icon: CheckCircle2,
+            color: 'text-emerald-400',
+            bg: 'bg-emerald-500/10 border-emerald-500/20',
+          },
+          {
+            label: 'In Processing',
+            value: processingSessions,
+            sub: 'Background pipeline',
+            icon: Activity,
+            color: 'text-violet-400',
+            bg: 'bg-violet-500/10 border-violet-500/20',
+          },
+          {
+            label: 'Total Duration',
+            value: `${totalDuration.toFixed(1)}s`,
+            sub: 'Analysed footage',
+            icon: Clock,
+            color: 'text-[#A1A1AA]',
+            bg: 'bg-[#1E1E2A] border-[#2A2A3A]',
+          },
+        ].map(({ label, value, sub, icon: Icon, color, bg }) => (
+          <div key={label} className="p-5 rounded-xl bg-[#101116] border border-[#1E1E2A] hover:border-[#2A2A3A] transition group flex items-center justify-between">
+            <div>
+              <p className="text-xs font-semibold text-[#A1A1AA] uppercase tracking-wider">{label}</p>
+              <p className={`text-3xl font-extrabold mt-1 ${color}`}>{value}</p>
+              <p className="text-[11px] text-[#A1A1AA] mt-1">{sub}</p>
+            </div>
+            <div className={`w-11 h-11 rounded-xl border flex items-center justify-center ${bg} group-hover:scale-105 transition-transform shrink-0`}>
+              <Icon className={`w-5 h-5 ${color}`} />
+            </div>
           </div>
-          <div className="w-12 h-12 rounded-xl bg-neutral-800/80 border border-neutral-700/70 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
-            <VideoIcon className="w-6 h-6" />
-          </div>
-        </div>
-
-        {/* Card 2: Completed Analyses */}
-        <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 hover:border-neutral-700/80 transition-colors flex items-center justify-between group">
-          <div>
-            <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Completed Analyses</p>
-            <p className="text-3xl font-extrabold text-emerald-400 mt-1">{completedSessions}</p>
-            <p className="text-[11px] text-neutral-500 mt-1">Ready for full inspection</p>
-          </div>
-          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
-            <CheckCircle2 className="w-6 h-6" />
-          </div>
-        </div>
-
-        {/* Card 3: In Processing */}
-        <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 hover:border-neutral-700/80 transition-colors flex items-center justify-between group">
-          <div>
-            <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">In Processing</p>
-            <p className="text-3xl font-extrabold text-amber-400 mt-1">{processingSessions}</p>
-            <p className="text-[11px] text-neutral-500 mt-1">Background worker queue</p>
-          </div>
-          <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center text-amber-400 group-hover:scale-105 transition-transform">
-            <Activity className="w-6 h-6" />
-          </div>
-        </div>
-
-        {/* Card 4: Video Footage Analysed */}
-        <div className="p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 hover:border-neutral-700/80 transition-colors flex items-center justify-between group">
-          <div>
-            <p className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Total Duration</p>
-            <p className="text-3xl font-extrabold text-neutral-100 mt-1">{totalDuration.toFixed(1)}s</p>
-            <p className="text-[11px] text-neutral-500 mt-1">Recorded video frames</p>
-          </div>
-          <div className="w-12 h-12 rounded-xl bg-neutral-800/80 border border-neutral-700/70 flex items-center justify-center text-neutral-300 group-hover:scale-105 transition-transform">
-            <Clock className="w-6 h-6" />
-          </div>
-        </div>
-
+        ))}
       </div>
 
-      {/* Main Content Sections Grid */}
+      {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        {/* Left Column: Recent Videos Table (8 cols) */}
-        <div className="lg:col-span-8 space-y-4">
-          <div className="p-6 rounded-2xl bg-neutral-900/50 border border-neutral-800">
-            <div className="flex items-center justify-between pb-4 border-b border-neutral-800">
+
+        {/* Recent Sessions (8 cols) */}
+        <div className="lg:col-span-8">
+          <div className="p-6 rounded-xl bg-[#101116] border border-[#1E1E2A]">
+            <div className="flex items-center justify-between pb-4 border-b border-[#1E1E2A] mb-2">
               <div>
-                <h2 className="text-lg font-bold text-neutral-100">Recent Video Analyses</h2>
-                <p className="text-xs text-neutral-400 mt-0.5">Recorded videos and computer vision results</p>
+                <h2 className="text-base font-bold text-[#F5F5F7]">Recent Analyses</h2>
+                <p className="text-xs text-[#A1A1AA] mt-0.5">Uploaded videos and CV pipeline results</p>
               </div>
               <button
                 onClick={() => navigate('/history')}
-                className="text-xs font-semibold text-amber-400 hover:text-amber-300 inline-flex items-center gap-1 transition"
+                className="text-xs font-semibold text-violet-400 hover:text-violet-300 inline-flex items-center gap-1 transition"
               >
-                <span>View All</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                View All <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
 
             {loading ? (
-              <div className="py-16 text-center text-xs text-neutral-400">
-                <Activity className="w-6 h-6 text-amber-400 animate-spin mx-auto mb-2" />
+              <div className="py-16 text-center text-xs text-[#A1A1AA]">
+                <Activity className="w-6 h-6 text-violet-400 animate-spin mx-auto mb-2" />
                 <span>Loading analysis sessions...</span>
               </div>
             ) : videos.length === 0 ? (
               <div className="py-16 text-center space-y-3">
-                <div className="w-12 h-12 rounded-2xl bg-neutral-800/80 border border-neutral-700 flex items-center justify-center mx-auto text-neutral-400">
+                <div className="w-12 h-12 rounded-xl bg-[#14151B] border border-[#1E1E2A] flex items-center justify-center mx-auto text-[#A1A1AA]">
                   <VideoIcon className="w-6 h-6" />
                 </div>
-                <h3 className="text-sm font-semibold text-neutral-200">No Videos Uploaded Yet</h3>
-                <p className="text-xs text-neutral-400 max-w-sm mx-auto">
-                  Upload an MP4, MOV, or AVI video to trigger the 478-point facial landmark and head pose analysis pipeline.
+                <h3 className="text-sm font-semibold text-[#F5F5F7]">No Videos Uploaded Yet</h3>
+                <p className="text-xs text-[#A1A1AA] max-w-sm mx-auto">
+                  Upload an MP4, MOV, or AVI recording to trigger the 478-point facial landmark analysis pipeline.
                 </p>
                 <button
                   onClick={() => navigate('/upload')}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs transition"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition"
                 >
                   <UploadCloud className="w-3.5 h-3.5" />
-                  <span>Upload Video</span>
+                  Upload Video
                 </button>
               </div>
             ) : (
-              <div className="divide-y divide-neutral-800/80">
+              <div className="divide-y divide-[#1E1E2A]">
                 {videos.slice(0, 5).map((v) => {
                   const hasSession = !!v.active_session_id;
                   const isCompleted = v.session_status === 'completed';
-
                   return (
-                    <div 
-                      key={v.id} 
-                      className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-neutral-850/40 px-2 rounded-xl transition"
-                    >
-                      <div className="flex items-start gap-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-neutral-800 border border-neutral-700/80 flex items-center justify-center text-amber-400 shrink-0 mt-0.5">
-                          <VideoIcon className="w-5 h-5" />
+                    <div key={v.id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[#14151B] px-2 rounded-xl transition">
+                      <div className="flex items-start gap-3">
+                        <div className="w-9 h-9 rounded-xl bg-[#14151B] border border-[#1E1E2A] flex items-center justify-center text-violet-400 shrink-0 mt-0.5">
+                          <VideoIcon className="w-4 h-4" />
                         </div>
-                        <div className="space-y-1">
-                          <p className="text-sm font-bold text-neutral-100 truncate max-w-[220px] sm:max-w-xs">
-                            {v.filename}
-                          </p>
-                          <div className="flex flex-wrap items-center gap-2 text-[11px] text-neutral-400 font-mono">
+                        <div className="space-y-1 min-w-0">
+                          <p className="text-sm font-bold text-[#F5F5F7] truncate max-w-[200px] sm:max-w-xs">{v.filename}</p>
+                          <div className="flex flex-wrap items-center gap-2 text-[11px] text-[#A1A1AA] font-mono">
                             <span>{v.duration ? `${v.duration.toFixed(1)}s` : 'Unknown'}</span>
-                            <span>&bull;</span>
+                            <span>·</span>
                             <span>{v.resolution || 'Standard'}</span>
-                            <span>&bull;</span>
-                            <span>{v.fps ? `${v.fps.toFixed(0)} FPS` : '20 FPS'}</span>
+                            <span>·</span>
+                            <span>{v.fps ? `${v.fps.toFixed(0)} FPS` : '—'}</span>
                           </div>
                         </div>
                       </div>
-
-                      <div className="flex items-center gap-3 self-end sm:self-center">
+                      <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
                         <StatusBadge status={v.session_status || 'none'} />
-
                         {hasSession ? (
                           <div className="flex items-center gap-1.5">
                             <button
                               onClick={() => navigate(`/workspace/${v.id}/${v.active_session_id}`)}
-                              className="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-amber-400 hover:text-neutral-950 text-neutral-200 text-xs font-semibold border border-neutral-700/80 transition"
+                              className="px-3 py-1.5 rounded-lg bg-[#14151B] hover:bg-violet-600 hover:text-white text-[#F5F5F7] text-xs font-semibold border border-[#1E1E2A] transition"
                             >
                               Workspace
                             </button>
                             {isCompleted && (
                               <button
                                 onClick={() => navigate(`/analytics/${v.active_session_id}`)}
-                                title="View Analytics"
-                                className="p-1.5 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200 border border-neutral-800 transition"
+                                title="Analytics"
+                                className="p-1.5 rounded-lg bg-[#14151B] hover:bg-[#1E1E2A] text-[#A1A1AA] hover:text-[#F5F5F7] border border-[#1E1E2A] transition"
                               >
                                 <BarChart3 className="w-3.5 h-3.5" />
                               </button>
@@ -291,9 +258,9 @@ export const MainDashboard: React.FC<Props> = ({ onOpenAuth }) => {
                         ) : (
                           <button
                             onClick={() => navigate(`/workspace/${v.id}`)}
-                            className="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-neutral-950 text-xs font-bold transition"
+                            className="px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold transition"
                           >
-                            Analyze
+                            Analyse
                           </button>
                         )}
                       </div>
@@ -305,63 +272,73 @@ export const MainDashboard: React.FC<Props> = ({ onOpenAuth }) => {
           </div>
         </div>
 
-        {/* Right Column: Engine Summary & Quick Actions (4 cols) */}
+        {/* Right Column (4 cols) */}
         <div className="lg:col-span-4 space-y-4">
-          
-          {/* Quick Engine Status Card */}
-          <div className="p-6 rounded-2xl bg-neutral-900/50 border border-neutral-800 space-y-4">
+
+          {/* CV Engine Status */}
+          <div className="p-5 rounded-xl bg-[#101116] border border-[#1E1E2A] space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-amber-400">Local CV Engine</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-violet-400">CV Engine</span>
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             </div>
-
-            <h3 className="text-base font-bold text-neutral-100">
-              MediaPipe &amp; OpenCV Pipeline
-            </h3>
-
-            <p className="text-xs text-neutral-400 leading-relaxed">
-              Every video uploaded is processed frame-by-frame on your machine using 478 3D facial landmarks and solvePnP geometry.
+            <h3 className="text-sm font-bold text-[#F5F5F7]">MediaPipe &amp; OpenCV Pipeline</h3>
+            <p className="text-xs text-[#A1A1AA] leading-relaxed">
+              Frame-by-frame processing with 478 3D facial landmarks and solvePnP geometry for head-pose estimation.
             </p>
-
-            <div className="space-y-2 pt-2 border-t border-neutral-800 text-xs text-neutral-300">
-              <div className="flex items-center justify-between">
-                <span className="text-neutral-400">Face Mesh Model</span>
-                <span className="font-mono text-neutral-200">Tasks API (478 pts)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-neutral-400">Head Pose</span>
-                <span className="font-mono text-neutral-200">Perspective-n-Point</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-neutral-400">Gaze Estimation</span>
-                <span className="font-mono text-neutral-200">Iris Vectors &amp; EAR</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-neutral-400">Execution Mode</span>
-                <span className="font-mono text-emerald-400">100% Local</span>
-              </div>
+            <div className="space-y-2 pt-3 border-t border-[#1E1E2A] text-xs">
+              {[
+                ['Face Mesh', 'Tasks API (478 pts)'],
+                ['Head Pose', 'Perspective-n-Point'],
+                ['Gaze', 'Iris Vectors & EAR'],
+                ['Mode', 'Server-Side'],
+              ].map(([k, v]) => (
+                <div key={k} className="flex items-center justify-between">
+                  <span className="text-[#A1A1AA]">{k}</span>
+                  <span className={`font-mono ${k === 'Mode' ? 'text-emerald-400' : 'text-[#F5F5F7]'}`}>{v}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Quick Upload CTA Card */}
-          <div className="p-6 rounded-2xl bg-neutral-900 border border-neutral-700/80 text-left space-y-3">
-            <h3 className="text-sm font-bold text-neutral-100">Ready to Analyze?</h3>
-            <p className="text-xs text-neutral-400 leading-relaxed">
-              Upload an interview, presentation, or meeting recording to extract timestamped visual communication patterns.
+          {/* Quick Upload CTA */}
+          <div className="p-5 rounded-xl bg-[#101116] border border-[#1E1E2A] space-y-3">
+            <div className="w-9 h-9 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center">
+              <UploadCloud className="w-4 h-4 text-violet-400" />
+            </div>
+            <h3 className="text-sm font-bold text-[#F5F5F7]">Ready to Analyse?</h3>
+            <p className="text-xs text-[#A1A1AA] leading-relaxed">
+              Upload an interview, presentation or meeting recording to extract timestamped facial kinematics.
             </p>
             <button
               onClick={() => navigate('/upload')}
-              className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs transition shadow-sm"
+              className="w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition"
             >
               <UploadCloud className="w-4 h-4" />
-              <span>Upload Video Now</span>
+              Upload Video
             </button>
           </div>
 
+          {/* Quick links */}
+          <div className="p-5 rounded-xl bg-[#101116] border border-[#1E1E2A] space-y-2">
+            <p className="text-xs font-semibold text-[#A1A1AA] uppercase tracking-wider mb-3">Quick Actions</p>
+            {[
+              { label: 'View All Sessions', path: '/history', icon: VideoIcon },
+              { label: 'Compare Sessions', path: '/compare', icon: BarChart3 },
+              { label: 'Download Report', path: '/report', icon: FileText },
+            ].map(({ label, path, icon: Icon }) => (
+              <button
+                key={path}
+                onClick={() => navigate(path)}
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs text-[#A1A1AA] hover:text-[#F5F5F7] hover:bg-[#14151B] transition"
+              >
+                <Icon className="w-4 h-4 shrink-0" />
+                <span>{label}</span>
+                <ArrowRight className="w-3.5 h-3.5 ml-auto" />
+              </button>
+            ))}
+          </div>
         </div>
-
       </div>
-
     </div>
   );
 };

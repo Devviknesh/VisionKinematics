@@ -9,7 +9,7 @@ import {
   ReferenceLine 
 } from 'recharts';
 import { FacialMetric } from '../types';
-import { Activity, Compass, Eye, Smile, Filter } from 'lucide-react';
+import { Activity, Compass, Eye, Smile } from 'lucide-react';
 
 interface Props {
   metrics: FacialMetric[];
@@ -58,15 +58,15 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
   };
 
   return (
-    <div className="p-3.5 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-4 w-full min-w-0 overflow-hidden">
+    <div className="p-3.5 sm:p-5 rounded-2xl bg-[#101116] border border-[#1E1E2A] space-y-4 w-full min-w-0 overflow-hidden">
       {/* Header with Title and Stream Toggles */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-neutral-800/80 w-full min-w-0">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-3 border-b border-[#1E1E2A] w-full min-w-0">
         <div className="min-w-0">
-          <h3 className="text-xs sm:text-sm font-bold text-neutral-100 flex items-center gap-1.5 break-words">
-            <Activity className="w-4 h-4 text-amber-400 shrink-0" />
+          <h3 className="text-xs sm:text-sm font-bold text-[#F5F5F7] flex items-center gap-1.5 break-words">
+            <Activity className="w-4 h-4 text-violet-400 shrink-0" />
             <span className="truncate">Kinematic Waveforms</span>
           </h3>
-          <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 break-words">
+          <p className="text-[10px] sm:text-[11px] text-[#A1A1AA] mt-0.5 break-words">
             Synchronized frame-level time series. Click timeline to seek.
           </p>
         </div>
@@ -77,8 +77,8 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
             onClick={() => setShowHeadPose(!showHeadPose)}
             className={`px-2 py-1 rounded-lg text-[10px] font-mono font-semibold transition border flex items-center gap-1.5 ${
               showHeadPose 
-                ? 'bg-amber-400/10 border-amber-400/40 text-amber-400' 
-                : 'bg-neutral-950 border-neutral-800 text-neutral-500'
+                ? 'bg-violet-500/15 border-violet-500/40 text-violet-400' 
+                : 'bg-[#08090C] border-[#1E1E2A] text-[#A1A1AA]'
             }`}
           >
             <Compass className="w-3 h-3" />
@@ -89,8 +89,8 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
             onClick={() => setShowEyes(!showEyes)}
             className={`px-2 py-1 rounded-lg text-[10px] font-mono font-semibold transition border flex items-center gap-1.5 ${
               showEyes 
-                ? 'bg-sky-400/10 border-sky-400/40 text-sky-400' 
-                : 'bg-neutral-950 border-neutral-800 text-neutral-500'
+                ? 'bg-sky-400/15 border-sky-400/40 text-sky-400' 
+                : 'bg-[#08090C] border-[#1E1E2A] text-[#A1A1AA]'
             }`}
           >
             <Eye className="w-3 h-3" />
@@ -101,8 +101,8 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
             onClick={() => setShowSmile(!showSmile)}
             className={`px-2 py-1 rounded-lg text-[10px] font-mono font-semibold transition border flex items-center gap-1.5 ${
               showSmile 
-                ? 'bg-emerald-400/10 border-emerald-400/40 text-emerald-400' 
-                : 'bg-neutral-950 border-neutral-800 text-neutral-500'
+                ? 'bg-emerald-400/15 border-emerald-400/40 text-emerald-400' 
+                : 'bg-[#08090C] border-[#1E1E2A] text-[#A1A1AA]'
             }`}
           >
             <Smile className="w-3 h-3" />
@@ -124,22 +124,22 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
               dataKey="timestamp" 
               type="number"
               domain={[0, duration || 'dataMax']}
-              stroke="#525252" 
-              tick={{ fontSize: 10, fill: '#a3a3a3' }}
+              stroke="#A1A1AA" 
+              tick={{ fontSize: 10, fill: '#A1A1AA' }}
               tickFormatter={(v) => `${v.toFixed(1)}s`}
             />
             <YAxis 
-              stroke="#525252" 
-              tick={{ fontSize: 10, fill: '#a3a3a3' }}
+              stroke="#A1A1AA" 
+              tick={{ fontSize: 10, fill: '#A1A1AA' }}
               domain={[-45, 60]}
             />
             <Tooltip 
               contentStyle={{ 
-                backgroundColor: '#0a0a0a', 
-                border: '1px solid #262626', 
+                backgroundColor: '#101116', 
+                border: '1px solid #1E1E2A', 
                 borderRadius: '0.75rem', 
                 fontSize: '11px',
-                color: '#e5e5e5' 
+                color: '#F5F5F7' 
               }}
               formatter={(val: any, name: string) => {
                 if (name === 'yaw') return [`${val}°`, 'Head Yaw'];
@@ -154,13 +154,13 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
             {/* Synchronized Live Playhead Cursor */}
             <ReferenceLine 
               x={parseFloat(currentTime.toFixed(2))} 
-              stroke="#f59e0b" 
+              stroke="#8B5CF6" 
               strokeWidth={2}
               strokeDasharray="2 2"
               label={{
                 value: `${currentTime.toFixed(1)}s`,
                 position: 'top',
-                fill: '#f59e0b',
+                fill: '#A78BFA',
                 fontSize: 10,
                 fontFamily: 'monospace'
               }}
@@ -171,7 +171,7 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
                 <Line 
                   type="monotone" 
                   dataKey="yaw" 
-                  stroke="#f59e0b" 
+                  stroke="#8B5CF6" 
                   strokeWidth={1.5} 
                   dot={false}
                   isAnimationActive={false}
@@ -179,7 +179,7 @@ export const KinematicsWaveformTimeline: React.FC<Props> = ({
                 <Line 
                   type="monotone" 
                   dataKey="pitch" 
-                  stroke="#f97316" 
+                  stroke="#c4b5fd" 
                   strokeWidth={1.2} 
                   dot={false}
                   strokeDasharray="4 2"

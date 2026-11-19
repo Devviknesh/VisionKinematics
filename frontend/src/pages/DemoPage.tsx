@@ -162,27 +162,27 @@ export const DemoPage: React.FC = () => {
     <div className="space-y-10 pb-16 w-full max-w-full overflow-x-hidden">
       {/* 1. HERO DEMO HEADER */}
       <section className="relative rounded-3xl bg-gradient-to-b from-neutral-900/90 via-neutral-900/40 to-neutral-950 border border-neutral-800 p-6 sm:p-10 overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-violet-500/5 rounded-full blur-3xl pointer-events-none" />
         
         <div className="max-w-4xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-mono font-medium">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono font-medium">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Interactive Product Demonstration</span>
           </div>
           
           <h1 className="text-2xl sm:text-4xl font-extrabold text-neutral-100 tracking-tight leading-tight">
-            VisionKinematics in Action: Genuine Computer Vision Telemetry
+            Framewise in Action: Genuine Computer Vision Telemetry
           </h1>
           
           <p className="text-sm sm:text-base text-neutral-300 leading-relaxed max-w-3xl">
             Explore live computer vision analytics extracted from a genuine recorded video analysis session. 
-            Inspect sub-pixel 478 MediaPipe landmarks, OpenCV <code className="text-amber-400 font-mono text-xs">solvePnP</code> 3D head pose angles, Eye Aspect Ratio (EAR) palpebral blinks, and observable FACS Action Units.
+            Inspect sub-pixel 478 MediaPipe landmarks, OpenCV <code className="text-violet-400 font-mono text-xs">solvePnP</code> 3D head pose angles, Eye Aspect Ratio (EAR) palpebral blinks, and observable FACS Action Units.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <button
               onClick={() => navigate('/upload')}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs sm:text-sm transition shadow-lg shadow-amber-400/15"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs sm:text-sm transition shadow-lg shadow-violet-500/20"
             >
               <span>Analyze Your Own Video</span>
               <ArrowRight className="w-4 h-4" />
@@ -193,7 +193,7 @@ export const DemoPage: React.FC = () => {
               disabled={downloadingPdf}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700 text-xs sm:text-sm font-medium transition"
             >
-              {downloadingPdf ? <Loader2 className="w-4 h-4 animate-spin text-amber-400" /> : <Download className="w-4 h-4 text-emerald-400" />}
+              {downloadingPdf ? <Loader2 className="w-4 h-4 animate-spin text-violet-400" /> : <Download className="w-4 h-4 text-emerald-400" />}
               <span>Download Official Demo PDF</span>
             </button>
 
@@ -203,7 +203,7 @@ export const DemoPage: React.FC = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-800 text-xs sm:text-sm transition"
             >
-              <Terminal className="w-4 h-4 text-amber-400" />
+              <Terminal className="w-4 h-4 text-violet-400" />
               <span>GitHub Repository</span>
             </a>
           </div>
@@ -215,11 +215,11 @@ export const DemoPage: React.FC = () => {
             onClick={() => setActiveGuidedTab('overview')}
             className={`p-3 rounded-xl border text-left transition ${
               activeGuidedTab === 'overview'
-                ? 'bg-neutral-800 border-amber-400/60 text-neutral-100'
+                ? 'bg-neutral-800 border-violet-500/60 text-neutral-100'
                 : 'bg-neutral-950/40 border-neutral-850 text-neutral-400 hover:text-neutral-200'
             }`}
           >
-            <span className="text-[10px] font-mono uppercase text-amber-400 block font-bold">Pillar 01</span>
+            <span className="text-[10px] font-mono uppercase text-violet-400 block font-bold">Pillar 01</span>
             <span className="text-xs font-bold block mt-0.5">478 Landmark Mesh</span>
           </button>
 
@@ -227,7 +227,7 @@ export const DemoPage: React.FC = () => {
             onClick={() => setActiveGuidedTab('pose')}
             className={`p-3 rounded-xl border text-left transition ${
               activeGuidedTab === 'pose'
-                ? 'bg-neutral-800 border-amber-400/60 text-neutral-100'
+                ? 'bg-neutral-800 border-violet-500/60 text-neutral-100'
                 : 'bg-neutral-950/40 border-neutral-850 text-neutral-400 hover:text-neutral-200'
             }`}
           >
@@ -239,7 +239,7 @@ export const DemoPage: React.FC = () => {
             onClick={() => setActiveGuidedTab('ocular')}
             className={`p-3 rounded-xl border text-left transition ${
               activeGuidedTab === 'ocular'
-                ? 'bg-neutral-800 border-amber-400/60 text-neutral-100'
+                ? 'bg-neutral-800 border-violet-500/60 text-neutral-100'
                 : 'bg-neutral-950/40 border-neutral-850 text-neutral-400 hover:text-neutral-200'
             }`}
           >
@@ -251,7 +251,7 @@ export const DemoPage: React.FC = () => {
             onClick={() => setActiveGuidedTab('facs')}
             className={`p-3 rounded-xl border text-left transition ${
               activeGuidedTab === 'facs'
-                ? 'bg-neutral-800 border-amber-400/60 text-neutral-100'
+                ? 'bg-neutral-800 border-violet-500/60 text-neutral-100'
                 : 'bg-neutral-950/40 border-neutral-850 text-neutral-400 hover:text-neutral-200'
             }`}
           >
@@ -266,7 +266,7 @@ export const DemoPage: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h2 className="text-lg sm:text-xl font-bold text-neutral-100 flex items-center gap-2">
-              <Scan className="w-5 h-5 text-amber-400" />
+              <Scan className="w-5 h-5 text-violet-400" />
               <span>Real Analysis Session Telemetry</span>
             </h2>
             <p className="text-xs text-neutral-400 mt-0.5">
@@ -311,7 +311,7 @@ export const DemoPage: React.FC = () => {
 
                 {/* Live Floating HUD */}
                 <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5 pointer-events-none">
-                  <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-neutral-800 text-[10px] font-mono text-amber-400 font-bold">
+                  <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-neutral-800 text-[10px] font-mono text-violet-400 font-bold">
                     t={formatTime(currentTime)}
                   </span>
                   <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-neutral-800 text-[10px] font-mono text-sky-400">
@@ -327,7 +327,7 @@ export const DemoPage: React.FC = () => {
                     onClick={() => setShowWireframeMesh(!showWireframeMesh)}
                     className={`px-2.5 py-1 rounded-lg text-xs font-mono transition border ${
                       showWireframeMesh 
-                        ? 'bg-amber-400 text-neutral-950 font-bold border-amber-400' 
+                        ? 'bg-violet-600 text-white font-bold border-violet-500' 
                         : 'bg-black/80 text-neutral-300 border-neutral-700 hover:border-neutral-500'
                     }`}
                   >
@@ -341,7 +341,7 @@ export const DemoPage: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={togglePlay}
-                    className="p-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold transition"
+                    className="p-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold transition"
                     title={isPlaying ? 'Pause' : 'Play'}
                   >
                     {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
@@ -392,9 +392,9 @@ export const DemoPage: React.FC = () => {
 
             {/* 478 Landmark Wireframe Visualizer */}
             {showWireframeMesh && (
-              <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/80 border border-amber-400/30 flex flex-col sm:flex-row items-center justify-around gap-4 animate-in fade-in duration-200">
+              <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/80 border border-violet-500/30 flex flex-col sm:flex-row items-center justify-around gap-4 animate-in fade-in duration-200">
                 <div className="space-y-1.5 text-center sm:text-left">
-                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-amber-400/10 text-amber-400 text-xs font-mono font-bold">
+                  <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-violet-500/10 text-violet-400 text-xs font-mono font-bold">
                     <Scan className="w-3.5 h-3.5" />
                     <span>Dense 3D Landmark Surface</span>
                   </div>
@@ -402,7 +402,7 @@ export const DemoPage: React.FC = () => {
                     MediaPipe 478 Sub-Pixel Coordinates
                   </h3>
                   <p className="text-xs text-neutral-400 max-w-sm">
-                    Canonical contours for facial oval, palpebral apertures, and lips synchronized with video time <code className="text-amber-400 font-mono">{formatTime(currentTime)}</code>.
+                    Canonical contours for facial oval, palpebral apertures, and lips synchronized with video time <code className="text-violet-400 font-mono">{formatTime(currentTime)}</code>.
                   </p>
                 </div>
                 <FacialKinematicsOverlay metric={currentMetric} />
@@ -424,7 +424,7 @@ export const DemoPage: React.FC = () => {
             <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-neutral-800">
                 <span className="text-xs font-bold text-neutral-200 flex items-center gap-1.5">
-                  <Compass className="w-4 h-4 text-amber-400" />
+                  <Compass className="w-4 h-4 text-violet-400" />
                   <span>3D Cranial Orientation</span>
                 </span>
                 <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-400">
@@ -442,7 +442,7 @@ export const DemoPage: React.FC = () => {
                   </div>
                   <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
                     <div 
-                      className="bg-amber-400 h-full rounded-full transition-all" 
+                      className="bg-violet-500 h-full rounded-full transition-all" 
                       style={{ width: `${Math.min(100, Math.max(0, (((currentMetric?.head_yaw ?? 0) + 45) / 90) * 100))}%` }} 
                     />
                   </div>
@@ -553,7 +553,7 @@ export const DemoPage: React.FC = () => {
                   </div>
                   <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
                     <div 
-                      className="bg-amber-400 h-full rounded-full" 
+                      className="bg-violet-500 h-full rounded-full" 
                       style={{ width: `${Math.min(100, ((currentMetric?.expression_measurements?.brow_elevation ?? 0)) * 100)}%` }} 
                     />
                   </div>
@@ -565,7 +565,7 @@ export const DemoPage: React.FC = () => {
             <div className="p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800 space-y-3 flex flex-col h-72">
               <div className="flex items-center justify-between pb-2 border-b border-neutral-800">
                 <span className="text-xs font-bold text-neutral-200 flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-amber-400" />
+                  <Clock className="w-4 h-4 text-violet-400" />
                   <span>Timestamped Events</span>
                 </span>
                 <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-400">
@@ -585,12 +585,12 @@ export const DemoPage: React.FC = () => {
                         onClick={() => seekTo(ev.timestamp ?? 0)}
                         className={`p-2 rounded-xl cursor-pointer transition border text-xs ${
                           isSelected
-                            ? 'bg-neutral-800 border-amber-400/60 shadow-sm'
+                            ? 'bg-neutral-800 border-violet-500/60 shadow-sm'
                             : 'bg-neutral-950/60 border-neutral-850 hover:border-neutral-700'
                         }`}
                       >
                         <div className="flex items-center justify-between text-[10px] font-mono">
-                          <span className="text-amber-400 font-bold">{formatTime(ev.timestamp ?? 0)}</span>
+                          <span className="text-violet-400 font-bold">{formatTime(ev.timestamp ?? 0)}</span>
                           <span className="text-neutral-500 uppercase">{ev.event_category}</span>
                         </div>
                         <p className="text-xs text-neutral-200 font-medium mt-0.5 truncate">
@@ -638,9 +638,9 @@ export const DemoPage: React.FC = () => {
 
       {/* 5. SCIENTIFIC & ETHICAL BOUNDARY CALLOUT */}
       <section className="p-4 sm:p-5 rounded-2xl bg-neutral-950 border border-neutral-800 flex items-start gap-3 text-xs text-neutral-400 leading-relaxed">
-        <ShieldCheck className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+        <ShieldCheck className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
         <div>
-          <strong className="text-neutral-200">Scientific &amp; Ethical Delimitation:</strong> VisionKinematics measures observable physical surface displacements and cranial attitudes using computer vision geometry. These automated kinematic measurements are strictly not certified human FACS coding, nor do they claim to detect psychological intent, deception, or internal emotional states.
+          <strong className="text-neutral-200">Scientific &amp; Ethical Delimitation:</strong> Framewise measures observable physical surface displacements and cranial attitudes using computer vision geometry. These automated kinematic measurements are strictly not certified human FACS coding, nor do they claim to detect psychological intent, deception, or internal emotional states.
         </div>
       </section>
     </div>

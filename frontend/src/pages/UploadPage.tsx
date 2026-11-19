@@ -3,17 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { 
   UploadCloud, 
   FileVideo, 
-  CheckCircle, 
   AlertCircle, 
   ArrowRight, 
   ShieldCheck, 
-  Play, 
-  Sparkles, 
   Loader2, 
   X, 
   FileCheck, 
-  Cpu, 
-  Info 
+  Cpu 
 } from 'lucide-react';
 import { api } from '../api';
 
@@ -125,16 +121,16 @@ export const UploadPage: React.FC<Props> = ({ onAnalysisStarted, onOpenAuth }) =
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-200">
       
       {/* Header */}
-      <div className="pb-6 border-b border-neutral-800 text-left">
+      <div className="pb-6 border-b border-[#1E1E2A] text-left">
         <div className="flex items-center gap-2">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-100 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#F5F5F7] tracking-tight">
             Upload Video for Analysis
           </h1>
-          <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-neutral-800 text-neutral-300 border border-neutral-700">
-            Local Ingestion
+          <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#101116] text-[#A1A1AA] border border-[#1E1E2A]">
+            Ingestion
           </span>
         </div>
-        <p className="text-xs sm:text-sm text-neutral-400 mt-1">
+        <p className="text-xs sm:text-sm text-[#A1A1AA] mt-1">
           Upload recorded video footage to extract 478 3D facial landmarks, head pose orientation, gaze directions, and expression kinematics.
         </p>
       </div>
@@ -160,8 +156,8 @@ export const UploadPage: React.FC<Props> = ({ onAnalysisStarted, onOpenAuth }) =
           onClick={() => fileInputRef.current?.click()}
           className={`cursor-pointer rounded-2xl border-2 border-dashed p-10 sm:p-14 text-center transition-all duration-200 ${
             isDragOver 
-              ? 'border-amber-400 bg-amber-400/5' 
-              : 'border-neutral-700/80 bg-neutral-900/40 hover:bg-neutral-900/70 hover:border-neutral-600'
+              ? 'border-violet-500 bg-violet-500/5' 
+              : 'border-[#1E1E2A] bg-[#101116] hover:bg-[#14151B] hover:border-[#2A2A3A]'
           }`}
         >
           <input 
@@ -172,41 +168,41 @@ export const UploadPage: React.FC<Props> = ({ onAnalysisStarted, onOpenAuth }) =
             onChange={(e) => e.target.files?.[0] && handleFileSelection(e.target.files[0])}
           />
 
-          <div className="w-16 h-16 rounded-2xl bg-neutral-800/80 border border-neutral-700/80 flex items-center justify-center text-amber-400 mx-auto mb-4 shadow-sm">
+          <div className="w-16 h-16 rounded-2xl bg-[#14151B] border border-[#1E1E2A] flex items-center justify-center text-violet-400 mx-auto mb-4 shadow-sm">
             <UploadCloud className="w-8 h-8" />
           </div>
 
-          <h3 className="text-base sm:text-lg font-bold text-neutral-100">
-            Drag and drop your video file here, or <span className="text-amber-400 underline">browse</span>
+          <h3 className="text-base sm:text-lg font-bold text-[#F5F5F7]">
+            Drag and drop your video file here, or <span className="text-violet-400 underline">browse</span>
           </h3>
 
-          <p className="mt-2 text-xs text-neutral-400 max-w-md mx-auto">
-            Supports MP4, MOV, AVI, and WebM format recordings up to 250MB. Processed entirely on your machine.
+          <p className="mt-2 text-xs text-[#A1A1AA] max-w-md mx-auto">
+            Supports MP4, MOV, AVI, and WebM format recordings up to 250MB. Processed entirely on server runtime.
           </p>
 
-          <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-2 text-[11px] text-neutral-400">
-            <span className="px-2.5 py-1 rounded-md bg-neutral-850 border border-neutral-800">MP4</span>
-            <span className="px-2.5 py-1 rounded-md bg-neutral-850 border border-neutral-800">MOV</span>
-            <span className="px-2.5 py-1 rounded-md bg-neutral-850 border border-neutral-800">AVI</span>
-            <span className="px-2.5 py-1 rounded-md bg-neutral-850 border border-neutral-800">WebM</span>
-            <span className="px-2.5 py-1 rounded-md bg-neutral-850 border border-neutral-800">Max 250MB</span>
+          <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-2 text-[11px] text-[#A1A1AA]">
+            <span className="px-2.5 py-1 rounded-md bg-[#08090C] border border-[#1E1E2A]">MP4</span>
+            <span className="px-2.5 py-1 rounded-md bg-[#08090C] border border-[#1E1E2A]">MOV</span>
+            <span className="px-2.5 py-1 rounded-md bg-[#08090C] border border-[#1E1E2A]">AVI</span>
+            <span className="px-2.5 py-1 rounded-md bg-[#08090C] border border-[#1E1E2A]">WebM</span>
+            <span className="px-2.5 py-1 rounded-md bg-[#08090C] border border-[#1E1E2A]">Max 250MB</span>
           </div>
         </div>
       ) : (
         /* Selected Video Preview & Validation Card */
         <div className="space-y-6">
-          <div className="p-6 rounded-2xl bg-neutral-900/70 border border-neutral-800 space-y-6">
+          <div className="p-6 rounded-2xl bg-[#101116] border border-[#1E1E2A] space-y-6">
             
-            <div className="flex items-center justify-between pb-4 border-b border-neutral-800">
+            <div className="flex items-center justify-between pb-4 border-b border-[#1E1E2A]">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400">
+                <div className="w-10 h-10 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400">
                   <FileVideo className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-sm sm:text-base font-bold text-neutral-100 truncate max-w-sm sm:max-w-md">
+                  <h3 className="text-sm sm:text-base font-bold text-[#F5F5F7] truncate max-w-sm sm:max-w-md">
                     {file.name}
                   </h3>
-                  <p className="text-xs text-neutral-400 font-mono">
+                  <p className="text-xs text-[#A1A1AA] font-mono">
                     {(file.size / (1024 * 1024)).toFixed(2)} MB &bull; {duration ? `${duration.toFixed(1)}s` : 'Reading length...'}
                   </p>
                 </div>
@@ -215,7 +211,7 @@ export const UploadPage: React.FC<Props> = ({ onAnalysisStarted, onOpenAuth }) =
               {!isUploading && (
                 <button
                   onClick={resetSelection}
-                  className="p-2 text-neutral-400 hover:text-rose-400 hover:bg-neutral-800 rounded-lg transition"
+                  className="p-2 text-[#A1A1AA] hover:text-rose-400 hover:bg-[#14151B] rounded-lg transition"
                   title="Remove and select different file"
                 >
                   <X className="w-4 h-4" />
@@ -225,7 +221,7 @@ export const UploadPage: React.FC<Props> = ({ onAnalysisStarted, onOpenAuth }) =
 
             {/* Video Player Preview */}
             {previewUrl && (
-              <div className="rounded-xl overflow-hidden bg-black border border-neutral-800 max-h-72 flex items-center justify-center relative">
+              <div className="rounded-xl overflow-hidden bg-black border border-[#1E1E2A] max-h-72 flex items-center justify-center relative">
                 <video 
                   src={previewUrl} 
                   controls 
@@ -236,17 +232,17 @@ export const UploadPage: React.FC<Props> = ({ onAnalysisStarted, onOpenAuth }) =
 
             {/* Upload Progress Bar (if uploading) */}
             {isUploading && (
-              <div className="space-y-2 p-4 rounded-xl bg-neutral-950 border border-neutral-800">
+              <div className="space-y-2 p-4 rounded-xl bg-[#08090C] border border-[#1E1E2A]">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-neutral-300 flex items-center gap-2">
-                    <Loader2 className="w-3.5 h-3.5 text-amber-400 animate-spin" />
+                  <span className="font-semibold text-[#F5F5F7] flex items-center gap-2">
+                    <Loader2 className="w-3.5 h-3.5 text-violet-400 animate-spin" />
                     Uploading &amp; preparing computer vision engine...
                   </span>
-                  <span className="font-mono text-amber-400 font-bold">{uploadProgress ?? 0}%</span>
+                  <span className="font-mono text-violet-400 font-bold">{uploadProgress ?? 0}%</span>
                 </div>
-                <div className="w-full bg-neutral-800 h-2 rounded-full overflow-hidden">
+                <div className="w-full bg-[#14151B] h-2 rounded-full overflow-hidden">
                   <div 
-                    className="bg-amber-400 h-full rounded-full transition-all duration-300"
+                    className="bg-violet-600 h-full rounded-full transition-all duration-300"
                     style={{ width: `${uploadProgress ?? 0}%` }}
                   />
                 </div>
@@ -254,21 +250,21 @@ export const UploadPage: React.FC<Props> = ({ onAnalysisStarted, onOpenAuth }) =
             )}
 
             {/* Ethics & Consent Checkbox */}
-            <div className="p-4 rounded-xl bg-neutral-950/70 border border-neutral-800">
+            <div className="p-4 rounded-xl bg-[#08090C] border border-[#1E1E2A]">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={consentChecked}
                   onChange={(e) => setConsentChecked(e.target.checked)}
                   disabled={isUploading}
-                  className="mt-1 w-4 h-4 rounded border-neutral-700 bg-neutral-900 text-amber-400 focus:ring-amber-400 focus:ring-offset-0 cursor-pointer"
+                  className="mt-1 w-4 h-4 rounded border-[#1E1E2A] bg-[#14151B] text-violet-600 focus:ring-violet-500 focus:ring-offset-0 cursor-pointer"
                 />
-                <div className="text-xs text-neutral-300 space-y-1">
-                  <span className="font-semibold text-neutral-200">
+                <div className="text-xs text-[#F5F5F7] space-y-1">
+                  <span className="font-semibold text-[#F5F5F7]">
                     Consent &amp; Ethical Processing Acknowledgment
                   </span>
-                  <p className="text-neutral-400 leading-relaxed text-[11px]">
-                    I confirm this video is recorded with appropriate consent. I acknowledge that VisionKinematics 
+                  <p className="text-[#A1A1AA] leading-relaxed text-[11px]">
+                    I confirm this video is recorded with appropriate consent. I acknowledge that Framewise 
                     strictly measures <b>observable geometric surface kinematics</b> (angles and muscle displacement) 
                     and explicitly does not perform facial recognition, identity matching, or psychological emotion inference.
                   </p>
@@ -282,7 +278,7 @@ export const UploadPage: React.FC<Props> = ({ onAnalysisStarted, onOpenAuth }) =
                 type="button"
                 onClick={resetSelection}
                 disabled={isUploading}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 border border-neutral-700 text-xs font-semibold transition disabled:opacity-50"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#14151B] hover:bg-[#1E1E2A] text-[#A1A1AA] hover:text-[#F5F5F7] border border-[#1E1E2A] text-xs font-semibold transition disabled:opacity-50"
               >
                 Choose Different File
               </button>
@@ -291,7 +287,7 @@ export const UploadPage: React.FC<Props> = ({ onAnalysisStarted, onOpenAuth }) =
                 type="button"
                 onClick={handleUploadAndAnalyze}
                 disabled={isUploading || !consentChecked}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs sm:text-sm transition-all shadow-sm shadow-amber-400/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs sm:text-sm transition-all shadow-sm shadow-violet-500/20 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isUploading ? (
                   <>
@@ -313,33 +309,33 @@ export const UploadPage: React.FC<Props> = ({ onAnalysisStarted, onOpenAuth }) =
 
       {/* Informational Guidance Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
-        <div className="p-4 rounded-xl bg-neutral-900/40 border border-neutral-800 text-left">
-          <div className="w-8 h-8 rounded-lg bg-neutral-800 flex items-center justify-center text-amber-400 mb-2.5">
+        <div className="p-4 rounded-xl bg-[#101116] border border-[#1E1E2A] text-left">
+          <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 mb-2.5">
             <FileCheck className="w-4 h-4" />
           </div>
-          <h4 className="text-xs font-bold text-neutral-200">Sampling Resolution</h4>
-          <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed">
+          <h4 className="text-xs font-bold text-[#F5F5F7]">Sampling Resolution</h4>
+          <p className="text-[11px] text-[#A1A1AA] mt-1 leading-relaxed">
             Videos are automatically sampled at optimal FPS (5.0 &mdash; 15.0 FPS) to balance extreme precision with speed.
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-neutral-900/40 border border-neutral-800 text-left">
-          <div className="w-8 h-8 rounded-lg bg-neutral-800 flex items-center justify-center text-emerald-400 mb-2.5">
+        <div className="p-4 rounded-xl bg-[#101116] border border-[#1E1E2A] text-left">
+          <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 mb-2.5">
             <Cpu className="w-4 h-4" />
           </div>
-          <h4 className="text-xs font-bold text-neutral-200">Local Execution</h4>
-          <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed">
-            All OpenCV Perspective-n-Point calculations execute locally inside your Python runtime.
+          <h4 className="text-xs font-bold text-[#F5F5F7]">Server-Side Execution</h4>
+          <p className="text-[11px] text-[#A1A1AA] mt-1 leading-relaxed">
+            All OpenCV Perspective-n-Point calculations execute inside the production Python runtime.
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-neutral-900/40 border border-neutral-800 text-left">
-          <div className="w-8 h-8 rounded-lg bg-neutral-800 flex items-center justify-center text-sky-400 mb-2.5">
+        <div className="p-4 rounded-xl bg-[#101116] border border-[#1E1E2A] text-left">
+          <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 mb-2.5">
             <ShieldCheck className="w-4 h-4" />
           </div>
-          <h4 className="text-xs font-bold text-neutral-200">Full Privacy</h4>
-          <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed">
-            Videos can be purged from local storage at any time with complete data sovereignty.
+          <h4 className="text-xs font-bold text-[#F5F5F7]">Full Privacy</h4>
+          <p className="text-[11px] text-[#A1A1AA] mt-1 leading-relaxed">
+            Videos can be purged from storage at any time with complete data sovereignty and per-user isolation.
           </p>
         </div>
       </div>

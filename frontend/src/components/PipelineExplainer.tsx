@@ -18,7 +18,6 @@ import {
   Code,
   Info,
   Layers,
-  Sparkles,
   CheckCircle2
 } from 'lucide-react';
 
@@ -45,7 +44,7 @@ const PIPELINE_STAGES: StageInfo[] = [
     shortTag: 'Streaming Ingestion',
     icon: UploadCloud,
     tech: 'FastAPI / Multipart HTTP Stream',
-    color: 'amber',
+    color: 'violet',
     whatHappens: 'Client streams video file in 1MB sequential chunks directly to secure backend storage, verifying file size and quota in real-time.',
     inputData: 'Raw client video bytes (MP4 / AVI / MOV / WebM) via multipart/form-data upload.',
     outputData: 'Persisted local storage file path with sanitized unique UUID-stamped filename.',
@@ -59,7 +58,7 @@ const PIPELINE_STAGES: StageInfo[] = [
     shortTag: 'Container Integrity',
     icon: FileCheck,
     tech: 'OpenCV cv2.VideoCapture',
-    color: 'amber',
+    color: 'violet',
     whatHappens: 'OpenCV inspects container headers, reads video metadata, verifies frame decoding, and validates duration against SaaS platform thresholds (<= 300s).',
     inputData: 'Raw storage path on disk.',
     outputData: 'VideoMetadata object: { is_valid: bool, duration: float, fps: float, resolution: "1280x720", total_frames: int }.',
@@ -129,7 +128,7 @@ const PIPELINE_STAGES: StageInfo[] = [
     shortTag: 'Euler Decomposition',
     icon: Compass,
     tech: 'Rodrigues Matrix & Euler Math',
-    color: 'purple',
+    color: 'violet',
     whatHappens: 'Transforms the rotation vector rvec via Rodrigues formula into a 3x3 orthonormal matrix, decomposing it into continuous Yaw (turn), Pitch (tilt), and Roll (incline) angles in degrees.',
     inputData: 'Rotation vector rvec from solvePnP.',
     outputData: 'Normalized Euler angles: Yaw (-180°..+180°), Pitch (-180°..+180°), Roll (-180°..+180°).',
@@ -143,7 +142,7 @@ const PIPELINE_STAGES: StageInfo[] = [
     shortTag: 'Ocular Kinematics',
     icon: Eye,
     tech: 'Soukupová & Čech EAR + Iris Vectors',
-    color: 'purple',
+    color: 'sky',
     whatHappens: 'Calculates the Eye Aspect Ratio (EAR) across 6 eyelid landmarks per eye. Compares iris centroid positions (landmarks 468, 473) relative to medial and lateral canthi to classify gaze direction.',
     inputData: 'Ocular landmark subsets (eyelid boundaries and iris center coordinates).',
     outputData: 'Continuous EAR scalar (0.15-0.38) and discrete Gaze Direction ("Center", "Left", "Right", "Up", "Down", "Closed").',
@@ -157,7 +156,7 @@ const PIPELINE_STAGES: StageInfo[] = [
     shortTag: 'FACS Action Units',
     icon: Smile,
     tech: 'MediaPipe Blendshapes + Normalized Displacement',
-    color: 'rose',
+    color: 'violet',
     whatHappens: 'Measures observable muscular displacements grounded in the Facial Action Coding System: AU12 (Lip Corner Puller), AU1+2 (Brow Elevation), AU4 (Brow Furrow), AU25+26 (Jaw Separation), AU45 (Eye Closure).',
     inputData: '52 classification blendshapes and normalized landmark Euclidean displacement vectors.',
     outputData: 'FACS Action Unit activation percentages (0-100%) and intensity magnitudes.',
@@ -171,7 +170,7 @@ const PIPELINE_STAGES: StageInfo[] = [
     shortTag: 'Relational Schema',
     icon: Database,
     tech: 'SQLAlchemy ORM + PostgreSQL / SQLite',
-    color: 'rose',
+    color: 'emerald',
     whatHappens: 'Aggregates timeline metrics, serializes summary statistics, and records timestamped event occurrences (such as prolonged gaze aversion, smiles, blinks) into indexed relational tables.',
     inputData: 'List of FacialMetric dictionaries, summary dictionaries, and DetectedEvent objects.',
     outputData: 'Persisted rows in analysis_sessions, facial_metrics, and analysis_events tables.',
@@ -184,8 +183,8 @@ const PIPELINE_STAGES: StageInfo[] = [
     name: 'Interactive Workspace',
     shortTag: 'Synchronized Web UI',
     icon: MonitorPlay,
-    tech: 'React 18 + HTML5 Video + Three.js/Canvas + Recharts',
-    color: 'amber',
+    tech: 'React 18 + HTML5 Video + Canvas + Recharts',
+    color: 'violet',
     whatHappens: 'Frontend synchronizes video playback with frame-accurate 478 landmark wireframe rendering, continuous Euler waveform scrubber, and FACS Action Unit gauges.',
     inputData: 'Authenticated JSON telemetry stream + short-lived video streaming ticket.',
     outputData: 'Interactive, responsive UI allowing click-to-seek, scrubbing, and speed adjustments.',
@@ -199,7 +198,7 @@ const PIPELINE_STAGES: StageInfo[] = [
     shortTag: 'Academic Dossier',
     icon: FileText,
     tech: 'ReportLab + Matplotlib Headless Engine',
-    color: 'amber',
+    color: 'violet',
     whatHappens: 'Generates a publication-quality 4-page academic dossier featuring Matplotlib vector time series plots, real video frames with MediaPipe wireframe overlays, event logs, and FACS delimitation disclaimers.',
     inputData: 'Relational session records, metrics, and source video file.',
     outputData: 'Dynamic multi-page PDF document served with Content-Disposition headers.',
@@ -213,18 +212,18 @@ export const PipelineExplainer: React.FC = () => {
   const stage = PIPELINE_STAGES[activeStageIndex];
 
   return (
-    <div className="w-full bg-neutral-900/60 border border-neutral-800 rounded-3xl p-4 sm:p-7 space-y-6">
+    <div className="w-full bg-[#101116] border border-[#1E1E2A] rounded-3xl p-4 sm:p-7 space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-neutral-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[#1E1E2A]">
         <div>
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 text-xs font-mono font-medium">
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-mono font-medium">
             <Layers className="w-3.5 h-3.5" />
             <span>Interactive Architecture Explainer</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-neutral-100 mt-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#F5F5F7] mt-2">
             12-Stage Computer Vision &amp; Data Pipeline
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-400 mt-1 max-w-2xl">
+          <p className="text-xs sm:text-sm text-[#A1A1AA] mt-1 max-w-2xl">
             Click through any stage below to examine its internal algorithmic operation, technology stack, data contract, and engineering rationale.
           </p>
         </div>
@@ -233,17 +232,17 @@ export const PipelineExplainer: React.FC = () => {
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={() => setActiveStageIndex((prev) => (prev > 0 ? prev - 1 : PIPELINE_STAGES.length - 1))}
-            className="p-2 rounded-xl bg-neutral-800 hover:bg-neutral-750 text-neutral-300 hover:text-neutral-100 border border-neutral-700 transition"
+            className="p-2 rounded-xl bg-[#14151B] hover:bg-[#1E1E2A] text-[#A1A1AA] hover:text-[#F5F5F7] border border-[#1E1E2A] transition"
             title="Previous Stage"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
-          <span className="text-xs font-mono text-neutral-400 px-1">
+          <span className="text-xs font-mono text-[#A1A1AA] px-1">
             {activeStageIndex + 1} / {PIPELINE_STAGES.length}
           </span>
           <button
             onClick={() => setActiveStageIndex((prev) => (prev < PIPELINE_STAGES.length - 1 ? prev + 1 : 0))}
-            className="p-2 rounded-xl bg-neutral-800 hover:bg-neutral-750 text-neutral-300 hover:text-neutral-100 border border-neutral-700 transition"
+            className="p-2 rounded-xl bg-[#14151B] hover:bg-[#1E1E2A] text-[#A1A1AA] hover:text-[#F5F5F7] border border-[#1E1E2A] transition"
             title="Next Stage"
           >
             <ChevronRight className="w-4 h-4" />
@@ -252,7 +251,7 @@ export const PipelineExplainer: React.FC = () => {
       </div>
 
       {/* Horizontal Scrollable Stage Ribbon */}
-      <div className="overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-neutral-700">
+      <div className="overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-[#1E1E2A]">
         <div className="flex items-center gap-2 min-w-max">
           {PIPELINE_STAGES.map((s, idx) => {
             const Icon = s.icon;
@@ -263,18 +262,18 @@ export const PipelineExplainer: React.FC = () => {
                   onClick={() => setActiveStageIndex(idx)}
                   className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-left transition-all ${
                     isActive
-                      ? 'bg-amber-400/15 border-amber-400/70 text-amber-300 shadow-md shadow-amber-400/10'
-                      : 'bg-neutral-950/60 border-neutral-800 text-neutral-400 hover:text-neutral-200 hover:border-neutral-700'
+                      ? 'bg-violet-500/15 border-violet-500/60 text-violet-300 shadow-md shadow-violet-500/10'
+                      : 'bg-[#08090C] border-[#1E1E2A] text-[#A1A1AA] hover:text-[#F5F5F7] hover:border-[#2A2A3A]'
                   }`}
                 >
-                  <span className={`text-[10px] font-mono font-bold ${isActive ? 'text-amber-400' : 'text-neutral-500'}`}>
+                  <span className={`text-[10px] font-mono font-bold ${isActive ? 'text-violet-400' : 'text-[#A1A1AA]/60'}`}>
                     {s.stepNumber}
                   </span>
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-amber-400' : 'text-neutral-400'}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-violet-400' : 'text-[#A1A1AA]'}`} />
                   <span className="text-xs font-medium whitespace-nowrap">{s.name}</span>
                 </button>
                 {idx < PIPELINE_STAGES.length - 1 && (
-                  <ArrowRight className="w-3 h-3 text-neutral-700 shrink-0" />
+                  <ArrowRight className="w-3 h-3 text-[#1E1E2A] shrink-0" />
                 )}
               </React.Fragment>
             );
@@ -283,46 +282,46 @@ export const PipelineExplainer: React.FC = () => {
       </div>
 
       {/* Deep-Dive Stage Detail Card */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 p-5 sm:p-6 rounded-2xl bg-neutral-950/80 border border-neutral-800">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 p-5 sm:p-6 rounded-2xl bg-[#08090C] border border-[#1E1E2A]">
         {/* Left Column: Stage Overview & Mechanics (7 cols) */}
         <div className="lg:col-span-7 space-y-4">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-400">
+              <div className="p-3 rounded-xl bg-violet-500/10 border border-violet-500/30 text-violet-400">
                 {React.createElement(stage.icon, { className: 'w-6 h-6' })}
               </div>
               <div>
-                <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                <span className="text-xs font-mono font-bold text-violet-400 uppercase tracking-wider">
                   Stage {stage.stepNumber} &bull; {stage.shortTag}
                 </span>
-                <h3 className="text-lg sm:text-xl font-bold text-neutral-100 mt-0.5">
+                <h3 className="text-lg sm:text-xl font-bold text-[#F5F5F7] mt-0.5">
                   {stage.name}
                 </h3>
               </div>
             </div>
-            <span className="px-2.5 py-1 rounded-lg bg-neutral-900 border border-neutral-800 text-[11px] font-mono text-sky-400">
+            <span className="px-2.5 py-1 rounded-lg bg-[#101116] border border-[#1E1E2A] text-[11px] font-mono text-sky-400">
               {stage.tech}
             </span>
           </div>
 
           {/* What Happens */}
           <div className="space-y-1.5 pt-2">
-            <h4 className="text-xs font-bold text-neutral-300 uppercase tracking-wider flex items-center gap-1.5">
-              <Info className="w-3.5 h-3.5 text-amber-400" />
+            <h4 className="text-xs font-bold text-[#F5F5F7] uppercase tracking-wider flex items-center gap-1.5">
+              <Info className="w-3.5 h-3.5 text-violet-400" />
               <span>What Happens at this Stage</span>
             </h4>
-            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#A1A1AA] leading-relaxed">
               {stage.whatHappens}
             </p>
           </div>
 
           {/* Why Necessary */}
           <div className="space-y-1.5 pt-2">
-            <h4 className="text-xs font-bold text-neutral-300 uppercase tracking-wider flex items-center gap-1.5">
+            <h4 className="text-xs font-bold text-[#F5F5F7] uppercase tracking-wider flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
               <span>Why This Stage is Necessary</span>
             </h4>
-            <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#A1A1AA] leading-relaxed">
               {stage.whyNecessary}
             </p>
           </div>
@@ -332,21 +331,21 @@ export const PipelineExplainer: React.FC = () => {
         <div className="lg:col-span-5 space-y-3 flex flex-col justify-between">
           <div className="space-y-3">
             {/* Input Data */}
-            <div className="p-3 rounded-xl bg-neutral-900/80 border border-neutral-800/80 space-y-1">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500 font-bold block">
+            <div className="p-3 rounded-xl bg-[#101116] border border-[#1E1E2A] space-y-1">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-[#A1A1AA] font-bold block">
                 Input Data Contract
               </span>
-              <p className="text-xs text-neutral-300 font-mono">
+              <p className="text-xs text-[#F5F5F7] font-mono">
                 {stage.inputData}
               </p>
             </div>
 
             {/* Output Data */}
-            <div className="p-3 rounded-xl bg-neutral-900/80 border border-neutral-800/80 space-y-1">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold block">
+            <div className="p-3 rounded-xl bg-[#101116] border border-[#1E1E2A] space-y-1">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-violet-400 font-bold block">
                 Output Data Contract
               </span>
-              <p className="text-xs text-neutral-200 font-mono">
+              <p className="text-xs text-[#F5F5F7] font-mono">
                 {stage.outputData}
               </p>
             </div>
@@ -354,15 +353,15 @@ export const PipelineExplainer: React.FC = () => {
 
           {/* Code Implementation Preview */}
           {stage.codeSnippet && (
-            <div className="p-3 rounded-xl bg-black/60 border border-neutral-800 font-mono text-[11px] text-neutral-300 space-y-1.5">
-              <div className="flex items-center justify-between text-[10px] text-neutral-500 pb-1 border-b border-neutral-850">
+            <div className="p-3 rounded-xl bg-[#08090C] border border-[#1E1E2A] font-mono text-[11px] text-[#F5F5F7] space-y-1.5">
+              <div className="flex items-center justify-between text-[10px] text-[#A1A1AA] pb-1 border-b border-[#1E1E2A]">
                 <span className="flex items-center gap-1">
                   <Code className="w-3 h-3 text-sky-400" />
                   <span>Python / Implementation Logic</span>
                 </span>
-                <span className="text-neutral-600">Production Code</span>
+                <span className="text-[#A1A1AA]/60">Production Code</span>
               </div>
-              <pre className="overflow-x-auto text-sky-300/90 whitespace-pre py-1">
+              <pre className="overflow-x-auto text-sky-300 whitespace-pre py-1">
                 {stage.codeSnippet}
               </pre>
             </div>

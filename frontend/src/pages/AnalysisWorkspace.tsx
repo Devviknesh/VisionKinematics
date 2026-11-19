@@ -252,7 +252,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
   if (!activeSessionId && !loading) {
     return (
       <div className="max-w-3xl mx-auto py-12 text-center space-y-6 animate-in fade-in duration-200">
-        <div className="w-16 h-16 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-amber-400 mx-auto shadow-lg">
+        <div className="w-16 h-16 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-violet-400 mx-auto shadow-lg">
           <Scan className="w-8 h-8" />
         </div>
 
@@ -272,7 +272,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
               {availableVideos.map((v) => (
                 <div key={v.id} className="py-3 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <VideoIcon className="w-5 h-5 text-amber-400 shrink-0" />
+                    <VideoIcon className="w-5 h-5 text-violet-400 shrink-0" />
                     <div>
                       <p className="text-xs font-semibold text-neutral-100 truncate max-w-xs sm:max-w-sm">{v.filename}</p>
                       <p className="text-[11px] text-neutral-400 font-mono">{v.duration ? `${v.duration.toFixed(1)}s` : 'Video file'}</p>
@@ -286,7 +286,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                           setActiveVideoId(v.id);
                           setActiveSessionId(v.active_session_id!);
                         }}
-                        className="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs transition"
+                        className="px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition"
                       >
                         Open Workspace
                       </button>
@@ -309,7 +309,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             <p className="text-xs text-neutral-400">No recorded videos have been uploaded yet.</p>
             <button
               onClick={() => navigate('/upload')}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 font-bold text-xs transition shadow-sm"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition shadow-sm"
             >
               <UploadCloud className="w-4 h-4" />
               <span>Upload Your First Video</span>
@@ -325,13 +325,13 @@ export const AnalysisWorkspace: React.FC<Props> = ({
     const progress = session?.progress ?? 0;
     return (
       <div className="max-w-3xl mx-auto py-16 sm:py-24 text-center space-y-6">
-        <div className="w-16 h-16 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-amber-400 mx-auto shadow-lg">
+        <div className="w-16 h-16 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-violet-400 mx-auto shadow-lg">
           <Loader2 className="w-8 h-8 animate-spin" />
         </div>
 
         <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-400/10 text-amber-400 border border-amber-400/25">
-            <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-violet-500/10 text-violet-400 border border-violet-500/25">
+            <span className="w-2 h-2 rounded-full bg-violet-500 animate-ping" />
             <span>Analyzing Video Frames Locally</span>
           </div>
 
@@ -348,11 +348,11 @@ export const AnalysisWorkspace: React.FC<Props> = ({
         <div className="p-6 rounded-2xl bg-neutral-900/80 border border-neutral-800 max-w-md mx-auto space-y-3">
           <div className="flex items-center justify-between text-xs font-mono text-neutral-400">
             <span>Overall Progress</span>
-            <span className="text-amber-400 font-bold">{progress.toFixed(1)}%</span>
+            <span className="text-violet-400 font-bold">{progress.toFixed(1)}%</span>
           </div>
           <div className="w-full bg-neutral-800 h-2.5 rounded-full overflow-hidden">
             <div 
-              className="bg-amber-400 h-full rounded-full transition-all duration-300"
+              className="bg-violet-500 h-full rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -384,7 +384,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
           </button>
           <button
             onClick={() => navigate('/upload')}
-            className="px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 text-xs font-bold transition"
+            className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold transition"
           >
             Upload New Video
           </button>
@@ -434,13 +434,13 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             onClick={() => navigate(`/analytics/${activeSessionId}`)}
             className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 text-[11px] sm:text-xs font-semibold border border-neutral-700/80 transition"
           >
-            <BarChart2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <BarChart2 className="w-3.5 h-3.5 text-violet-400 shrink-0" />
             <span className="truncate">Analytics</span>
           </button>
 
           <button
             onClick={() => navigate(`/report/${activeSessionId}`)}
-            className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 text-[11px] sm:text-xs font-bold transition shadow-sm"
+            className="inline-flex items-center justify-center gap-1 px-2 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-[11px] sm:text-xs font-bold transition shadow-sm"
           >
             <FileText className="w-3.5 h-3.5 shrink-0" />
             <span className="truncate">PDF</span>
@@ -473,7 +473,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                     onClick={() => setShowPreviewOverlay(false)}
                     className={`px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-semibold transition ${
                       !showPreviewOverlay 
-                        ? 'bg-neutral-800 text-amber-400 shadow-sm' 
+                        ? 'bg-neutral-800 text-violet-400 shadow-sm' 
                         : 'text-neutral-400 hover:text-neutral-200'
                     }`}
                   >
@@ -483,7 +483,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                     onClick={() => setShowPreviewOverlay(true)}
                     className={`px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-semibold transition ${
                       showPreviewOverlay 
-                        ? 'bg-amber-400 text-neutral-950 shadow-sm' 
+                        ? 'bg-violet-600 text-white shadow-sm' 
                         : 'text-neutral-400 hover:text-neutral-200'
                     }`}
                   >
@@ -495,7 +495,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                   onClick={() => setShowWireframeMesh(!showWireframeMesh)}
                   className={`px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-semibold transition border flex items-center gap-1 shrink-0 ${
                     showWireframeMesh
-                      ? 'bg-amber-400 text-neutral-950 border-amber-400 font-bold shadow-sm'
+                      ? 'bg-violet-600 text-white border-violet-500 font-bold shadow-sm'
                       : 'bg-neutral-900 hover:bg-neutral-850 text-neutral-300 border-neutral-800'
                   }`}
                   title="Toggle 2D/3D Facial Landmark Wireframe Mesh Visualizer"
@@ -548,7 +548,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                         key={ev.id}
                         title={`[${(ev.timestamp ?? 0).toFixed(1)}s] ${ev.event_type}`}
                         style={{ left: `${Math.min(99, Math.max(1, pct))}%` }}
-                        className="absolute w-1 h-3 -top-0.5 bg-amber-400/70 rounded-full"
+                        className="absolute w-1 h-3 -top-0.5 bg-violet-500/70 rounded-full"
                       />
                     );
                   })}
@@ -561,7 +561,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                 <div className="flex items-center gap-1 sm:gap-1.5 justify-center sm:justify-start w-full sm:w-auto">
                   <button
                     onClick={togglePlay}
-                    className="w-8 h-8 rounded-xl bg-amber-400 hover:bg-amber-300 text-neutral-950 flex items-center justify-center transition shadow-sm shrink-0"
+                    className="w-8 h-8 rounded-xl bg-violet-600 hover:bg-violet-500 text-white flex items-center justify-center transition shadow-sm shrink-0"
                     title={isPlaying ? "Pause" : "Play"}
                   >
                     {isPlaying ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current ml-0.5" />}
@@ -577,7 +577,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
 
                   <button
                     onClick={() => skipSeconds(-0.1)}
-                    className="px-1.5 py-1 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
+                    className="px-1.5 py-1 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-violet-400 hover:text-violet-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
                     title="Step Backward (0.1s)"
                   >
                     -0.1s
@@ -585,7 +585,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
 
                   <button
                     onClick={() => skipSeconds(0.1)}
-                    className="px-1.5 py-1 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-amber-400 hover:text-amber-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
+                    className="px-1.5 py-1 rounded-lg bg-neutral-900 hover:bg-neutral-800 text-violet-400 hover:text-violet-300 border border-neutral-800 transition font-mono text-[10px] font-semibold"
                     title="Step Forward (0.1s)"
                   >
                     +0.1s
@@ -611,7 +611,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                 {/* Telemetry time & secondary player actions */}
                 <div className="flex items-center justify-between sm:justify-end gap-2 w-full sm:w-auto pt-1 sm:pt-0 border-t sm:border-t-0 border-neutral-800/60">
                   <div className="font-mono text-[11px] sm:text-xs text-neutral-300 whitespace-nowrap">
-                    <span className="text-amber-400 font-semibold">{formatTime(currentTime)}</span>
+                    <span className="text-violet-400 font-semibold">{formatTime(currentTime)}</span>
                     <span className="text-neutral-600 mx-1">/</span>
                     <span>{formatTime(duration)}</span>
                   </div>
@@ -671,9 +671,9 @@ export const AnalysisWorkspace: React.FC<Props> = ({
 
           {/* Dynamic 3D Face Mesh Wireframe Card (Collapsible) */}
           {showWireframeMesh && (
-            <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/80 border border-amber-400/40 flex flex-col sm:flex-row items-center justify-around gap-4 animate-in fade-in duration-200 w-full min-w-0 overflow-hidden">
+            <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/80 border border-violet-500/40 flex flex-col sm:flex-row items-center justify-around gap-4 animate-in fade-in duration-200 w-full min-w-0 overflow-hidden">
               <div className="text-center sm:text-left space-y-1">
-                <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5 justify-center sm:justify-start">
+                <span className="text-xs font-mono font-bold text-violet-400 uppercase tracking-wider flex items-center gap-1.5 justify-center sm:justify-start">
                   <Scan className="w-4 h-4" />
                   <span>MediaPipe 478 3D Landmark Wireframe</span>
                 </span>
@@ -682,7 +682,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                 </p>
                 <div className="pt-2 text-[11px] font-mono text-neutral-500">
                   <span>Frame Time: </span>
-                  <span className="text-amber-400 font-bold">{formatTime(currentTime)}</span>
+                  <span className="text-violet-400 font-bold">{formatTime(currentTime)}</span>
                 </div>
               </div>
               <FacialKinematicsOverlay metric={currentMetric} />
@@ -704,7 +704,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             <div className="p-4 sm:p-5 rounded-2xl bg-neutral-900/60 border border-neutral-800 space-y-3 w-full min-w-0 overflow-hidden">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-neutral-200 flex items-center gap-1.5">
-                  <Compass className="w-4 h-4 text-amber-400" />
+                  <Compass className="w-4 h-4 text-violet-400" />
                   <span>Head Orientation</span>
                 </span>
                 <span className="text-[10px] font-mono text-neutral-400 bg-neutral-800 px-1.5 py-0.5 rounded">
@@ -723,7 +723,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                     </div>
                     <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
                       <div 
-                        className="bg-amber-400 h-full rounded-full" 
+                        className="bg-violet-500 h-full rounded-full" 
                         style={{ width: `${Math.min(100, Math.max(0, (((currentMetric.head_yaw ?? 0) + 45) / 90) * 100))}%` }} 
                       />
                     </div>
@@ -846,7 +846,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                     </div>
                     <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
                       <div 
-                        className="bg-amber-400 h-full rounded-full" 
+                        className="bg-violet-500 h-full rounded-full" 
                         style={{ width: `${Math.min(100, ((currentMetric.expression_measurements?.brow_elevation ?? 0)) * 100)}%` }} 
                       />
                     </div>
@@ -881,7 +881,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 pb-2.5 border-b border-neutral-800/80 w-full min-w-0 max-w-full">
               <div className="min-w-0 max-w-full">
                 <h3 className="text-xs sm:text-sm font-bold text-neutral-100 flex items-center gap-1.5 min-w-0 max-w-full">
-                  <Gauge className="w-4 h-4 text-amber-400 shrink-0" />
+                  <Gauge className="w-4 h-4 text-violet-400 shrink-0" />
                   <span className="truncate">Observable FACS Units</span>
                 </h3>
                 <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 line-clamp-1 sm:line-clamp-none">
@@ -897,7 +897,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
               {/* AU12 */}
               <div className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-850 space-y-2">
                 <div className="flex justify-between items-center text-[10px] text-neutral-400">
-                  <span className="text-amber-400 font-bold">AU12</span>
+                  <span className="text-violet-400 font-bold">AU12</span>
                   <span>Zygomatic</span>
                 </div>
                 <div className="text-[11px] font-semibold text-neutral-200 truncate">
@@ -937,7 +937,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
               {/* AU4 */}
               <div className="p-3 rounded-xl bg-neutral-950/70 border border-neutral-850 space-y-2">
                 <div className="flex justify-between items-center text-[10px] text-neutral-400">
-                  <span className="text-amber-400 font-bold">AU4</span>
+                  <span className="text-violet-400 font-bold">AU4</span>
                   <span>Corrugator</span>
                 </div>
                 <div className="text-[11px] font-semibold text-neutral-200 truncate">
@@ -945,7 +945,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                 </div>
                 <div className="w-full bg-neutral-800 h-1.5 rounded-full overflow-hidden">
                   <div 
-                    className="bg-amber-400 h-full rounded-full transition-all"
+                    className="bg-violet-500 h-full rounded-full transition-all"
                     style={{ width: `${Math.min(100, Math.max(0, 1 - (currentMetric?.expression_measurements?.brow_elevation ?? 0.5)) * 100)}%` }}
                   />
                 </div>
@@ -1011,7 +1011,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
 
             {/* Scientific Non-Verbal Framing Callout */}
             <div className="p-3 rounded-xl bg-neutral-950/90 border border-neutral-800 flex items-start gap-2 text-[10px] sm:text-[11px] text-neutral-400 leading-relaxed w-full min-w-0">
-              <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              <ShieldCheck className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />
               <span className="break-words">
                 <strong className="text-neutral-200">Scientific FACS & Non-Verbal Delimitation:</strong> Action Units quantify physical facial muscular deformations and landmark displacement vectors derived from MediaPipe 478-point blendshapes and geometric eye aspect ratios (EAR). These automated biomechanical measurements provide kinematic indicators and must not be conflated with certified human FACS coder scoring, nor do they claim to detect psychological intent, deception, or emotional state.
               </span>
@@ -1027,7 +1027,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
             <div className="pb-3 border-b border-neutral-800 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-bold text-neutral-100 flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-amber-400" />
+                  <Clock className="w-4 h-4 text-violet-400" />
                   <span>Visual Event Stream</span>
                 </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-neutral-800 text-neutral-300">
@@ -1046,7 +1046,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                     onClick={() => setSelectedCategory(cat)}
                     className={`px-2 py-0.5 rounded text-[10px] font-semibold transition ${
                       selectedCategory === cat
-                        ? 'bg-amber-400 text-neutral-950 font-bold'
+                        ? 'bg-violet-600 text-white font-bold'
                         : 'bg-neutral-850 text-neutral-400 hover:text-neutral-200'
                     }`}
                   >
@@ -1066,7 +1066,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                 filteredEvents.map((ev) => {
                   const isCurrent = Math.abs(currentTime - (ev.timestamp ?? 0)) < 0.6;
                   
-                  let badgeColor = 'text-amber-400 bg-amber-400/10 border-amber-400/30';
+                  let badgeColor = 'text-violet-400 bg-violet-500/10 border-violet-500/30';
                   if (ev.event_category === 'gaze') badgeColor = 'text-sky-400 bg-sky-400/10 border-sky-400/30';
                   if (ev.event_category === 'expression') badgeColor = 'text-purple-400 bg-purple-400/10 border-purple-400/30';
                   if (ev.event_category === 'tracking') badgeColor = 'text-emerald-400 bg-emerald-400/10 border-emerald-400/30';
@@ -1077,7 +1077,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                       onClick={() => seekTo(ev.timestamp ?? 0)}
                       className={`p-2.5 rounded-xl cursor-pointer transition-all ${
                         isCurrent 
-                          ? 'bg-neutral-800 border border-amber-400/50 shadow-sm' 
+                          ? 'bg-neutral-800 border border-violet-500/50 shadow-sm' 
                           : 'hover:bg-neutral-850 border border-transparent'
                       }`}
                     >
@@ -1085,7 +1085,7 @@ export const AnalysisWorkspace: React.FC<Props> = ({
                         <span className={`px-1.5 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wide border ${badgeColor}`}>
                           {ev.event_category}
                         </span>
-                        <span className="font-mono text-xs text-amber-400 font-bold">
+                        <span className="font-mono text-xs text-violet-400 font-bold">
                           {formatTime(ev.timestamp ?? 0)}
                         </span>
                       </div>

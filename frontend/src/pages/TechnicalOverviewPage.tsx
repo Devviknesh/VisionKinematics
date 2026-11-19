@@ -48,7 +48,7 @@ export const TechnicalOverviewPage: React.FC = () => {
           </h1>
 
           <p className="text-sm sm:text-base text-neutral-300 leading-relaxed max-w-3xl">
-            A comprehensive, mathematical and architectural explanation of VisionKinematics. Built to demonstrate production computer vision engineering: MediaPipe 3D landmark geometry, OpenCV <code className="text-amber-400 font-mono text-xs">solvePnP</code> pose minimization, ocular kinematics, FACS blendshape decomposition, and secure multi-tenant infrastructure.
+            A comprehensive, mathematical and architectural explanation of Framewise. Built to demonstrate production computer vision engineering: MediaPipe 3D landmark geometry, OpenCV <code className="text-violet-400 font-mono text-xs">solvePnP</code> pose minimization, ocular kinematics, FACS blendshape decomposition, and secure multi-tenant infrastructure.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -58,7 +58,7 @@ export const TechnicalOverviewPage: React.FC = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 border border-neutral-700 text-xs sm:text-sm font-medium transition"
             >
-              <Terminal className="w-4 h-4 text-amber-400" />
+              <Terminal className="w-4 h-4 text-violet-400" />
               <span>GitHub Repository</span>
             </a>
 
@@ -88,7 +88,7 @@ export const TechnicalOverviewPage: React.FC = () => {
             <button
               key={item.key}
               onClick={() => scrollToSection(item.id)}
-              className="px-3 py-1.5 rounded-lg bg-neutral-950/70 border border-neutral-800 hover:border-neutral-700 text-neutral-300 hover:text-amber-400 text-xs font-mono transition"
+              className="px-3 py-1.5 rounded-lg bg-neutral-950/70 border border-neutral-800 hover:border-neutral-700 text-neutral-300 hover:text-violet-400 text-xs font-mono transition"
             >
               {item.label}
             </button>
@@ -139,7 +139,7 @@ export const TechnicalOverviewPage: React.FC = () => {
               2. Coordinate Representation
             </h3>
             <p>
-              Each landmark point is output as a normalized vector <code className="text-amber-400 font-mono">[x, y, z]</code>:
+              Each landmark point is output as a normalized vector <code className="text-violet-400 font-mono">[x, y, z]</code>:
             </p>
             <ul className="list-disc pl-5 space-y-1.5 text-neutral-400">
               <li><code className="text-sky-300 font-mono">x, y</code>: Normalized to <code className="font-mono">[0.0, 1.0]</code> relative to image width and height.</li>
@@ -163,7 +163,7 @@ export const TechnicalOverviewPage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-850 text-neutral-300">
-                  <tr className="text-amber-400 font-bold bg-amber-400/5">
+                  <tr className="text-violet-400 font-bold bg-violet-500/5">
                     <td className="py-2">MediaPipe Tasks</td>
                     <td className="py-2">478</td>
                     <td className="py-2">3D + Blendshapes</td>
@@ -212,11 +212,11 @@ options = FaceLandmarkerOptions(
       {/* ========================================================================= */}
       <section id="section-b" className="space-y-6 pt-6">
         <div className="flex items-center gap-3 pb-3 border-b border-neutral-800">
-          <div className="p-2.5 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-400">
+          <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/30 text-violet-400">
             <Compass className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">Module B</span>
+            <span className="text-xs font-mono font-bold text-violet-400 uppercase tracking-wider">Module B</span>
             <h2 className="text-xl sm:text-2xl font-bold text-neutral-100">Head Pose Estimation (OpenCV solvePnP)</h2>
           </div>
         </div>
@@ -227,9 +227,9 @@ options = FaceLandmarkerOptions(
               1. 3D-to-2D Perspective-n-Point Formulation
             </h3>
             <p>
-              Head pose estimation is formulated as finding the rigid body transformation (rotation <code className="text-amber-400 font-mono">R</code> and translation <code className="text-amber-400 font-mono">t</code>) between an anthropometric 3D face model and detected 2D pixel coordinates:
+              Head pose estimation is formulated as finding the rigid body transformation (rotation <code className="text-violet-400 font-mono">R</code> and translation <code className="text-violet-400 font-mono">t</code>) between an anthropometric 3D face model and detected 2D pixel coordinates:
             </p>
-            <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800 font-mono text-xs text-amber-300 text-center">
+            <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800 font-mono text-xs text-violet-300 text-center">
               s &bull; [u, v, 1]<sup>T</sup> = K &bull; [R | t] &bull; [X<sub>w</sub>, Y<sub>w</sub>, Z<sub>w</sub>, 1]<sup>T</sup>
             </div>
             <p>
@@ -257,14 +257,14 @@ options = FaceLandmarkerOptions(
               3. Euler Decomposition &amp; Normalization
             </h3>
             <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-              OpenCV's <code className="text-amber-400 font-mono">cv2.solvePnP</code> returns a 3-element compact Rodrigues rotation vector <code className="font-mono">rvec</code>. We convert it to a 3x3 orthonormal rotation matrix <code className="font-mono">R = cv2.Rodrigues(rvec)</code>, then extract continuous Euler angles:
+              OpenCV's <code className="text-violet-400 font-mono">cv2.solvePnP</code> returns a 3-element compact Rodrigues rotation vector <code className="font-mono">rvec</code>. We convert it to a 3x3 orthonormal rotation matrix <code className="font-mono">R = cv2.Rodrigues(rvec)</code>, then extract continuous Euler angles:
             </p>
 
             <div className="p-4 rounded-2xl bg-black/60 border border-neutral-800 font-mono text-xs space-y-2">
               <span className="text-[10px] text-neutral-500 uppercase tracking-wider block">
                 Euler Extraction (backend/app/cv_engine/head_pose.py)
               </span>
-              <pre className="text-amber-300 whitespace-pre overflow-x-auto">
+              <pre className="text-violet-300 whitespace-pre overflow-x-auto">
 {`# Euler angle extraction from 3x3 Rotation Matrix
 pitch = math.degrees(math.atan2(-R[2, 1], R[2, 2]))
 yaw = math.degrees(math.atan2(R[2, 0], math.sqrt(R[0, 0]**2 + R[1, 0]**2)))
@@ -278,8 +278,8 @@ elif pitch < -90:
               </pre>
             </div>
 
-            <div className="p-3 rounded-xl bg-amber-400/10 border border-amber-400/30 text-xs text-neutral-300 space-y-1">
-              <strong className="text-amber-400 block font-mono">Interview Note on Gimbal Lock:</strong>
+            <div className="p-3 rounded-xl bg-violet-500/10 border border-violet-500/30 text-xs text-neutral-300 space-y-1">
+              <strong className="text-violet-400 block font-mono">Interview Note on Gimbal Lock:</strong>
               <span>
                 Standard Euler angle decomposition possesses a trigonometric singularity at pitch = &plusmn;90&deg;. In human conversational video analysis, pitch typically oscillates between [-35&deg;, +35&deg;], well within the singularity-free zone.
               </span>
@@ -381,18 +381,18 @@ else:
 
         <div className="space-y-4 text-xs sm:text-sm text-neutral-300 leading-relaxed">
           <p>
-            VisionKinematics bridges raw 478 3D landmarks with Paul Ekman's Facial Action Coding System (FACS) by mapping measured sub-pixel displacements and 52 neural blendshapes to specific muscular actions:
+            Framewise bridges raw 478 3D landmarks with Paul Ekman's Facial Action Coding System (FACS) by mapping measured sub-pixel displacements and 52 neural blendshapes to specific muscular actions:
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-2">
             <div className="p-3.5 rounded-xl bg-neutral-900/80 border border-neutral-800 space-y-1.5">
               <div className="flex justify-between items-center text-xs font-mono">
-                <span className="text-amber-400 font-bold">AU12</span>
+                <span className="text-violet-400 font-bold">AU12</span>
                 <span className="text-neutral-500">Zygomatic</span>
               </div>
               <h4 className="text-xs font-bold text-neutral-200">Lip Corner Puller</h4>
               <p className="text-[11px] text-neutral-400">
-                Composite of <code className="text-amber-300">mouthSmileLeft</code> and <code className="text-amber-300">mouthSmileRight</code>. Quantifies observable mouth corner retraction.
+                Composite of <code className="text-violet-300">mouthSmileLeft</code> and <code className="text-violet-300">mouthSmileRight</code>. Quantifies observable mouth corner retraction.
               </p>
             </div>
 
@@ -409,12 +409,12 @@ else:
 
             <div className="p-3.5 rounded-xl bg-neutral-900/80 border border-neutral-800 space-y-1.5">
               <div className="flex justify-between items-center text-xs font-mono">
-                <span className="text-amber-400 font-bold">AU4</span>
+                <span className="text-violet-400 font-bold">AU4</span>
                 <span className="text-neutral-500">Corrugator</span>
               </div>
               <h4 className="text-xs font-bold text-neutral-200">Brow Furrow</h4>
               <p className="text-[11px] text-neutral-400">
-                Measured via <code className="text-amber-300">browDown</code> blendshape and horizontal canthal distance convergence between medial eyebrow points.
+                Measured via <code className="text-violet-300">browDown</code> blendshape and horizontal canthal distance convergence between medial eyebrow points.
               </p>
             </div>
 
@@ -463,7 +463,7 @@ else:
               1. Threaded Asynchronous Task Manager
             </h3>
             <p>
-              Video analysis is CPU-bound. FastAPI dispatches long-running analysis jobs to background daemon worker threads (<code className="font-mono">BackgroundTaskManager</code> in <code className="text-amber-400 font-mono">task_queue.py</code>), preventing HTTP connection timeouts and keeping the async event loop non-blocking.
+              Video analysis is CPU-bound. FastAPI dispatches long-running analysis jobs to background daemon worker threads (<code className="font-mono">BackgroundTaskManager</code> in <code className="text-violet-400 font-mono">task_queue.py</code>), preventing HTTP connection timeouts and keeping the async event loop non-blocking.
             </p>
             <p>
               Clients poll <code className="text-sky-300 font-mono">GET /api/analysis/:id/status</code> to receive real-time progress percentages (0.0% to 100.0%).
@@ -485,7 +485,7 @@ else:
               3. Security: Signed Ephemeral Streaming Tickets
             </h3>
             <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-              Standard Bearer authentication headers cannot be passed inside native HTML5 <code className="text-amber-400 font-mono">&lt;video&gt;</code> elements. Rather than insecure permanent URL tokens, we engineered a cryptographic ticket mechanism:
+              Standard Bearer authentication headers cannot be passed inside native HTML5 <code className="text-violet-400 font-mono">&lt;video&gt;</code> elements. Rather than insecure permanent URL tokens, we engineered a cryptographic ticket mechanism:
             </p>
 
             <div className="p-4 rounded-2xl bg-black/60 border border-neutral-800 font-mono text-xs space-y-2">
@@ -518,11 +518,11 @@ ticket = jwt.encode(payload, SECRET_KEY, algorithm="HS256")`}
       {/* ========================================================================= */}
       <section id="section-f" className="space-y-6 pt-6">
         <div className="flex items-center gap-3 pb-3 border-b border-neutral-800">
-          <div className="p-2.5 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-400">
+          <div className="p-2.5 rounded-xl bg-violet-500/10 border border-violet-500/30 text-violet-400">
             <Layout className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">Module F</span>
+            <span className="text-xs font-mono font-bold text-violet-400 uppercase tracking-wider">Module F</span>
             <h2 className="text-xl sm:text-2xl font-bold text-neutral-100">Frontend Architecture &amp; Frame Synchronization</h2>
           </div>
         </div>
@@ -543,7 +543,7 @@ ticket = jwt.encode(payload, SECRET_KEY, algorithm="HS256")`}
               The central challenge in video telemetry is synchronizing high-frequency computer vision measurements with non-deterministic browser HTML5 video playback.
             </p>
             <p>
-              We implemented a binary search / nearest-timestamp lookup memoized on <code className="text-amber-400 font-mono">[metrics, currentTime]</code>. When the video playback fires <code className="font-mono">timeupdate</code> (approx. every 15–30 ms), the application instantaneously retrieves the closest metric record, re-rendering:
+              We implemented a binary search / nearest-timestamp lookup memoized on <code className="text-violet-400 font-mono">[metrics, currentTime]</code>. When the video playback fires <code className="font-mono">timeupdate</code> (approx. every 15–30 ms), the application instantaneously retrieves the closest metric record, re-rendering:
             </p>
             <ul className="list-disc pl-5 space-y-1 text-neutral-400 text-xs">
               <li>Canvas 478 MediaPipe landmark wireframe polylines.</li>
@@ -565,7 +565,7 @@ ticket = jwt.encode(payload, SECRET_KEY, algorithm="HS256")`}
               <span className="text-[10px] text-neutral-500 uppercase tracking-wider block">
                 Synchronized Seek Handler (frontend/src/pages/AnalysisWorkspace.tsx)
               </span>
-              <pre className="text-amber-300 whitespace-pre overflow-x-auto">
+              <pre className="text-violet-300 whitespace-pre overflow-x-auto">
 {`const seekTo = (seconds: number) => {
   const clamped = Math.max(0, Math.min(seconds, duration || 100));
   if (videoRef.current) {
@@ -581,7 +581,7 @@ ticket = jwt.encode(payload, SECRET_KEY, algorithm="HS256")`}
                 Verification &amp; Architecture Summary
               </span>
               <p className="text-xs text-neutral-400 leading-relaxed">
-                VisionKinematics bridges academic computer vision geometry with modern production web engineering, operating completely locally with zero third-party cloud AI dependencies.
+                Framewise bridges academic computer vision geometry with modern production web engineering, operating completely locally with zero third-party cloud AI dependencies.
               </p>
             </div>
           </div>
@@ -590,9 +590,9 @@ ticket = jwt.encode(payload, SECRET_KEY, algorithm="HS256")`}
 
       {/* 3. ETHICAL & SCIENTIFIC DELIMITATION FOOTNOTE */}
       <section className="p-4 sm:p-5 rounded-2xl bg-neutral-950 border border-neutral-800 flex items-start gap-3 text-xs text-neutral-400 leading-relaxed">
-        <ShieldCheck className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+        <ShieldCheck className="w-5 h-5 text-violet-400 shrink-0 mt-0.5" />
         <div>
-          <strong className="text-neutral-200">Ethical AI Statement:</strong> Computer vision can reliably measure physical kinematics—such as head rotation angles, palpebral apertures, and facial landmark coordinates. It cannot determine human emotional truth, intent, or deception. VisionKinematics enforces this scientific boundary throughout its architecture, reports, and UI.
+          <strong className="text-neutral-200">Ethical AI Statement:</strong> Computer vision can reliably measure physical kinematics—such as head rotation angles, palpebral apertures, and facial landmark coordinates. It cannot determine human emotional truth, intent, or deception. Framewise enforces this scientific boundary throughout its architecture, reports, and UI.
         </div>
       </section>
     </div>
