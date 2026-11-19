@@ -244,17 +244,15 @@ class AnalysisService:
                 "is_demo": True
             }
 
+        now = datetime.utcnow()
         return {
             "session": {
                 "id": "demo-session-baseline",
                 "video_id": "demo-video-baseline",
-                "video_filename": "demo_interview_sample.mp4",
-                "video_duration": 4.0,
-                "preview_path": None,
                 "processing_status": "completed",
                 "progress": 100.0,
-                "started_at": "2026-11-19T00:00:00",
-                "completed_at": "2026-11-19T00:00:04",
+                "started_at": now,
+                "completed_at": now,
                 "processing_duration": 0.56,
                 "summary_stats": {
                     "total_frames_analyzed": 20,

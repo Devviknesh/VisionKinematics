@@ -66,3 +66,7 @@ class AnalysisResultsResponse(BaseModel):
     summary_statistics: Dict[str, Any]
     timeline_metrics: List[FacialMetricResponse]
     events: List[AnalysisEventResponse]
+
+class DemoAnalysisResponse(AnalysisResultsResponse):
+    demo_stream_ticket: Optional[str] = None
+    is_demo: bool = True

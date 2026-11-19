@@ -10,6 +10,7 @@ from app.schemas.analysis import (
     AnalysisSessionResponse,
     AnalysisEventResponse,
     AnalysisResultsResponse,
+    DemoAnalysisResponse,
 )
 from app.services.analysis_service import AnalysisService
 
@@ -29,7 +30,7 @@ def compare_sessions(
     """
     return AnalysisService.compare_sessions(db, session_a, session_b, current_user.id)
 
-@router.get("/demo", response_model=Dict[str, Any])
+@router.get("/demo", response_model=DemoAnalysisResponse)
 def get_demo_analysis(db: Session = Depends(get_db)):
     """
     Publicly accessible endpoint returning a genuine completed session with full telemetry,
